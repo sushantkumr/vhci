@@ -1,0 +1,58 @@
+body {
+    padding-top: 50px;
+}
+
+.form-control {
+    border-radius: 0%;
+    border: 1px solid #E7E7E7;
+    box-shadow: unset;
+}
+
+.form-control:focus {
+    box-shadow: unset;
+    border-color: #D0D0D0;
+}
+
+@media(max-width:768px) {
+    .command_button {
+        margin-top: 5px;
+    }
+}
+
+.card {
+    margin-top: 15px;
+    border: 1px solid #E7E7E7;
+    text-align: center;
+}
+
+.btn {
+    border-radius: 0%;
+    background-color: transparent;
+    border: 1px solid #E7E7E7;
+    text-align: center;
+}
+
+.btn:hover {
+    background-color: #F8F8F8;
+    border-color: #E7E7E7;
+}
+
+.table {
+    text-align: left !important;
+}
+
+.box {
+    border: 1px solid #E7E7E7;
+    margin-top: 15px;
+    /*display: none*/
+}
+
+pre {
+    border-width: 0px;
+    background-color: #ffffff;
+    margin: 0px;
+}
+
+#result {
+    display: none;
+}

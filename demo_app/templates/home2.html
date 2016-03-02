@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TTCC Demo</title>
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/css/home.css" rel="stylesheet">
+    <script src="static/js/jquery-1.11.3.min.js"></script>
+    <script src="static/js/angular.min.js"></script>
+    <script src="static/js/angular-route.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="static/js/app.js"></script>
+  </head>
+  <body ng-app="products">
+
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="navbar-brand"> TTCC Demo </div>
+        </div>
+
+        <div class="navbar-collapse collapse" id="navbar-main" data-ng-controller="NavbarController as NController">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a data-ng-href="#/states" data-ng-click="NController.set('states')"> States </a>
+          </li>
+          <li>
+            <a data-ng-href="#/operations" data-ng-click="NController.set('operations')"> Operations </a>
+          </li>
+        </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Voice form -->
+    <div class="container" data-ng-controller="VoiceFormController as VFController">
+      <div class="row">
+        <form role="form" id="command_form">
+          <div class="form-group">
+            <div class="col-xs-12 col-sm-8">
+              <input type="text" class="form-control" name="command_text" placeholder="Enter command" />
+            </div>
+            <div class="col-xs-6 col-sm-2">
+              <input type="button" class="form-control btn command_button" value="Speak" style="width:100%;" ng-click="VFController.record()" />
+            </div>
+            <div class="col-xs-6 col-sm-2">
+              <input type="submit" class="form-control btn command_button" value="Submit" style="width:100%;" ng-click="VFController.submit()" />
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Response received from the server -->
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <pre id="result">hello</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Device cards -->
+    <div class="container" data-ng-controller="DeviceController">
+      <div class="row">
+        <div ng-repeat="(device, details) in devices">
+          <div class="col-xs-12 col-md-4">
+            <div class="col-xs-12 card">
+              <h3> {[ device ]} </h3>
+              <hr />
+              <div class="states" ng-show="isSubCard('states')">
+                <h3> Current state </h3>
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th> Parameter </th>
+                      <th> Value </th>
+                    </tr>
+                  </thead>
+                  <tbody id="{[device]}">
+                  </tbody>
+                </table>
+              </div>
+              <div class="operations" ng-show="isSubCard('operations')">
+                <h3> Available operations </h3>
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th> Operation </th>
+                      <th> Arguments </th>
+                    </tr>
+                  </thead>
+                  <tbody ng-repeat="operation in details.operations">
+                    <tr>
+                      <td> {[ operation.intent ]} </td>
+                      <td> {[ operation.arguments ]} </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>

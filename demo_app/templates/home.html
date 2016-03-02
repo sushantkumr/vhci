@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TTCC Demo</title>
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/css/home.css" rel="stylesheet">
+    <script src="static/js/jquery-1.11.3.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="navbar-brand"> TTCC Demo </div>
+        </div>
+
+        <div class="navbar-collapse collapse" id="navbar-main">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="#/states"> States </a>
+          </li>
+          <li>
+            <a href="#/operations"> Operations </a>
+          </li>
+        </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Voice form -->
+    <div class="container">
+      <div class="row">
+        <form role="form" id="command_form">
+          <div class="form-group">
+            <div class="col-xs-12 col-sm-8">
+              <input type="text" class="form-control" name="command_text" placeholder="Enter command" />
+            </div>
+            <div class="col-xs-6 col-sm-2">
+              <input type="button" class="form-control btn command_button" id="main-speech" value="Speak" style="width:100%;" />
+            </div>
+            <div class="col-xs-6 col-sm-2">
+              <input type="submit" class="form-control btn command_button" id="main-submit" value="Submit" style="width:100%;" />
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Response received from the server -->
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box">
+            <pre id="result">hello</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+  <script src="static/js/main.js"></script>
+</html>
