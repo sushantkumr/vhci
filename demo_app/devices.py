@@ -3,7 +3,8 @@ import sys
 sys.path.insert(0, '../')
 ######
 
-from ttcc import types
+from ttcc import test
+temperature = test.Temperature()
 
 refrigerator = {
     'alias': ['refrigerator', 'fridge'],
@@ -13,7 +14,7 @@ refrigerator = {
             'arguments': {
                 'target_temperature': {
                     'multiple': False, # Can use somethig like this to fetch more than one item from a sentence. eg: How many apples and oranges are left
-                    'type': 'temperature', # Make a list of commonly used units so that we can parse it by making rules such as "... X degrees celsius ..." where X will be fetched.
+                    'type': temperature, # Make a list of commonly used units so that we can parse it by making rules such as "... X degrees celsius ..." where X will be fetched.
                     'unit': 'celsius' # This will be the default, can change it if it's specified by the user
                 }
             }
