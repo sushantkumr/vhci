@@ -8,22 +8,62 @@ from ttcc import types
 totem = {
     'alias': ['totem', 'video player', 'media player', 'play'],
     'operations': {
-        'play': {
+        '--play': {
             'triggers': [r'play music', r'play video', r'play playlist', r'play songs?', r'play'],
             'arguments': {
                 'name': ['{{trigger}}(?P<name>( .*)?)'],
             }
         },
-        'pause': {
+        '--pause': {
             'triggers': [r'pause'],
             'arguments': {
             }
         },
-        'stop': {
+        '--play-pause': {
+            'triggers': [r'toggle'],
+            'arguments': {
+            }
+        },
+        '--stop': {
             'triggers': [r'stop'],
             'arguments': {
             }
         },
+        '--next': {
+            'triggers': [r'next'],
+            'arguments': {
+            }
+        },
+        '--previous': {
+            'triggers': [r'previous'],
+            'arguments': {
+            }
+        },
+        '--volume-up': {
+            'triggers': [r'increase volume'],
+            'arguments': {
+            }
+        },
+        '--volume-down': {
+            'triggers': [r'decrease volume'],
+            'arguments': {
+            }
+        },
+        '--mute': {
+            'triggers': [r'mute'],
+            'arguments': {
+            }
+        },
+        '--fullscreen': {
+            'triggers': [r'fullscreen'],
+            'arguments': {
+            }
+        },
+        '--quit': {
+            'triggers': [r'quit'],
+            'arguments': {
+            }
+        }
     }
 }
 

@@ -6,6 +6,7 @@ sys.path.insert(0, '../')
 from flask import Flask, request, jsonify, redirect, url_for, render_template
 from ttcc import core
 import devices
+import execute
 
 app = Flask(__name__)
 
@@ -27,8 +28,8 @@ def command():
         result = core.parse(command)
         print(result)
         # Call a function to execute the command
-        # execute(result)
-        return jsonify(result)
+        response = execute.process(result)
+        return jsonify(response)
     except:
         error = {
             'error': True,
