@@ -6,16 +6,12 @@ sys.path.insert(0, '../')
 from flask import Flask, request, jsonify, redirect, url_for, render_template
 from ttcc import core
 import devices
+import execute
 
 app = Flask(__name__)
 
-FRIDGE = {
-    'temperature': 0.0
-}
-
 def setup():
-    core.register('refrigerator', devices.refrigerator)
-    core.register('television', devices.television)
+    core.register('totem', devices.totem)
 
 @app.route('/')
 def home():
@@ -27,14 +23,13 @@ def status():
 
 @app.route('/command', methods=['POST'])
 def command():
-    global FRIDGE
     command = request.form['command']
     try:
         result = core.parse(command)
         print(result)
         # Call a function to execute the command
-        execute(result)
-        return jsonify(result)
+        response = execute.process(result)
+        return jsonify(response)
     except:
         error = {
             'error': True,
