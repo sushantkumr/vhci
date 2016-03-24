@@ -4,6 +4,7 @@ $(document).ready(function() {
   (function() {
     $('#confirm').parent().hide()
     $('#result').parent().hide()
+    $('#output').parent().hide()
   })()
 
   // Handles voice input
@@ -42,10 +43,12 @@ $(document).ready(function() {
           var confirm_string = result['confirm']
           var output_string = JSON.stringify(result['result'], null, 2)
           var out = JSON.parse(output_string)
+
           if(!out['message']) {
-          $('#output').parent().hide()
-          $('#confirm').html(confirm_string).show().parent().show()
-          $('#result').html(output_string).show().parent().show()}
+            $('#output').parent().hide()
+            $('#confirm').html(confirm_string).show().parent().show()
+            $('#result').html(output_string).show().parent().show()
+        }
           else{
             $('#confirm').parent().hide()
             $('#result').parent().hide()
@@ -62,7 +65,7 @@ $(document).ready(function() {
   $('#confirm-submit').click(function(e) {
     e.preventDefault()
     var submit = function() {
-      alert('qwe')
+      // alert('qwe')
       var command = $('input[name=command_text]').val()
       // console.log(command)
       $.ajax({
@@ -72,10 +75,11 @@ $(document).ready(function() {
           command: command
         },
         success: function(result) {
-        $('#confirm').parent().hide()
-        $('#result').parent().hide()
-        var res = JSON.stringify(result,null,2)
-        $('#output').html(res).show().parent().show()
+          $('#confirm').parent().hide()
+          $('#result').parent().hide()
+          var res = JSON.stringify(result,null,2)
+          // console.log(res)
+          $('#output').html(res).show().parent().show()
         },
         error: function() {}
       })

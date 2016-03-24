@@ -13,6 +13,7 @@ app = Flask(__name__)
 
 def setup():
     core.register('totem', devices.totem)
+    core.register('tweet', devices.tweet)
 
 @app.route('/')
 def home():
