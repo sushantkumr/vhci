@@ -3,20 +3,15 @@ import sys
 sys.path.insert(0, '../')
 ######
 
-from ttcc import test
-temperature = test.Temperature()
+# from ttcc import test
+# temperature = test.Temperature()
 
 totem = {
     'alias': ['totem', 'video player', 'media player', 'play'],
     'operations': {
         '--play': {
             'triggers': [r'play music', r'play video', r'play playlist', r'play songs?', r'play'],
-            'arguments': {
-                'target_temperature': {
-                    'multiple': False, # Can use somethig like this to fetch more than one item from a sentence. eg: How many apples and oranges are left
-                    'type': temperature, # Make a list of commonly used units so that we can parse it by making rules such as "... X degrees celsius ..." where X will be fetched.
-                    'unit': 'celsius' # This will be the default, can change it if it's specified by the user
-                }
+            'arguments':{
 
                 'name': ['{{trigger}}(?P<name>( .*)?)'],
             }
@@ -73,6 +68,29 @@ totem = {
         }
     }
 }
+
+
+tweet = {
+    'alias' : ['tweet', 'tweets'],
+    'operations' : {
+        'search/tweets': {
+            'triggers': [r'on', r'about'],
+        'arguments':{
+                 'name': ['{{trigger}}(?P<name>( .*)?)']
+            }
+        },
+        'statuses/user_timeline': {
+        'triggers': [r'of', r'by'],
+        'arguments':{
+            'name': ['{{trigger}}(?P<name>( .*)?)']
+            }
+        }
+
+    }
+}
+
+
+
 
 # refrigerator = {
 #     'alias': ['refrigerator', 'fridge'],
