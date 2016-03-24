@@ -7,6 +7,7 @@ def totem(command):
             # mutiple filenames and stuff aren't supported yet
             # give the proper filename if you want to play something
             cl += ' ' + command['arguments']['name']
+    cl += ' &'
     return_value = os.system(cl)
     if return_value == 0:
         return {

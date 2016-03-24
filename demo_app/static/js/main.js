@@ -1,9 +1,14 @@
 $(document).ready(function() {
-  
+
+  var newCommand = true // Will be sent to server
+  var oldResult = {}; // Will be sent to server
+  /* PS: If you remove the semi-colon on the previous line it'll cause an error
+   * which you can see in the console. This is one of the cases where a semi-colon is required!
+   */
+
   // This will be executed when the page is loaded
   (function() {
-    $('#confirm').parent().hide()
-    $('#result').parent().hide()
+    $('#result').hide().parent().hide()
   })()
 
   // Handles voice input
@@ -30,30 +35,42 @@ $(document).ready(function() {
   $('#main-submit').click(function(e) {
     e.preventDefault()
     var submit = function() {
-      var command = $('input[name=command_text]').val()
+      var data = {}
+      data.input = $('input[name=command_text]').val()
+      data.newCommand = newCommand // Global variable
+      data.oldResult = JSON.stringify(oldResult)
       // console.log(command)
       $.ajax({
         url: '/command',
         method: 'POST',
-        data: {
-          command: command
-        },
+        data: data,
         success: function(result) {
-          var confirm_string = result['confirm']
-          var output_string = JSON.stringify(result['result'], null, 2)
-          var out = JSON.parse(output_string)
-          if(!out['message']) {
-          $('#output').parent().hide()
-          $('#confirm').html(confirm_string).show().parent().show()
-          $('#result').html(output_string).show().parent().show()}
-          else{
-            $('#confirm').parent().hide()
-            $('#result').parent().hide()
-            $('#output').html(output_string).show().parent().show()
+          console.log(result)
+          if (result.error === true) {
+            // Handle error
+            oldResult = {}
+            newCommand = true
+            return
           }
-          console.log(output_string)
+          if (result.final === true) { // Current command has been executed completely, start new session
+            oldResult = {}
+            newCommand = true
+            var parsed = JSON.stringify(result.parsed, null, 2)
+            $('#result').html(parsed).show().parent().show()
+            $('#message').html(result.message)
+          }
+          else if (result.final === false) { // Needs confirmation or more information
+            var parsed = JSON.stringify(result.parsed, null, 2)
+            oldResult = result
+            newCommand = false
+            $('#result').html(parsed).show().parent().show()
+            $('#message').html(result.message)
+          }
         },
-        error: function() {}
+        error: function(a, b, c) {
+          console.log(a, b, c)
+          $('#message').html('Something went wrong. Please try again.').show().parent().show()
+        }
       })
     }
     submit()
