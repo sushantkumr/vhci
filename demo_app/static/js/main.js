@@ -2,6 +2,7 @@ $(document).ready(function() {
   
   // This will be executed when the page is loaded
   (function() {
+    $('#confirm').parent().hide()
     $('#result').parent().hide()
   })()
 
@@ -38,9 +39,43 @@ $(document).ready(function() {
           command: command
         },
         success: function(result) {
-          var output_string = JSON.stringify(result, null, 2)
-          $('#result').html(output_string).show().parent().show()
+          var confirm_string = result['confirm']
+          var output_string = JSON.stringify(result['result'], null, 2)
+          var out = JSON.parse(output_string)
+          if(!out['message']) {
+          $('#output').parent().hide()
+          $('#confirm').html(confirm_string).show().parent().show()
+          $('#result').html(output_string).show().parent().show()}
+          else{
+            $('#confirm').parent().hide()
+            $('#result').parent().hide()
+            $('#output').html(output_string).show().parent().show()
+          }
           console.log(output_string)
+        },
+        error: function() {}
+      })
+    }
+    submit()
+  })
+
+  $('#confirm-submit').click(function(e) {
+    e.preventDefault()
+    var submit = function() {
+      alert('qwe')
+      var command = $('input[name=command_text]').val()
+      // console.log(command)
+      $.ajax({
+        url: '/execute',
+        method: 'POST',
+        data: {
+          command: command
+        },
+        success: function(result) {
+        $('#confirm').parent().hide()
+        $('#result').parent().hide()
+        var res = JSON.stringify(result,null,2)
+        $('#output').html(res).show().parent().show()
         },
         error: function() {}
       })
