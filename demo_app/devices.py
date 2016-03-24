@@ -14,57 +14,69 @@ totem = {
             'arguments':{
 
                 'name': ['{{trigger}}(?P<name>( .*)?)'],
-            }
+            },
+            'confirm': False
         },
         '--pause': {
             'triggers': [r'pause'],
             'arguments': {
-            }
+            },
+            'confirm': False
         },
         '--play-pause': {
             'triggers': [r'toggle'],
             'arguments': {
-            }
+            },
+            'confirm': False
         },
         '--stop': {
             'triggers': [r'stop'],
             'arguments': {
-            }
+            },
+            'confirm': False
         },
         '--next': {
             'triggers': [r'next'],
             'arguments': {
-            }
+            },
+            'confirm': False
         },
         '--previous': {
             'triggers': [r'previous'],
             'arguments': {
-            }
+            },
+            'confirm': False
         },
         '--volume-up': {
             'triggers': [r'increase volume'],
             'arguments': {
-            }
+            },
+            'confirm': False
         },
         '--volume-down': {
             'triggers': [r'decrease volume'],
             'arguments': {
-            }
+            },
+            'confirm': False
         },
         '--mute': {
             'triggers': [r'mute'],
             'arguments': {
-            }
+            },
+            'confirm': False
         },
         '--fullscreen': {
             'triggers': [r'fullscreen'],
             'arguments': {
-            }
+            },
+            'confirm': False
         },
         '--quit': {
             'triggers': [r'quit'],
             'arguments': {
-            }
+            },
+            'confirm': True,
+            'message': 'Do you want to quit totem? (yes/no)'
         }
     }
 }

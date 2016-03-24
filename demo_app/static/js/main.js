@@ -1,10 +1,14 @@
 $(document).ready(function() {
-  
+
+  var newCommand = true // Will be sent to server
+  var oldResult = {}; // Will be sent to server
+  /* PS: If you remove the semi-colon on the previous line it'll cause an error
+   * which you can see in the console. This is one of the cases where a semi-colon is required!
+   */
+
   // This will be executed when the page is loaded
   (function() {
-    $('#confirm').parent().hide()
-    $('#result').parent().hide()
-    $('#output').parent().hide()
+    $('#result').hide().parent().hide()
   })()
 
   // Handles voice input
@@ -31,65 +35,68 @@ $(document).ready(function() {
   $('#main-submit').click(function(e) {
     e.preventDefault()
     var submit = function() {
+      var data = {}
+      data.input = $('input[name=command_text]').val()
+      data.newCommand = newCommand // Global variable
+      data.oldResult = JSON.stringify(oldResult)
+      // console.log(command)
+      $.ajax({
+        url: '/command',
+        method: 'POST',
+        data: data,
+        success: function(result) {
+          console.log(result)
+          if (result.error === true) {
+            // Handle error
+            oldResult = {}
+            newCommand = true
+            return
+          }
+          if (result.final === true) { // Current command has been executed completely, start new session
+            oldResult = {}
+            newCommand = true
+            var parsed = JSON.stringify(result.parsed, null, 2)
+            $('#result').html(parsed).show().parent().show()
+            $('#message').html(result.message)
+          }
+          else if (result.final === false) { // Needs confirmation or more information
+            var parsed = JSON.stringify(result.parsed, null, 2)
+            oldResult = result
+            newCommand = false
+            $('#result').html(parsed).show().parent().show()
+            $('#message').html(result.message)
+          }
+        },
+        error: function(a, b, c) {
+          console.log(a, b, c)
+          $('#message').html('Something went wrong. Please try again.').show().parent().show()
+        }
+      })
+    }
+    submit()
+  })
+
+  $('#confirm-submit').click(function(e) {
+    e.preventDefault()
+    var submit = function() {
+      alert('qwe')
       var command = $('input[name=command_text]').val()
       // console.log(command)
-      if (command == 'yes'){
-        url = '/execute'
-      }
-      else {
-        url = '/command'
-      }
       $.ajax({
-        url: url,
+        url: '/execute',
         method: 'POST',
         data: {
           command: command
         },
         success: function(result) {
-          //for interaction when said 'no'
-            if(command == 'no'){
-               $('#result').parent().hide()
-               $('#confirm').parent().hide()
-               var res = 'Enter the proper command'
-              // var res = JSON.parse(res)
-               $('#output').html(res).show().parent().show()  
-          }
-
-          //for interaction when said 'yes'
-          else if (command == 'yes'){
-
-                 $('#result').parent().hide()
-                 $('#confirm').parent().hide()
-                 var res = JSON.stringify(result, null, 2)
-                 $('#output').html(res).show().parent().show()            
-            }
-
-          //  
-          else{
-                var confirm_string = result['confirm']
-                var output_string = JSON.stringify(result['result'], null, 2)
-                var message = JSON.parse(output_string)
-
-                if(!message['message']) {
-                  $('#output').parent().hide()
-                  $('#confirm').html(confirm_string).show().parent().show()
-                  $('#result').html(output_string).show().parent().show()
-                }
-                
-                else {
-                  $('#result').parent().hide()
-                  $('#confirm').parent().hide()
-                  $('#output').html(output_string).show().parent().show()
-                }
-          console.log(output_string)
-          }
-          
-          
+        $('#confirm').parent().hide()
+        $('#result').parent().hide()
+        var res = JSON.stringify(result,null,2)
+        $('#output').html(res).show().parent().show()
         },
         error: function() {}
       })
     }
     submit()
   })
-
 })

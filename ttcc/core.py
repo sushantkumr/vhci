@@ -129,7 +129,8 @@ def parse(sentence):
         'intent': intent['operation_name'],
         'arguments': argument_values
     }
-    return response
+    device = DEVICES[target_device]
+    return response, device
 
 
 
