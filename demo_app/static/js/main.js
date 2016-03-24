@@ -2,10 +2,8 @@ $(document).ready(function() {
   
   // This will be executed when the page is loaded
   (function() {
-    $('#result').parent().hide()
     $('#confirm').parent().hide()
-      $('#output').parent().hide()
-
+    $('#result').parent().hide()
   })()
 
   // Handles voice input
@@ -44,20 +42,15 @@ $(document).ready(function() {
           var confirm_string = result['confirm']
           var output_string = JSON.stringify(result['result'], null, 2)
           var out = JSON.parse(output_string)
-          if(!out['message']){
-            $('#output').parent().hide()
-            $('#confirm').html(confirm_string).show().parent().show()
-            $('#result').html(output_string).show().parent().show()
-            //$('#inp').html(confirm_string).show().parent().show()
-
-          }else{
-            //$('#confirm').html("").show().parent().show()
-            $('#result').parent().hide()
+          if(!out['message']) {
+          $('#output').parent().hide()
+          $('#confirm').html(confirm_string).show().parent().show()
+          $('#result').html(output_string).show().parent().show()}
+          else{
             $('#confirm').parent().hide()
+            $('#result').parent().hide()
             $('#output').html(output_string).show().parent().show()
           }
-          
-         
           console.log(output_string)
         },
         error: function() {}
@@ -66,31 +59,27 @@ $(document).ready(function() {
     submit()
   })
 
-  // For confirmation
-  $('#yes').click(function(e){
+  $('#confirm-submit').click(function(e) {
     e.preventDefault()
-   var command = $('input[name=command_text]').val()
-   alert(command)
-    var doit = function(){
-     
-          $.ajax({
-            url: '/execute',
-            method: 'POST',
-            data: {
-              command: command
-            },
-            success: function(result) {
-               $('#result').parent().hide()
-               $('#confirm').parent().hide()
-
-               var res = JSON.stringify(result, null, 2)
-               $('#output').html(res).show().parent().show()
-            },
-            error: function() {}
-          })
+    var submit = function() {
+      alert('qwe')
+      var command = $('input[name=command_text]').val()
+      // console.log(command)
+      $.ajax({
+        url: '/execute',
+        method: 'POST',
+        data: {
+          command: command
+        },
+        success: function(result) {
+        $('#confirm').parent().hide()
+        $('#result').parent().hide()
+        var res = JSON.stringify(result,null,2)
+        $('#output').html(res).show().parent().show()
+        },
+        error: function() {}
+      })
     }
-    doit()
-
+    submit()
   })
-  })
-
+})
