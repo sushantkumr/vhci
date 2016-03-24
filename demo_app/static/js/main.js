@@ -33,27 +33,56 @@ $(document).ready(function() {
     var submit = function() {
       var command = $('input[name=command_text]').val()
       // console.log(command)
+      if (command == 'yes'){
+        url = '/execute'
+      }
+      else {
+        url = '/command'
+      }
       $.ajax({
-        url: '/command',
+        url: url,
         method: 'POST',
         data: {
           command: command
         },
         success: function(result) {
-          var confirm_string = result['confirm']
-          var output_string = JSON.stringify(result['result'], null, 2)
-          var out = JSON.parse(output_string)
-
-          if(!out['message']) {
-            $('#output').parent().hide()
-            $('#confirm').html(confirm_string).show().parent().show()
-            $('#result').html(output_string).show().parent().show()
-        }
-          else{
-            $('#confirm').parent().hide()
-            $('#result').parent().hide()
-            $('#output').html(output_string).show().parent().show()
+          //for interaction when said 'no'
+            if(command == 'no'){
+               $('#result').parent().hide()
+               $('#confirm').parent().hide()
+               var res = 'Enter the proper command'
+              // var res = JSON.parse(res)
+               $('#output').html(res).show().parent().show()  
           }
+
+          //for interaction when said 'yes'
+          else if (command == 'yes'){
+
+                 $('#result').parent().hide()
+                 $('#confirm').parent().hide()
+                 var res = JSON.stringify(result, null, 2)
+                 $('#output').html(res).show().parent().show()            
+            }
+
+          //  
+          else{
+                var confirm_string = result['confirm']
+                var output_string = JSON.stringify(result['result'], null, 2)
+                var message = JSON.parse(output_string)
+
+                if(!message['message']) {
+                  $('#output').parent().hide()
+                  $('#confirm').html(confirm_string).show().parent().show()
+                  $('#result').html(output_string).show().parent().show()
+                }
+                
+                else {
+                  $('#result').parent().hide()
+                  $('#confirm').parent().hide()
+                  $('#output').html(output_string).show().parent().show()
+                }
+          }
+          
           console.log(output_string)
         },
         error: function() {}
@@ -62,28 +91,4 @@ $(document).ready(function() {
     submit()
   })
 
-  $('#confirm-submit').click(function(e) {
-    e.preventDefault()
-    var submit = function() {
-      // alert('qwe')
-      var command = $('input[name=command_text]').val()
-      // console.log(command)
-      $.ajax({
-        url: '/execute',
-        method: 'POST',
-        data: {
-          command: command
-        },
-        success: function(result) {
-          $('#confirm').parent().hide()
-          $('#result').parent().hide()
-          var res = JSON.stringify(result,null,2)
-          // console.log(res)
-          $('#output').html(res).show().parent().show()
-        },
-        error: function() {}
-      })
-    }
-    submit()
-  })
 })
