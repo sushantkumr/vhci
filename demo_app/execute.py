@@ -31,7 +31,7 @@ def totem(command):
                         cl += ' ' + '"' + filename + '"'                        
                         break
                         # li.append(filename)
-            # cl += ' ' + command['arguments']['name']
+            # cl += ' ' + command['arguments']['name']            
     cl += ' &'
     print(cl)
     return_value = os.system(cl)
