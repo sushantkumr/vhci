@@ -1,11 +1,11 @@
 import os    
 from TwitterAPI import TwitterAPI    
    
-consumer_key = "consumer_key"    
-consumer_secret = "consumer_secret"    
-access_token_secret = "access_token_secret"    
-access_token_key = "acces_token_k"    
-    
+consumer_key = "1Yn8SkgvIrLiXRk22aU6IhZ20"
+consumer_secret = "udsYuEMi2rU77EaTG9vWlIPXOf9YcunHvOHXQPH2AUod7fSGD7"
+access_token_secret = "UIoINgPNBSrflcgZFa3ZkyJvKowLyDFm1HQw47D2voSWL"
+access_token_key = "2296276094-ywo927aAwEsO9rNYBw8734QGeU0oT3Xe1caRfm2"
+
 def totem(command):    
     names = "start wmplayer /playlist cortana"    
  # names += "C:\\Users\\Public\\Music\\pp"    

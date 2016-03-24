@@ -81,9 +81,10 @@ $(document).ready(function() {
                   $('#confirm').parent().hide()
                   $('#output').html(output_string).show().parent().show()
                 }
+          console.log(output_string)
           }
           
-          console.log(output_string)
+          
         },
         error: function() {}
       })
