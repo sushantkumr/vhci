@@ -2,13 +2,17 @@ import os
 import re
 
 def filename_matcher(text,filename):
-    flag = 1    
+    flag = True 
     li = text.split()
+    if filename.endswith(('.mp3','.MP3','.flac','.m3u','.m4a','.wav','.flv')):
+        filename = filename[:-4]
+    fn_list = re.split(' |-|_',filename)
+    fn_list = [x.lower() for x in fn_list]
     for word in li:
-        if word.lower() in filename.lower():
-            continue
+        if word.lower() in fn_list:
+            fn_list.pop(fn_list.index(word.lower()))
         else:
-            flag = 0
+            flag = False
             break
     if not flag:
         return False
