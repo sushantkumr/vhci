@@ -36,6 +36,7 @@ $(document).ready(function() {
     streaming.onend = function(event) {
       streaming.start()
     }
+    streaming.start()
   };
 
   // This will be executed when the page is loaded
@@ -80,6 +81,11 @@ $(document).ready(function() {
         method: 'POST',
         data: data,
         success: function(result) {
+          // Clear existing content
+          $('#message').html('')
+          $('#options').html('')
+          $('#result').html('')
+
           console.log(result)
           if (result.error === true) {
             // Handle error
@@ -100,6 +106,13 @@ $(document).ready(function() {
             newCommand = false
             $('#result').html(parsed).show().parent().show()
             $('#message').html(result.message)
+            if (result.options !== undefined) {
+              var options = $('<ol>')
+              result.options.forEach(function(option) {
+                options.append($('<li>').html(option))
+              })
+              $('#options').html(options)
+            }
           }
           if (typeof webkitSpeechRecognition === 'function') {
             streaming.stop()

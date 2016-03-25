@@ -19,26 +19,33 @@ def home():
     return render_template('home.html')
 
 def execution_handler(result, device, output):
-    execution_result = execute.process(result)
-    output['parsed'] = result
-    return output
+    execution_result = execute.process(result, device, output)
+    return execution_result
 
 @app.route('/command', methods=['POST'])
 def command():
+
+    # This object will be sent to the client
     output = {
+        'commands': [],
         'error': False, # Used in the catch block
         'final': True, # In the client we'll know if some more information is needed or if the command has been executed
         'parsed': {}, # Whatever has been parsed so far
         'message': '', # The message to be shown for interactive mode
+        'type': None, # Type of the next command is. Used if final is False.
+                      # Can be one of confirm, option, intent, argument,
     }
 
     command = request.form['input']
     oldResult = json.loads(request.form['oldResult'])
     newCommand = request.form['newCommand']
 
-    if newCommand == 'false': # Handle interactive mode; doing only yes/no for now
+    output['commands'].append(command)
+
+    if newCommand == 'false' and oldResult['type'] == 'confirm': # Handle interactive mode; doing only yes/no for now
+        device = core.DEVICES[oldResult['parsed']['device']]
         if command.lower() in ['yes', 'yeah', 'yup', 'yep', 'ya', 'y']:
-            output = execution_handler(oldResult['parsed'], None, output) # Need to send device details instead of None
+            output = execution_handler(oldResult['parsed'], device, output) # Need to send device details instead of None
 
             # This should be done in execution_handler
             # These values may not always be the same
@@ -53,10 +60,22 @@ def command():
             return jsonify(oldResult)
         return jsonify(output)
 
+    if newCommand == 'false' and oldResult['type'] == 'option':
+        device = core.DEVICES[oldResult['parsed']['device']]
+        if oldResult['option-type'] == 'arguments':
+            try:
+                oldResult['parsed']['arguments'][oldResult['option-name']] = oldResult['options'][int(command)-1]
+                output = execution_handler(oldResult['parsed'], device, oldResult)
+                return jsonify(output)
+            except:
+                return jsonify(oldResult)
+
     try:
         result, device = core.parse(command)
+        output['parsed'] = result
         if device['operations'][result['intent']]['confirm'] == True:
             output['final'] = False
+            output['type'] = 'confirm'
             output['message'] = device['operations'][result['intent']]['message']
             output['parsed'] = result
             return jsonify(output)
