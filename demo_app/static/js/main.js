@@ -1,55 +1,54 @@
 $(document).ready(function() {
-    // var recorder = [undefined];
-    var streaming = new webkitSpeechRecognition();
-    streaming.start();
-    var s = function () {
-      // recorder[0] = streaming;
-      streaming.lang = 'en-IN';
-      streaming.continuous = true;
-      streaming.interimResults = false;    
+  var newCommand = true // Will be sent to server
+  var oldResult = {} // Will be sent to server
 
-      streaming.onresult = function(event) {
-        var transcription_textContent = "";
-        for (var i = event.resultIndex; i < event.results.length; i++) {
-            transcription_textContent += event.results[i][0].transcript;
-          }
-        transcription_textContent = transcription_textContent.toLowerCase();
-        console.log(transcription_textContent);
-        $('input[name=command_text]').val(transcription_textContent);
-        var length = transcription_textContent.length;
-        var pos_listen = transcription_textContent.search("listen");
+  if (typeof webkitSpeechRecognition === 'function') {
+    var streaming = new webkitSpeechRecognition()
+  }
 
-        if (pos_listen != -1) {
-          var command_exe = transcription_textContent.substring(pos_listen+7);
-          console.log(command_exe);
-          $('input[name=command_text]').val(command_exe);
-          $("#main-submit").click();
-        }
+  var s = function () {
+    if (typeof webkitSpeechRecognition !== 'function') {
+      return
+    }    
+    streaming.lang = 'en-IN'
+    streaming.continuous = true
+    streaming.interimResults = false  
+
+    streaming.onresult = function(event) {
+      var transcription_textContent = ""
+      for (var i = event.resultIndex; i < event.results.length; i++) {
+          transcription_textContent += event.results[i][0].transcript
       }
+      transcription_textContent = transcription_textContent.toLowerCase()
+      console.log(transcription_textContent)
+      $('input[name=command_text]').val(transcription_textContent)
+      var length = transcription_textContent.length
+      var pos_listen = transcription_textContent.search("listen")
 
-      streaming.onend = function(event) {
-        streaming.start();
-      }   
+      if (pos_listen != -1) {
+        var command_exe = transcription_textContent.substring(pos_listen+7)
+        console.log(command_exe)
+        $('input[name=command_text]').val(command_exe)
+        $("#main-submit").click()
+      }
     }
 
-    s(); 
-
-  var newCommand = true // Will be sent to server
-  var oldResult = {}; // Will be sent to server
-  /* PS: If you remove the semi-colon on the previous line it'll cause an error
-   * which you can see in the console. This is one of the cases where a semi-colon is required!
-   */
+    streaming.onend = function(event) {
+      streaming.start()
+    }   
+  };
 
   // This will be executed when the page is loaded
   (function() {
+    s()
     $('#result').hide().parent().hide()
   })()
 
   // Handles voice input
   $('#main-speech').click(function() {
     var record = function() {
-      if(typeof webkitSpeechRecognition !== 'function') {
-        alert('Please use Google Chrome for voice input') 
+      if (typeof webkitSpeechRecognition !== 'function') {
+        alert('Please use Google Chrome for voice input')
         return
       }
       var recording = new webkitSpeechRecognition()
@@ -69,7 +68,7 @@ $(document).ready(function() {
   $('#main-submit').click(function(e) {
     e.preventDefault()
     // recorder[0].stop()
-    // streaming.stop();
+    // streaming.stop()
     var submit = function() {
       var data = {}
       data.input = $('input[name=command_text]').val()
@@ -102,8 +101,10 @@ $(document).ready(function() {
             $('#result').html(parsed).show().parent().show()
             $('#message').html(result.message)
           }
-          streaming.stop();
-          s();
+          if (typeof webkitSpeechRecognition === 'function') {
+            streaming.stop()
+            s()
+          }
         },
         error: function(a, b, c) {
           console.log(a, b, c)
