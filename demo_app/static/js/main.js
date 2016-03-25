@@ -1,4 +1,38 @@
 $(document).ready(function() {
+    // var recorder = [undefined];
+    var streaming = new webkitSpeechRecognition();
+    streaming.start();
+    var s = function () {
+      // recorder[0] = streaming;
+      streaming.lang = 'en-IN';
+      streaming.continuous = true;
+      streaming.interimResults = false;    
+
+      streaming.onresult = function(event) {
+        var transcription_textContent = "";
+        for (var i = event.resultIndex; i < event.results.length; i++) {
+            transcription_textContent += event.results[i][0].transcript;
+          }
+        transcription_textContent = transcription_textContent.toLowerCase();
+        console.log(transcription_textContent);
+        $('input[name=command_text]').val(transcription_textContent);
+        var length = transcription_textContent.length;
+        var pos_listen = transcription_textContent.search("listen");
+
+        if (pos_listen != -1) {
+          var command_exe = transcription_textContent.substring(pos_listen+7);
+          console.log(command_exe);
+          $('input[name=command_text]').val(command_exe);
+          $("#main-submit").click();
+        }
+      }
+
+      streaming.onend = function(event) {
+        streaming.start();
+      }   
+    }
+
+    s(); 
 
   var newCommand = true // Will be sent to server
   var oldResult = {}; // Will be sent to server
@@ -34,6 +68,8 @@ $(document).ready(function() {
   // Submits form using AJAX
   $('#main-submit').click(function(e) {
     e.preventDefault()
+    // recorder[0].stop()
+    // streaming.stop();
     var submit = function() {
       var data = {}
       data.input = $('input[name=command_text]').val()
@@ -66,35 +102,13 @@ $(document).ready(function() {
             $('#result').html(parsed).show().parent().show()
             $('#message').html(result.message)
           }
+          streaming.stop();
+          s();
         },
         error: function(a, b, c) {
           console.log(a, b, c)
           $('#message').html('Something went wrong. Please try again.').show().parent().show()
         }
-      })
-    }
-    submit()
-  })
-
-  $('#confirm-submit').click(function(e) {
-    e.preventDefault()
-    var submit = function() {
-      alert('qwe')
-      var command = $('input[name=command_text]').val()
-      // console.log(command)
-      $.ajax({
-        url: '/execute',
-        method: 'POST',
-        data: {
-          command: command
-        },
-        success: function(result) {
-        $('#confirm').parent().hide()
-        $('#result').parent().hide()
-        var res = JSON.stringify(result,null,2)
-        $('#output').html(res).show().parent().show()
-        },
-        error: function() {}
       })
     }
     submit()
