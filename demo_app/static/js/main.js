@@ -9,10 +9,10 @@ $(document).ready(function() {
   var s = function () {
     if (typeof webkitSpeechRecognition !== 'function') {
       return
-    }    
+    }
     streaming.lang = 'en-IN'
     streaming.continuous = true
-    streaming.interimResults = false  
+    streaming.interimResults = false
 
     streaming.onresult = function(event) {
       var transcription_textContent = ""
@@ -35,7 +35,7 @@ $(document).ready(function() {
 
     streaming.onend = function(event) {
       streaming.start()
-    }   
+    }
   };
 
   // This will be executed when the page is loaded
