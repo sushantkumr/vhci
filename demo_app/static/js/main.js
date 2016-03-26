@@ -1,47 +1,79 @@
 $(document).ready(function() {
+  var CLOCK_INTERVAL = 1000 // Clock will be called every second (1000 ms)
+  var SESSION_DURATION = 20 // Active for this long without any activity
+
   var newCommand = true // Will be sent to server
   var oldResult = {} // Will be sent to server
 
-  if (typeof webkitSpeechRecognition === 'function') {
-    var streaming = new webkitSpeechRecognition()
+  var sessionDuration = 0 // Time left before the session expires
+
+  var clock = function() {
+    if (sessionDuration > 0) {
+      sessionDuration -= 1
+      if (sessionDuration === 0) {
+        console.log('Session ended')
+      }
+    }
+    else {
+      sessionDuration = 0
+    }
   }
 
-  var s = function () {
+  var interval = setInterval(clock, CLOCK_INTERVAL)
+
+  if (typeof webkitSpeechRecognition === 'function') {
+    var streamer = new webkitSpeechRecognition()
+  }
+
+  var setupStreamer = function () {
     if (typeof webkitSpeechRecognition !== 'function') {
       return
     }
-    streaming.lang = 'en-IN'
-    streaming.continuous = true
-    streaming.interimResults = false
+    streamer.lang = 'en-IN'
+    streamer.continuous = true
+    streamer.interimResults = false
 
-    streaming.onresult = function(event) {
-      var transcription_textContent = ""
+    streamer.onresult = function(event) {
+      var inputContent = ''
       for (var i = event.resultIndex; i < event.results.length; i++) {
-          transcription_textContent += event.results[i][0].transcript
+          inputContent += event.results[i][0].transcript
       }
-      transcription_textContent = transcription_textContent.toLowerCase()
-      console.log(transcription_textContent)
-      $('input[name=command_text]').val(transcription_textContent)
-      var length = transcription_textContent.length
-      var pos_listen = transcription_textContent.search("listen")
+      inputContent = inputContent.toLowerCase()
+      console.log('inputContent: ', inputContent)
 
-      if (pos_listen != -1) {
-        var command_exe = transcription_textContent.substring(pos_listen+7)
-        console.log(command_exe)
-        $('input[name=command_text]').val(command_exe)
-        $("#main-submit").click()
+      // Check if the command is to start a new session
+      // Display a message saying that the system can now receive commands
+      var isStartSession = inputContent.search('start session')
+      if (isStartSession !== -1) {
+        // Saying start session even when a session is active will set it to SESSION_DURATION
+        sessionDuration = SESSION_DURATION
+        console.log('Session started')
+        return
+      }
+
+      var isStopSession = inputContent.search('stop session')
+      if (isStopSession !== -1) {
+        sessionDuration = 0
+        console.log('Session stopped')
+        return
+      }
+
+      // If the message is not related to session (de)activation AND a session is active send input to server
+      if (sessionDuration > 0) {
+        $('input[name=command_text]').val(inputContent)
+        $('#main-submit').click()
       }
     }
 
-    streaming.onend = function(event) {
-      streaming.start()
+    streamer.onend = function(event) {
+      streamer.start()
     }
-    streaming.start()
   };
 
   // This will be executed when the page is loaded
   (function() {
-    s()
+    setupStreamer()
+    streamer.start()
     $('#result').hide().parent().hide()
   })()
 
@@ -69,7 +101,7 @@ $(document).ready(function() {
   $('#main-submit').click(function(e) {
     e.preventDefault()
     // recorder[0].stop()
-    // streaming.stop()
+    // streamer.stop()
     var submit = function() {
       var data = {}
       data.input = $('input[name=command_text]').val()
@@ -115,8 +147,7 @@ $(document).ready(function() {
             }
           }
           if (typeof webkitSpeechRecognition === 'function') {
-            streaming.stop()
-            s()
+            streamer.stop()
           }
         },
         error: function(a, b, c) {
