@@ -89,13 +89,15 @@ tweet = {
             'triggers': [r'on', r'about'],
         'arguments':{
                  'name': ['{{trigger}}(?P<name>( .*)?)']
-            }
+            },
+            'confirm': False
         },
         'statuses/user_timeline': {
         'triggers': [r'of', r'by'],
         'arguments':{
             'name': ['{{trigger}}(?P<name>( .*)?)']
-            }
+            },
+        'confirm': False
         }
 
     }
