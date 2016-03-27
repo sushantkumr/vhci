@@ -2,10 +2,7 @@ from TwitterAPI import TwitterAPI
 import os
 import re
 
-consumer_key = "1Yn8SkgvIrLiXRk22aU6IhZ20"
-consumer_secret = "udsYuEMi2rU77EaTG9vWlIPXOf9YcunHvOHXQPH2AUod7fSGD7"
-access_token_secret = "UIoINgPNBSrflcgZFa3ZkyJvKowLyDFm1HQw47D2voSWL"
-access_token_key = "2296276094-ywo927aAwEsO9rNYBw8734QGeU0oT3Xe1caRfm2"
+
 
 
 def filename_matcher(text, filename):
