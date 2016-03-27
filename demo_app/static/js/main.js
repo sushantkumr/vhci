@@ -140,47 +140,47 @@ $(document).ready(function() {
           }
 
           // tweets are otputed here.....................................
-          if (result.tweet){
-            var leng=-1
-            var pos= -1
-            var su=-1
-            var new_tweet=''
-            var tweets = $('<ol>')
+          // if (result.tweet){
+          //   var leng=-1
+          //   var pos= -1
+          //   var su=-1
+          //   var new_tweet=''
+          //   var tweets = $('<ol>')
 
-            result.tweet.forEach(function(option) {
-              pos = option.search(/https/)
+          //   result.tweet.forEach(function(option) {
+          //     pos = option.search(/https/)
 
-              if(pos>-1){
-                sub = option.slice(pos)
-                if(sub.search(' ')>-1){
-                  su = sub.search(' ')
-                  if(su>-1){
-                    leng = pos+su
-                    if(leng>-1){
-                      href = option.slice(pos, leng)
-                      blank = '_blank'
-                      link ='<a href='+href+' target = '+blank+'>'+href+'</a>'
-                      new_tweet = option.replace(href, link)
-                    }
-                  }
-                }
-                else{
-                  href = sub
-                  blank = '_blank'
-                  link ='<a href='+href+' target = '+blank+'>'+href+'</a>'
-                  // console.log(link)""
-                  new_tweet = option.replace(href, link)
-                  // console.log(href)
-                }
-              }
+          //     if(pos>-1){
+          //       sub = option.slice(pos)
+          //       if(sub.search(' ')>-1){
+          //         su = sub.search(' ')
+          //         if(su>-1){
+          //           leng = pos+su
+          //           if(leng>-1){
+          //             href = option.slice(pos, leng)
+          //             blank = '_blank'
+          //             link ='<a href='+href+' target = '+blank+'>'+href+'</a>'
+          //             new_tweet = option.replace(href, link)
+          //           }
+          //         }
+          //       }
+          //       else{
+          //         href = sub
+          //         blank = '_blank'
+          //         link ='<a href='+href+' target = '+blank+'>'+href+'</a>'
+          //         // console.log(link)""
+          //         new_tweet = option.replace(href, link)
+          //         // console.log(href)
+          //       }
+          //     }
                
-              if (new_tweet){
-                option = new_tweet
-              }
-              tweets.append($('<li>').html(option))
-              $('#tweet').html(tweets).show().parent().show()
-            })
-          }
+          //     if (new_tweet){
+          //       option = new_tweet
+          //     }
+          //     tweets.append($('<li>').html(option))
+          //     $('#tweet').html(tweets).show().parent().show()
+          //   })
+          // }
           // .................................................................
 
           if (typeof webkitSpeechRecognition === 'function') {
