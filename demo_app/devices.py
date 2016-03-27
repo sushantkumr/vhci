@@ -98,6 +98,13 @@ tweet = {
             'name': ['{{trigger}}(?P<name>( .*)?)']
             },
         'confirm': False
+         },
+        'examples':{
+            'triggers':[r'^get [a-z ]*tweets$',r'^get [a-z ]*tweet$',r'^fetch [a-z ]*tweet$', r'^fetch [a-z ]*tweets$',r'^tweets$'],
+            'arguments':{
+                'name':''
+            },
+            'confirm':False
         }
 
     }
