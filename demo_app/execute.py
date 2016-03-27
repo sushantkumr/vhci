@@ -67,6 +67,11 @@ def totem(command, device, output):
     # What should we do if return value isn't 0?
     return output
 
+def tetris(command, device, output):
+    return output
+
 def process(command, device, output):
     if command['device'] == 'totem':
         return totem(command, device, output)
+    elif command['device'] == 'tetris':
+        return tetris(command, device, output)

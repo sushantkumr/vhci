@@ -79,6 +79,19 @@ totem = {
     }
 }
 
+# Core game code for tetris from https://github.com/jakesgordon/javascript-tetris
+tetris = {
+    'alias': ['tetris'],
+    'operations': {
+        '--start': {
+            'triggers': [r'tetris'],
+            'arguments': {
+            },
+            'confirm': False,
+        }
+    }
+}
+
 # refrigerator = {
 #     'alias': ['refrigerator', 'fridge'],
 #     'operations': {

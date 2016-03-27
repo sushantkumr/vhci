@@ -1,16 +1,28 @@
 $(document).ready(function() {
+  /* Constants, global variables and clock controllers
+   */
+
   var CLOCK_INTERVAL = 1000 // Clock will be called every second (1000 ms)
   var SESSION_DURATION = 20 // Active for this long without any activity
 
-  var newCommand = true // Will be sent to server
-  var oldResult = {} // Will be sent to server
+  var newCommand // Will be sent to server
+  var oldResult // Will be sent to server
 
-  var sessionDuration = 0 // Time left before the session expires
+  var sessionDuration // Time left before the session expires
+  var currentSession // If a front end app wants to own the session it can tag itself
+
+  var clearSession = function() {
+    newCommand = true
+    oldResult = {}
+    sessionDuration = 0
+    currentSession = 0
+  }
 
   var clock = function() {
     if (sessionDuration > 0) {
       sessionDuration -= 1
       if (sessionDuration === 0) {
+        clearSession()
         console.log('Session ended')
       }
     }
@@ -20,6 +32,64 @@ $(document).ready(function() {
   }
 
   var interval = setInterval(clock, CLOCK_INTERVAL)
+
+
+  /* Utils and front end controllers
+   */
+
+  var generateDiv = function() {
+    var container = $('<div>').addClass('container').css('margin-top', '20px')
+    var row = $('<div>').addClass('row')
+    var col = $('<div>').addClass('col-xs-12')
+    var box = $('<div>').addClass('box')
+    col.append(box)
+    row.append(col)
+    container.append(row)
+    return container
+  }
+
+  var tetrisHandler = function(inputContent) {
+    var messageTetris = function(message) {
+      var tetris = $('.tetris')[0]
+      tetris.contentWindow.postMessage(message, '*');
+    }
+
+    // TO-DO: Accept words that are close enough. Eg: cleft, bright
+    // TO-DO: Saying "right right right" will result in a long string and not three "right" commands.
+    // When this happens we should send three `right` messages to the iframe. Currently it doesn't do anything.
+    var gameCommands = {
+                    'start': 32,
+                    'stop': 27,
+                    'left': 37,
+                    'right': 39,
+                    'rotate': 38,
+                    'drop': 40,
+                    'tetris': 32,
+                  }
+    var commandIdx = Object.keys(gameCommands).indexOf(inputContent)
+    if (commandIdx === -1) {
+      if (inputContent.search('quit session') !== -1 || inputContent.search('stop session') !== -1) {
+        // The session itself is stopped
+        sessionDuration = 0;
+        currentSession = ''
+        messageTetris(gameCommands['stop'])
+      }
+      if (inputContent.search('quit') !== -1) {
+        // Exit only from the game, session is still active
+        sessionDuration = SESSION_DURATION
+        currentSession = ''
+        messageTetris(gameCommands['stop'])
+      }
+      console.log('Invalid command: ', inputContent === 'left')
+      return
+    }
+    sessionDuration = 600
+    messageTetris(gameCommands[inputContent])
+  }
+
+
+  /* Speech and server controllers
+   */
 
   if (typeof webkitSpeechRecognition === 'function') {
     var streamer = new webkitSpeechRecognition()
@@ -40,6 +110,7 @@ $(document).ready(function() {
       }
       inputContent = inputContent.toLowerCase()
       console.log('inputContent: ', inputContent)
+      inputContent = inputContent.trim()
 
       // Check if the command is to start a new session
       // Display a message saying that the system can now receive commands
@@ -58,6 +129,7 @@ $(document).ready(function() {
         return
       }
 
+      console.log('session time left:', sessionDuration)
       // If the message is not related to session (de)activation AND a session is active send input to server
       if (sessionDuration > 0) {
         $('input[name=command_text]').val(inputContent)
@@ -72,8 +144,11 @@ $(document).ready(function() {
 
   // This will be executed when the page is loaded
   (function() {
+    clearSession()
     setupStreamer()
-    streamer.start()
+    if (typeof webkitSpeechRecognition === 'function') {
+      streamer.start()
+    }
     $('#result').hide().parent().hide()
   })()
 
@@ -100,11 +175,18 @@ $(document).ready(function() {
   // Submits form using AJAX
   $('#main-submit').click(function(e) {
     e.preventDefault()
+
+    var inputContent = $('input[name=command_text]').val()
+    if (currentSession === 'tetris') {
+      tetrisHandler(inputContent)
+      return
+    }
+
     // recorder[0].stop()
     // streamer.stop()
     var submit = function() {
       var data = {}
-      data.input = $('input[name=command_text]').val()
+      data.input = inputContent
       data.newCommand = newCommand // Global variable
       data.oldResult = JSON.stringify(oldResult)
       // console.log(command)
@@ -131,6 +213,21 @@ $(document).ready(function() {
             var parsed = JSON.stringify(result.parsed, null, 2)
             $('#result').html(parsed).show().parent().show()
             $('#message').html(result.message)
+
+            // If tetris
+            if (result.parsed.device === 'tetris') {
+              var container = generateDiv()
+              var iframe = $('<iframe>')
+                            .attr('src', 'tetris')
+                            .attr('width', '100%')
+                            .attr('height', '270px')
+                            .addClass('tetris')
+                            .append($('<div>').addClass('holder'))
+              container.find('.box').append(iframe).removeClass('box')
+              container.insertAfter('#voiceForm')
+              currentSession = 'tetris'
+              sessionDuration = 600 // Game will be active for ten minutes without any input
+            }
           }
           else if (result.final === false) { // Needs confirmation or more information
             var parsed = JSON.stringify(result.parsed, null, 2)
@@ -145,6 +242,7 @@ $(document).ready(function() {
               })
               $('#options').html(options)
             }
+
           }
           if (typeof webkitSpeechRecognition === 'function') {
             streamer.stop()

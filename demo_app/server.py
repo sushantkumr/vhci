@@ -13,10 +13,15 @@ app = Flask(__name__)
 
 def setup():
     core.register('totem', devices.totem)
+    core.register('tetris', devices.tetris)
 
 @app.route('/')
 def home():
     return render_template('home.html')
+
+@app.route('/tetris')
+def tetris():
+    return render_template('tetris.html')
 
 def execution_handler(result, device, output):
     execution_result = execute.process(result, device, output)
