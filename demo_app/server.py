@@ -4,7 +4,7 @@ sys.path.insert(0, '../')
 ######
 
 from flask import Flask, request, jsonify, redirect, url_for, render_template
-from ttcc import core
+from ttcc import core, utils
 import devices
 import execute
 import json
@@ -14,10 +14,15 @@ app = Flask(__name__)
 def setup():
     core.register('totem', devices.totem)
     core.register('tweet', devices.tweet)
+    core.register('tetris', devices.tetris)
 
 @app.route('/')
 def home():
     return render_template('home.html')
+
+@app.route('/tetris')
+def tetris():
+    return render_template('tetris.html')
 
 def execution_handler(result, device, output):
     execution_result = execute.process(result, device, output)
@@ -65,7 +70,8 @@ def command():
         device = core.DEVICES[oldResult['parsed']['device']]
         if oldResult['option-type'] == 'arguments':
             try:
-                oldResult['parsed']['arguments'][oldResult['option-name']] = oldResult['options'][int(command)-1]
+                optionSelected = utils.text2int(command) - 1
+                oldResult['parsed']['arguments'][oldResult['option-name']] = oldResult['options'][optionSelected]
                 output = execution_handler(oldResult['parsed'], device, oldResult)
                 return jsonify(output)
             except:
