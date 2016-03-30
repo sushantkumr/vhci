@@ -279,9 +279,9 @@ $(document).ready(function() {
               })
               $('#options').html(options)
               $('#tweet').hide()
-              clearSession()
-              speech_synthesis(result.message)
-              setupStreamer()
+              // clearSession()
+              // speech_synthesis(result.message)
+              // setupStreamer()
             }
           } 
           // .............to display tweets............
