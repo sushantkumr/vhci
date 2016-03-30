@@ -2,10 +2,10 @@ from TwitterAPI import TwitterAPI
 import os
 import re
 
-consumer_key = "1Yn8SkgvIrLiXRk22aU6IhZ20"
-consumer_secret = "udsYuEMi2rU77EaTG9vWlIPXOf9YcunHvOHXQPH2AUod7fSGD7"
-access_token_secret = "UIoINgPNBSrflcgZFa3ZkyJvKowLyDFm1HQw47D2voSWL"
-access_token_key = "2296276094-ywo927aAwEsO9rNYBw8734QGeU0oT3Xe1caRfm2"
+consumer_key = "consumer_key"
+consumer_secret = "consumer_secret"
+access_token_secret = "access_token_secret"
+access_token_key = "access_token_key"
 
 
 def filename_matcher(text, filename):
@@ -122,7 +122,33 @@ def tweet(command, device, output):
             print(item['text'])    
             string = item['text'].replace('\n','<br />        ')    
             tweets.append(string)    
+            print(item['text'])
             k+=1   
+
+        # FOR MAKING HREF LINKS
+        l = len(tweets)
+        for i in range(l):
+            h = len(tweets[i])
+            while 1:
+                f = 0
+                index = tweets[i].find('https', f, h)
+                if index == -1:
+                    break
+                m = index
+                while tweets[i][m]!=' ' and m<(h-1):
+                    m+=1
+                if m<h:
+                    text = tweets[i][index:m+1]
+                    tweets[i] = tweets[i].replace(text, 'replace')
+                    f = m
+                    h = len(tweets[i])
+
+            s = tweets[i].find('replace')
+            if s!=-1:
+                blank = '_blank'
+                replace = '<a href = '+text+' target = '+blank+'>'+text+'</a> '
+                tweets[i] = tweets[i].replace('replace', replace)
+                print(tweets[i])
 
         output = {
              'commands': [],

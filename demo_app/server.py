@@ -81,7 +81,6 @@ def command():
         result, device = core.parse(command)
         output['parsed'] = result
         if device['operations'][result['intent']]['confirm'] == True:
-            print("OOO")
             output['final'] = False
             output['type'] = 'confirm'
             output['message'] = device['operations'][result['intent']]['message']
