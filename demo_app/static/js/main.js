@@ -52,7 +52,7 @@ $(document).ready(function() {
       u.text = message
       u.lang = 'en-IN'
       speechSynthesis.speak(u)
-    }, 1000)   
+    }, 1000) 
   }
 
   var generateDiv = function() {
@@ -107,7 +107,7 @@ $(document).ready(function() {
     messageTetris(gameCommands[inputContent])
   }
 
- 
+
 
    /* Speech and server controllers
     */
@@ -115,7 +115,7 @@ $(document).ready(function() {
 
   if (typeof webkitSpeechRecognition === 'function')
     {      var streamer = new webkitSpeechRecognition()
-   } 
+   }
 
   var setupStreamer = function () {
     console.log(streamer)
@@ -157,7 +157,7 @@ $(document).ready(function() {
 
       console.log('session time left:', sessionDuration)
       // If the message is not related to session (de)activation AND a session is active send input to server
-      if (sessionDuration > 0) {         
+      if (sessionDuration > 0) {
         $('input[name=command_text]').val(inputContent)
         $('#main-submit').click()
       }
@@ -234,7 +234,7 @@ $(document).ready(function() {
 
           console.log(result)
           if (result.error === true) {
-            
+          
             // Handle error
              oldResult = {}
              newCommand = true
@@ -301,7 +301,7 @@ $(document).ready(function() {
               })
               $('#options').html(options)
             }
-           }   
+           }
            if (typeof webkitSpeechRecognition === 'function') {
             streamer.stop()
           }
