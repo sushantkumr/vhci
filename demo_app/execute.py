@@ -96,7 +96,6 @@ def tweet(command, device, output):
 
         if re.match('^[ ]*$', obj):
             obj=''
-            print("PPPP")
 
         if obj is '':
             example =[]
@@ -115,36 +114,36 @@ def tweet(command, device, output):
         else:    
             query = 'q'    
   
-        r = api.request(command['intent'], {query:obj, 'count':5})
-        print(r.status_code)  
+        response = api.request(command['intent'], {query:obj, 'count':5})
+        print(response.status_code)  
     
-        for item in r:    
+        for item in response:    
             print(item['text'])    
-            string = item['text'].replace('\n','<br />        ')    
+            string = item['text'].replace('\n', '<br />        ')    
             tweets.append(string)    
             print(item['text'])
             k+=1   
 
         # FOR MAKING HREF LINKS
-        l = len(tweets)
-        for i in range(l):
-            h = len(tweets[i])
+        no_of_tweets = len(tweets)
+        for i in range(no_of_tweets):
+            tweet_length = len(tweets[i])
             while 1:
-                f = 0
-                index = tweets[i].find('https', f, h)
+                first_char = 0
+                index = tweets[i].find('https', first_char, tweet_length)
                 if index == -1:
                     break
-                m = index
-                while tweets[i][m]!=' ' and m<(h-1):
-                    m+=1
-                if m<h:
+                m = index # 'm' to find the end of https
+                while tweets[i][m]!=' ' and m < (tweet_length-1):
+                    m += 1
+                if m < tweet_length:
                     text = tweets[i][index:m+1]
                     tweets[i] = tweets[i].replace(text, 'replace')
-                    f = m
-                    h = len(tweets[i])
+                    first_char = m
+                    tweet_length = len(tweets[i])
 
-            s = tweets[i].find('replace')
-            if s!=-1:
+            replace_index = tweets[i].find('replace')
+            if replace_index != -1:
                 blank = '_blank'
                 replace = '<a href = '+text+' target = '+blank+'>'+text+'</a> '
                 tweets[i] = tweets[i].replace('replace', replace)
@@ -157,7 +156,7 @@ def tweet(command, device, output):
              'parsed': command,
              'message': 'Executed command',
              'type': None,
-             'tweet':tweets
+             'tweet': tweets
         }
         return output    
     
