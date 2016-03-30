@@ -16,10 +16,10 @@ $(document).ready(function() {
  
  
   var clearSession = function() { 
-     newCommand = true 
-     oldResult = {} 
-     sessionDuration = 0 
-     currentSession = 0 
+    newCommand = true 
+    oldResult = {} 
+    sessionDuration = 0 
+    currentSession = 0 
   } 
  
  
