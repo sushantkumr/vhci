@@ -4,9 +4,6 @@ DEVICES = {}
 
 def register(device_name, device_details):
     global DEVICES
-    # Overwrite or ignore a duplicate registration?
-    # Check if the device details is in the correct format
-    # Check if type is an object of a subclass of TypeBaseClass
     DEVICES[device_name] = device_details
 
 def parse_device(sentence):
@@ -57,12 +54,15 @@ def parse(sentence):
 
     operations = DEVICES[target_device]['operations']
     intent = parse_intent(sentence, operations)
+    print(intent)
     if intent is None:
-        return {'message': 'No intent matched'}
+        print("error")
+        return {'error':True}
+        pass # Return something like {'error': True} or return None]
 
     arguments = intent['operation']['arguments']
     argument_values = parse_args(sentence, intent)
-
+    
     response = {
         'device': target_device,
         'intent': intent['operation_name'],
@@ -76,12 +76,14 @@ def replace_macro(regex, intent):
         try:
             start = regex.index('{{')
             end = regex.index('}}')
+            print(start,end)
             if start < end:
                 macro = regex[start+2:end]
                 if macro == 'trigger':
                     regex = regex[:start] + intent['trigger'] + regex[end+2:]
         except ValueError:
             # Substitution is done
+            # print(regex)
             return regex
 
 

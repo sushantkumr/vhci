@@ -3,14 +3,16 @@ import sys
 sys.path.insert(0, '../')
 ######
 
-from ttcc import types
+# from ttcc import test
+# temperature = test.Temperature()
 
 totem = {
     'alias': ['totem', 'video player', 'media player', 'play'],
     'operations': {
         '--play': {
             'triggers': [r'play music', r'play video', r'play playlist', r'play songs?', r'play'],
-            'arguments': {
+            'arguments':{
+
                 'name': ['{{trigger}}(?P<name>( .*)?)'],
             },
             'confirm': False
@@ -79,6 +81,34 @@ totem = {
     }
 }
 
+tweet = {
+    'alias' : ['tweet', 'tweets'],
+    'operations' : {
+        'search/tweets': {
+            'triggers': [r'on', r'about'],
+        'arguments':{
+                 'name': ['{{trigger}}(?P<name>( .*)?)']
+            },
+            'confirm': False
+        },
+        'statuses/user_timeline': {
+        'triggers': [r'of', r'by'],
+        'arguments':{
+            'name': ['{{trigger}}(?P<name>( .*)?)']
+            },
+        'confirm': False
+         },
+        'examples':{
+            'triggers':[r'^get [a-z ]*tweets$',r'^get [a-z ]*tweet$',r'^fetch [a-z ]*tweet$', r'^fetch [a-z ]*tweets$',r'^tweets$'],
+            'arguments':{
+                'name':''
+            },
+            'confirm':False
+        }
+
+    }
+}
+
 # Core game code for tetris from https://github.com/jakesgordon/javascript-tetris
 tetris = {
     'alias': ['tetris'],
@@ -91,6 +121,7 @@ tetris = {
         }
     }
 }
+
 
 # refrigerator = {
 #     'alias': ['refrigerator', 'fridge'],
