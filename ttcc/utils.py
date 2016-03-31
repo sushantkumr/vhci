@@ -5,6 +5,13 @@ def text2int(textnum, numwords={}):
     ('random text') -> None
     '''
     # Original code from http://stackoverflow.com/a/598322/3664835
+
+    # If the input is already a number we don't have to go through this process
+    try:
+        return int(textnum)
+    except:
+        pass
+
     if not numwords:
         units = [
         "zero", "one", "two", "three", "four", "five", "six", "seven", "eight",

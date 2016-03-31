@@ -15,7 +15,7 @@ $(document).ready(function() {
     newCommand = true
     oldResult = {}
     sessionDuration = 0
-    currentSession = 0
+    currentSession = ''
   }
 
   var clock = function() {
@@ -33,9 +33,17 @@ $(document).ready(function() {
 
   var interval = setInterval(clock, CLOCK_INTERVAL)
 
-
   /* Utils and front end controllers
    */
+
+  var speech_synthesis = function(message) {
+    setTimeout(function(){
+      var u = new SpeechSynthesisUtterance()
+      u.text = message
+      u.lang = 'en-IN'
+      speechSynthesis.speak(u)
+    }, 1000) 
+  }
 
   var generateDiv = function() {
     var container = $('<div>').addClass('container').css('margin-top', '20px')
@@ -48,14 +56,58 @@ $(document).ready(function() {
     return container
   }
 
+
   var tetrisHandler = function(inputContent) {
     var messageTetris = function(message) {
-      var tetris = $('.tetris')[0]
-      tetris.contentWindow.postMessage(message, '*');
-    }
+    var tetris = $('.tetris')[0]
+    tetris.contentWindow.postMessage(message, '*')
+  }
 
+<<<<<<< HEAD
     var similar = function(value,array) {
       return array.indexOf(value)>-1
+=======
+
+  // TO-DO: Accept words that are close enough. Eg: cleft, bright
+  // TO-DO: Saying "right right right" will result in a long string and not three "right" commands.
+  // When this happens we should send three `right` messages to the iframe. Currently it doesn't do anything.
+  var gameCommands = {
+                  'start': 32,
+                  'stop': 27,
+                  'left': 37,
+                  'right': 39,
+                  'rotate': 38,
+                  'drop': 40,
+                  'tetris': 32,
+                }
+  var commandIdx = Object.keys(gameCommands).indexOf(inputContent)
+    if (commandIdx === -1) {
+      if (inputContent.search('quit session') !== -1 || inputContent.search('stop session') !== -1) {
+        // The session itself is stopped
+
+        var panel = generateDiv()
+        var message = $('<pre>').html('Tetris closed and session terminated')
+        panel.find('.box').append(message)
+        $('.holder').prepend(panel)
+
+        clearSession()
+        messageTetris(gameCommands['stop'])
+        $('.tetris').remove()
+      }
+      else if (inputContent.search('quit') !== -1) {
+        // Exit only from the game, session is still active
+        var panel = generateDiv()
+        var message = $('<pre>').html('Tetris closed')
+        panel.find('.box').append(message)
+        $('.holder').prepend(panel)
+
+        sessionDuration = SESSION_DURATION
+        currentSession = ''
+        messageTetris(gameCommands['stop'])
+        $('.tetris').remove()
+      }
+      return
+>>>>>>> d6901aa2e54a04f2f3843133839220be093cc111
     }
       var gameCommands = {
                           'start': 32,
@@ -110,25 +162,29 @@ $(document).ready(function() {
   }
 
 
-  /* Speech and server controllers
-   */
 
-  if (typeof webkitSpeechRecognition === 'function') {
-    var streamer = new webkitSpeechRecognition()
-  }
+   /* Speech and server controllers
+    */
+
+
+  if (typeof webkitSpeechRecognition === 'function')
+    {      var streamer = new webkitSpeechRecognition()
+   }
 
   var setupStreamer = function () {
+    console.log(streamer)
     if (typeof webkitSpeechRecognition !== 'function') {
-      return
+       return
     }
     streamer.lang = 'en-IN'
     streamer.continuous = true
     streamer.interimResults = false
 
+
     streamer.onresult = function(event) {
       var inputContent = ''
       for (var i = event.resultIndex; i < event.results.length; i++) {
-          inputContent += event.results[i][0].transcript
+           inputContent += event.results[i][0].transcript
       }
       inputContent = inputContent.toLowerCase()
       console.log('inputContent: ', inputContent)
@@ -144,6 +200,7 @@ $(document).ready(function() {
         return
       }
 
+
       var isStopSession = inputContent.search('stop session')
       if (isStopSession !== -1) {
         sessionDuration = 0
@@ -151,18 +208,21 @@ $(document).ready(function() {
         return
       }
 
+
       console.log('session time left:', sessionDuration)
       // If the message is not related to session (de)activation AND a session is active send input to server
       if (sessionDuration > 0) {
         $('input[name=command_text]').val(inputContent)
         $('#main-submit').click()
       }
-    }
+     }
 
-    streamer.onend = function(event) {
-      streamer.start()
-    }
-  };
+
+      streamer.onend = function(event) {
+        streamer.start()
+     }
+   };
+
 
   // This will be executed when the page is loaded
   (function() {
@@ -174,38 +234,46 @@ $(document).ready(function() {
     $('#result').hide().parent().hide()
   })()
 
-  // Handles voice input
+
+   // Handles voice input
   $('#main-speech').click(function() {
     var record = function() {
-      if (typeof webkitSpeechRecognition !== 'function') {
-        alert('Please use Google Chrome for voice input')
-        return
-      }
-      var recording = new webkitSpeechRecognition()
-      recording.lang = 'en-IN'
-      recording.onresult = function(event) {
-        $('input[name=command_text]').val(event.results[0][0].transcript)
-        // console.log(event.results[0][0])
-        // Optional
-        // $('#command_form').submit()
-      }
-      recording.start()
+    if (typeof webkitSpeechRecognition !== 'function') {
+      alert('Please use Google Chrome for voice input')
+      return
     }
-    record()
+    var recording = new webkitSpeechRecognition()
+       recording.lang = 'en-IN'
+       recording.onresult = function(event) {
+         $('input[name=command_text]').val(event.results[0][0].transcript)
+         // console.log(event.results[0][0])
+         // Optional
+         // $('#command_form').submit()
+       }
+       recording.start()
+     }
+     record()
   })
 
-  // Submits form using AJAX
+
+   // Submits form using AJAX
   $('#main-submit').click(function(e) {
     e.preventDefault()
 
+
     var inputContent = $('input[name=command_text]').val()
+
+    // All front end apps should have their code before the 'quit' check
     if (currentSession === 'tetris') {
       tetrisHandler(inputContent)
       return
     }
 
-    // recorder[0].stop()
-    // streamer.stop()
+    if (inputContent === 'quit session' || inputContent === 'quit') {
+      clearSession()
+      return
+    }
+
     var submit = function() {
       var data = {}
       data.input = inputContent
@@ -217,27 +285,27 @@ $(document).ready(function() {
         method: 'POST',
         data: data,
         success: function(result) {
-          // Clear existing content
-          $('#message').html('')
-          $('#options').html('')
-          $('#result').html('')
-
           console.log(result)
           if (result.error === true) {
+          
             // Handle error
-            oldResult = {}
-            newCommand = true
-            return
-          }
+             oldResult = {}
+             newCommand = true
+            // return
+           }
           if (result.final === true) { // Current command has been executed completely, start new session
             oldResult = {}
             newCommand = true
             var parsed = JSON.stringify(result.parsed, null, 2)
-            $('#result').html(parsed).show().parent().show()
-            $('#message').html(result.message)
+            var panel = generateDiv()
+            var parsed = $('<pre>').html(parsed)
+            var message = $('<pre>').html(result.message)
+            panel.find('.box').append(message)
+            panel.find('.box').append(parsed)
+            $('.holder').prepend(panel)
 
             // If tetris
-            if (result.parsed.device === 'tetris') {
+            if (result.parsed && result.parsed.device === 'tetris') {
               var container = generateDiv()
               var iframe = $('<iframe>')
                             .attr('src', 'tetris')
@@ -246,15 +314,17 @@ $(document).ready(function() {
                             .addClass('tetris')
                             .append($('<div>').addClass('holder'))
               container.find('.box').append(iframe).removeClass('box')
-              container.insertAfter('#voiceForm')
+              // container.insertAfter('#voiceForm')
+              $('.holder').prepend(container)
               currentSession = 'tetris'
               sessionDuration = 600 // Game will be active for ten minutes without any input
             }
           }
-          else if (result.final === false) { // Needs confirmation or more information
+          // the below code is only for twitter delete after the interaction is made proper
+          if (result.final === 'twitter_False') {
             var parsed = JSON.stringify(result.parsed, null, 2)
-            oldResult = result
-            newCommand = false
+            oldResult = {}
+            newCommand = true
             $('#result').html(parsed).show().parent().show()
             $('#message').html(result.message)
             if (result.options !== undefined) {
@@ -263,18 +333,49 @@ $(document).ready(function() {
                 options.append($('<li>').html(option))
               })
               $('#options').html(options)
+              $('#tweet').hide()
             }
+          }
+          // .............to display tweets............
+          if (result.tweet) {
+            var tweets = $('<ol>')
+            result.tweet.forEach(function(option) {
+              tweets.append($('<li>').html(option))
+              $('#tweet').html(tweets).show().parent().show()
+            })
+          }
+
+          else if (result.final === false) { // Needs confirmation or more information
+            var parsed = JSON.stringify(result.parsed, null, 2)
+            oldResult = result
+            newCommand = false
+            var panel = generateDiv()
+            var message = $('<pre>').html(result.message)
+            var parsed = $('<pre>').html(parsed)
+            panel.find('.box').append(message)
+            $('.holder').prepend(panel)
+            if (result.options !== undefined) {
+              var optionsPre = $('<pre>')
+              var options = $('<ol>')
+              result.options.forEach(function(option) {
+                options.append($('<li>').html(option))
+              })
+              optionsPre.append(options)
+              panel.find('.box').append(optionsPre)
+            }
+            panel.find('.box').append(parsed)
 
           }
           if (typeof webkitSpeechRecognition === 'function') {
             streamer.stop()
           }
-        },
+         },
         error: function(a, b, c) {
           console.log(a, b, c)
           $('#message').html('Something went wrong. Please try again.').show().parent().show()
         }
       })
+
     }
     submit()
   })
