@@ -15,7 +15,7 @@ $(document).ready(function() {
     newCommand = true
     oldResult = {}
     sessionDuration = 0
-    currentSession = 0
+    currentSession = ''
   }
 
   var clock = function() {
@@ -70,17 +70,28 @@ $(document).ready(function() {
     if (commandIdx === -1) {
       if (inputContent.search('quit session') !== -1 || inputContent.search('stop session') !== -1) {
         // The session itself is stopped
-        sessionDuration = 0;
-        currentSession = ''
+
+        var panel = generateDiv()
+        var message = $('<pre>').html('Tetris closed and session terminated')
+        panel.find('.box').append(message)
+        $('.holder').prepend(panel)
+
+        clearSession()
         messageTetris(gameCommands['stop'])
+        $('.tetris').remove()
       }
-      if (inputContent.search('quit') !== -1) {
+      else if (inputContent.search('quit') !== -1) {
         // Exit only from the game, session is still active
+        var panel = generateDiv()
+        var message = $('<pre>').html('Tetris closed')
+        panel.find('.box').append(message)
+        $('.holder').prepend(panel)
+
         sessionDuration = SESSION_DURATION
         currentSession = ''
         messageTetris(gameCommands['stop'])
+        $('.tetris').remove()
       }
-      console.log('Invalid command: ', inputContent === 'left')
       return
     }
     sessionDuration = 600
@@ -177,8 +188,15 @@ $(document).ready(function() {
     e.preventDefault()
 
     var inputContent = $('input[name=command_text]').val()
+
+    // All front end apps should have their code before the 'quit' check
     if (currentSession === 'tetris') {
       tetrisHandler(inputContent)
+      return
+    }
+
+    if (inputContent === 'quit session') {
+      clearSession()
       return
     }
 
@@ -195,11 +213,6 @@ $(document).ready(function() {
         method: 'POST',
         data: data,
         success: function(result) {
-          // Clear existing content
-          $('#message').html('')
-          $('#options').html('')
-          $('#result').html('')
-
           console.log(result)
           if (result.error === true) {
             // Handle error
@@ -211,11 +224,15 @@ $(document).ready(function() {
             oldResult = {}
             newCommand = true
             var parsed = JSON.stringify(result.parsed, null, 2)
-            $('#result').html(parsed).show().parent().show()
-            $('#message').html(result.message)
+            var panel = generateDiv()
+            var parsed = $('<pre>').html(parsed)
+            var message = $('<pre>').html(result.message)
+            panel.find('.box').append(message)
+            panel.find('.box').append(parsed)
+            $('.holder').prepend(panel)
 
             // If tetris
-            if (result.parsed.device === 'tetris') {
+            if (result.parsed && result.parsed.device === 'tetris') {
               var container = generateDiv()
               var iframe = $('<iframe>')
                             .attr('src', 'tetris')
@@ -224,7 +241,8 @@ $(document).ready(function() {
                             .addClass('tetris')
                             .append($('<div>').addClass('holder'))
               container.find('.box').append(iframe).removeClass('box')
-              container.insertAfter('#voiceForm')
+              // container.insertAfter('#voiceForm')
+              $('.holder').prepend(container)
               currentSession = 'tetris'
               sessionDuration = 600 // Game will be active for ten minutes without any input
             }
@@ -233,15 +251,21 @@ $(document).ready(function() {
             var parsed = JSON.stringify(result.parsed, null, 2)
             oldResult = result
             newCommand = false
-            $('#result').html(parsed).show().parent().show()
-            $('#message').html(result.message)
+            var panel = generateDiv()
+            var message = $('<pre>').html(result.message)
+            var parsed = $('<pre>').html(parsed)
+            panel.find('.box').append(message)
+            $('.holder').prepend(panel)
             if (result.options !== undefined) {
+              var optionsPre = $('<pre>')
               var options = $('<ol>')
               result.options.forEach(function(option) {
                 options.append($('<li>').html(option))
               })
-              $('#options').html(options)
+              optionsPre.append(options)
+              panel.find('.box').append(optionsPre)
             }
+            panel.find('.box').append(parsed)
 
           }
           if (typeof webkitSpeechRecognition === 'function') {
