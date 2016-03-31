@@ -3,7 +3,7 @@ $(document).ready(function() {
    */
 
   var CLOCK_INTERVAL = 1000 // Clock will be called every second (1000 ms)
-  var SESSION_DURATION = 20 // Active for this long without any activity
+  var SESSION_DURATION = 120 // Active for this long without any activity
 
   var newCommand // Will be sent to server
   var oldResult // Will be sent to server
@@ -42,7 +42,7 @@ $(document).ready(function() {
       u.text = message
       u.lang = 'en-IN'
       speechSynthesis.speak(u)
-    }, 1000) 
+    }, 1000)
   }
 
   var generateDiv = function() {
@@ -132,16 +132,13 @@ $(document).ready(function() {
 
 
 
-   /* Speech and server controllers
-    */
-
-
-  if (typeof webkitSpeechRecognition === 'function')
-    {      var streamer = new webkitSpeechRecognition()
-   }
+  /* Speech and server controllers
+   */
+  if (typeof webkitSpeechRecognition === 'function') {
+    var streamer = new webkitSpeechRecognition()
+  }
 
   var setupStreamer = function () {
-    console.log(streamer)
     if (typeof webkitSpeechRecognition !== 'function') {
        return
     }
@@ -229,7 +226,6 @@ $(document).ready(function() {
   $('#main-submit').click(function(e) {
     e.preventDefault()
 
-
     var inputContent = $('input[name=command_text]').val()
 
     // All front end apps should have their code before the 'quit' check
@@ -240,6 +236,7 @@ $(document).ready(function() {
 
     if (inputContent === 'quit session' || inputContent === 'quit') {
       clearSession()
+      var panel = generateDiv()
       return
     }
 
@@ -256,7 +253,6 @@ $(document).ready(function() {
         success: function(result) {
           console.log(result)
           if (result.error === true) {
-          
             // Handle error
              oldResult = {}
              newCommand = true
@@ -272,6 +268,18 @@ $(document).ready(function() {
             panel.find('.box').append(message)
             panel.find('.box').append(parsed)
             $('.holder').prepend(panel)
+
+            if (result.tweet) {
+              var panel = generateDiv()
+              var message = $('<pre>').html('Tweets found:')
+              var tweets = $('<ul>')
+              result.tweet.forEach(function(tweet) {
+                tweets.append($('<li>').html(tweet))
+              })
+              panel.find('.box').append(message)
+              panel.find('.box').append(tweets)
+              $('.holder').prepend(panel)
+            }
 
             // If tetris
             if (result.parsed && result.parsed.device === 'tetris') {
@@ -289,30 +297,22 @@ $(document).ready(function() {
               sessionDuration = 600 // Game will be active for ten minutes without any input
             }
           }
-          // the below code is only for twitter delete after the interaction is made proper
-          if (result.final === 'twitter_False') {
-            var parsed = JSON.stringify(result.parsed, null, 2)
-            oldResult = {}
-            newCommand = true
-            $('#result').html(parsed).show().parent().show()
-            $('#message').html(result.message)
-            if (result.options !== undefined) {
-              var options = $('<ol>')
-              result.options.forEach(function(option) {
-                options.append($('<li>').html(option))
-              })
-              $('#options').html(options)
-              $('#tweet').hide()
-            }
-          }
-          // .............to display tweets............
-          if (result.tweet) {
-            var tweets = $('<ol>')
-            result.tweet.forEach(function(option) {
-              tweets.append($('<li>').html(option))
-              $('#tweet').html(tweets).show().parent().show()
-            })
-          }
+          // // the below code is only for twitter delete after the interaction is made proper
+          // if (result.final === 'twitter_False') {
+          //   var parsed = JSON.stringify(result.parsed, null, 2)
+          //   oldResult = {}
+          //   newCommand = true
+          //   $('#result').html(parsed).show().parent().show()
+          //   $('#message').html(result.message)
+          //   if (result.options !== undefined) {
+          //     var options = $('<ol>')
+          //     result.options.forEach(function(option) {
+          //       options.append($('<li>').html(option))
+          //     })
+          //     $('#options').html(options)
+          //     $('#tweet').hide()
+          //   }
+          // }
 
           else if (result.final === false) { // Needs confirmation or more information
             var parsed = JSON.stringify(result.parsed, null, 2)
