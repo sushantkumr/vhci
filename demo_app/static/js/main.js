@@ -67,8 +67,8 @@ $(document).ready(function() {
       var start = ['start', 'tart', 'stat']
       var stop = ['stop', 'top', 'step', 'stoup']
       var left = ['left', 'cleft', 'lift']
-      var right = ['right', 'wright', 'bright', 'tight']
-      var rotate = ['rotate', 'rooted', 'routed']
+      var right = ['right', 'wright', 'bright', 'tight', 'try']
+      var rotate = ['rotate', 'rooted', 'routed', 'rote', 'protect']
       var drop = ['drop', 'dropped']
       var sets = [start, stop, left, right, rotate, drop]
       var sets_results = ['start', 'stop', 'left', 'right', 'rotate', 'drop']
@@ -126,7 +126,7 @@ $(document).ready(function() {
     }
     sessionDuration = 600
     commands.forEach(function(command) {
-      messageTetris(command)
+      messageTetris(gameCommands[command])
     })
   }
 
@@ -162,6 +162,10 @@ $(document).ready(function() {
       if (isStartSession !== -1) {
         // Saying start session even when a session is active will set it to SESSION_DURATION
         sessionDuration = SESSION_DURATION
+        var panel = generateDiv()
+        var message = $('<pre>').html('Session started')
+        panel.find('.box').append(message)
+        $('.holder').prepend(panel)
         console.log('Session started')
         return
       }
@@ -170,6 +174,10 @@ $(document).ready(function() {
       var isStopSession = inputContent.search('stop session')
       if (isStopSession !== -1) {
         sessionDuration = 0
+        var panel = generateDiv()
+        var message = $('<pre>').html('Session stopped')
+        panel.find('.box').append(message)
+        $('.holder').prepend(panel)
         console.log('Session stopped')
         return
       }
