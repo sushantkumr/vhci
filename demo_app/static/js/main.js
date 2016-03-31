@@ -63,6 +63,10 @@ $(document).ready(function() {
     tetris.contentWindow.postMessage(message, '*')
   }
 
+<<<<<<< HEAD
+    var similar = function(value,array) {
+      return array.indexOf(value)>-1
+=======
 
   // TO-DO: Accept words that are close enough. Eg: cleft, bright
   // TO-DO: Saying "right right right" will result in a long string and not three "right" commands.
@@ -103,9 +107,58 @@ $(document).ready(function() {
         $('.tetris').remove()
       }
       return
+>>>>>>> d6901aa2e54a04f2f3843133839220be093cc111
     }
-    sessionDuration = 600
-    messageTetris(gameCommands[inputContent])
+      var gameCommands = {
+                          'start': 32,
+                          'stop': 27,
+                          'left': 37,
+                          'right': 39,
+                          'rotate': 38,
+                          'drop': 40,
+                          'tetris': 32,
+                          }
+      var start = ["start","tart","stat"]
+      var stop = ["stop","top","step","stoup"]
+      var left = ["left","cleft","lift"]
+      var right = ["right","wright","bright"]
+      var rotate = ["rotate","rooted","routed"]
+      var drop = ["drop","dropped"]
+      var sets = [start,stop,left,right,rotate,drop]
+      var sets_results = ["start","stop","left","right","rotate","drop"]
+      var res = inputContent
+      var result = res.split(" ")
+      for(var i=0;i<result.length;i++)
+        {
+          for(var k=0;k<sets.length;k++)
+            {
+              a = similar(result[i],sets[k])
+              if(a==true)
+                {
+                  res = sets_results[k]
+                  break
+                }
+            }
+          var commandIdx = Object.keys(gameCommands).indexOf(res)
+          if (commandIdx === -1) {
+            if (inputContent.search('quit session') !== -1 || inputContent.search('stop session') !== -1) {
+              // The session itself is stopped
+              sessionDuration = 0;
+              currentSession = ''
+              messageTetris(gameCommands['stop'])
+            }
+            if (inputContent.search('quit') !== -1) {
+              // Exit only from the game, session is still active
+              sessionDuration = SESSION_DURATION
+              currentSession = ''
+              messageTetris(gameCommands['stop'])
+            }             
+            console.log('Invalid command: ', inputContent === 'left')
+            return
+          }
+          sessionDuration = 600
+          messageTetris(gameCommands[res])
+        }
   }
 
 
