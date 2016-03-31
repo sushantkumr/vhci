@@ -25,16 +25,18 @@ def totem(command, device, output):
     cl = 'totem ' + command['intent']
     if command['intent'] == '--play':
 
+        # Remove 'totem' and 'in','with','using' if it exists in the filname
+        if ('totem') in command['arguments']['name']:
+            temp = command['arguments']['name'].split(' ')
+            temp.remove('totem')
+            if temp[len(temp)-1] in ['in','with','using']:
+                del temp[len(temp)-1]
+            command['arguments']['name'] = ' '.join(temp)
+
         # Only `totem --play` will unpause the application
         # If the name of a song is mentioned `totem --play songname` will be executed
         if command['arguments']['name']:
             command['arguments']['name'] = command['arguments']['name'].strip(' ')
-
-            # Remove 'totem' if it exists in the filname
-            if ('totem') in command['arguments']['name']:
-                temp = command['arguments']['name'].split(' ')
-                temp.remove('totem')
-                command['arguments']['name'] = ' '.join(temp)
 
             matched_files = [] # Keep track of all the files that match
 
