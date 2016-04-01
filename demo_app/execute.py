@@ -2,11 +2,6 @@ from TwitterAPI import TwitterAPI
 import os
 import re
 
-consumer_key = "consumer_key"
-consumer_secret = "consumer_secret"
-access_token_secret = "access_token_secret"
-access_token_key = "access_token_key"
-
 def filename_matcher(text, filename):
     if text == filename:
         return True
@@ -75,10 +70,10 @@ def totem(command, device, output):
     # What should we do if return value isn't 0?
     return output
 
-def tweet(command, device, output): 
-    tweets=[]    
-    k=1    
-    print(command)
+def tweet(command, device, output):
+    tweets=[]
+    k=1
+    # print(command)
     if command['intent'] == 'examples':
         example =[]
         example.append("fetch/get tweets by/of @screen_name")
@@ -92,8 +87,8 @@ def tweet(command, device, output):
         return output
 
     try:
-        api = TwitterAPI(consumer_key, consumer_secret, access_token_key, access_token_secret)   
-        obj = command['arguments']['name'] 
+        api = TwitterAPI(consumer_key, consumer_secret, access_token_key, access_token_secret)
+        obj = command['arguments']['name']
 
         if re.match('^[ ]*$', obj):
             obj=''
@@ -108,22 +103,23 @@ def tweet(command, device, output):
             output['type'] = 'option'
             output['option-type'] = 'arguments' # Refer JSON to know what this refers to
             output['option-name'] = 'name' # Refer JSON to know what this refers to
-            return output   
-        
-        if command['intent'] == 'statuses/user_timeline':    
-            query = 'screen_name'    
-        else:    
-            query = 'q'    
-  
+            return output
+
+        if command['intent'] == 'statuses/user_timeline':
+            query = 'screen_name'
+        else:
+            query = 'q'
+
         response = api.request(command['intent'], {query:obj, 'count':5})
-        print(response.status_code)  
-    
-        for item in response:    
-            print(item['text'])    
-            string = item['text'].replace('\n', '<br />        ')    
-            tweets.append(string)    
+        # print(response.status_code)
+        # print(response.text)
+
+        for item in response:
             print(item['text'])
-            k+=1   
+            string = item['text'].replace('\n', '<br />        ')
+            tweets.append(string)
+            print(item['text'])
+            k+=1
 
         # FOR MAKING HREF LINKS
         no_of_tweets = len(tweets)
@@ -159,21 +155,21 @@ def tweet(command, device, output):
              'type': None,
              'tweet': tweets
         }
-        return output    
-    
-    except:    
-        output = {    
-           'message':'invalid input', 
+        return output
+
+    except:
+        output = {
+           'message':'invalid input',
            'error':True,
            'final':True
-        }    
-        return output    
- 
+        }
+        return output
+
 def process(command, device, output):
     if command['device'] == 'totem':
         return totem(command, device, output)
     if command['device'] == 'tweet':
-        os.system("chcp 65001")
+        # os.system("chcp 65001")
         return tweet(command, device, output)
     elif command['device'] == 'tetris':
         return tetris(command, device, output)
