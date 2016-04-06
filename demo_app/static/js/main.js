@@ -1,27 +1,22 @@
 $(document).ready(function() {
-   /* Constants, global variables and clock controllers
-    */
-
+  /* Constants, global variables and clock controllers
+   */
 
   var CLOCK_INTERVAL = 1000 // Clock will be called every second (1000 ms)
-  var SESSION_DURATION = 20 // Active for this long without any activity
-
+  var SESSION_DURATION = 120 // Active for this long without any activity
 
   var newCommand // Will be sent to server
   var oldResult // Will be sent to server
 
-
   var sessionDuration // Time left before the session expires
   var currentSession // If a front end app wants to own the session it can tag itself
-
 
   var clearSession = function() {
     newCommand = true
     oldResult = {}
     sessionDuration = 0
-    currentSession = 0
+    currentSession = ''
   }
-
 
   var clock = function() {
     if (sessionDuration > 0) {
@@ -36,23 +31,18 @@ $(document).ready(function() {
     }
   }
 
-
   var interval = setInterval(clock, CLOCK_INTERVAL)
 
+  /* Utils and front end controllers
+   */
 
-
-
-   /* Utils and front end controllers
-    */
-
-
-  var speech_synthesis = function(message){
+  var speech_synthesis = function(message) {
     setTimeout(function(){
       var u = new SpeechSynthesisUtterance()
       u.text = message
       u.lang = 'en-IN'
       speechSynthesis.speak(u)
-    }, 1000) 
+    }, 1000)
   }
 
   var generateDiv = function() {
@@ -69,56 +59,86 @@ $(document).ready(function() {
 
   var tetrisHandler = function(inputContent) {
     var messageTetris = function(message) {
-    var tetris = $('.tetris')[0]
-    tetris.contentWindow.postMessage(message, '*');
-  }
+      var tetris = $('.tetris')[0]
+      tetris.contentWindow.postMessage(message, '*')
+    }
 
+    var getCommands = function(inputContent) {
+      var start = ['start', 'tart', 'stat']
+      var stop = ['stop', 'top', 'step', 'stoup']
+      var left = ['left', 'cleft', 'lift']
+      var right = ['right', 'wright', 'bright', 'tight', 'try']
+      var rotate = ['rotate', 'rooted', 'routed', 'rote', 'protect']
+      var drop = ['drop', 'dropped']
+      var sets = [start, stop, left, right, rotate, drop]
+      var sets_results = ['start', 'stop', 'left', 'right', 'rotate', 'drop']
 
-  // TO-DO: Accept words that are close enough. Eg: cleft, bright
-  // TO-DO: Saying "right right right" will result in a long string and not three "right" commands.
-   // When this happens we should send three `right` messages to the iframe. Currently it doesn't do anything.
-  var gameCommands = {
-                  'start': 32,
-                  'stop': 27,
-                  'left': 37,
-                  'right': 39,
-                  'rotate': 38,
-                  'drop': 40,
-                  'tetris': 32,
-                }
-  var commandIdx = Object.keys(gameCommands).indexOf(inputContent)
-    if (commandIdx === -1) {
+      var result = inputContent.split(' ')
+
+      var commands = []
+      outer: for(var i = 0; i < result.length; i++) {
+        for(var k = 0; k < sets.length; k++) {
+          if (sets[k].indexOf(result[i]) !== -1) {
+            commands.push(sets_results[k])
+            continue outer
+          }
+        }
+      }
+      return commands
+    }
+
+    var gameCommands = {
+                    'start': 32,
+                    'stop': 27,
+                    'left': 37,
+                    'right': 39,
+                    'rotate': 38,
+                    'drop': 40,
+                    'tetris': 32,
+                  }
+    var commands = getCommands(inputContent)
+    if (commands.length === 0) {
       if (inputContent.search('quit session') !== -1 || inputContent.search('stop session') !== -1) {
         // The session itself is stopped
-        sessionDuration = 0;
-        currentSession = ''
+
+        var panel = generateDiv()
+        var message = $('<pre>').html('Tetris closed and session terminated')
+        panel.find('.box').append(message)
+        $('.holder').prepend(panel)
+
+        clearSession()
         messageTetris(gameCommands['stop'])
+        $('.tetris').remove()
       }
-      if (inputContent.search('quit') !== -1) {
+      else if (inputContent.search('quit') !== -1) {
         // Exit only from the game, session is still active
+        var panel = generateDiv()
+        var message = $('<pre>').html('Tetris closed')
+        panel.find('.box').append(message)
+        $('.holder').prepend(panel)
+
         sessionDuration = SESSION_DURATION
         currentSession = ''
         messageTetris(gameCommands['stop'])
+        $('.tetris').remove()
       }
-      console.log('Invalid command: ', inputContent === 'left')
       return
     }
     sessionDuration = 600
-    messageTetris(gameCommands[inputContent])
+    commands.forEach(function(command) {
+      messageTetris(gameCommands[command])
+    })
   }
 
 
 
-   /* Speech and server controllers
-    */
-
-
-  if (typeof webkitSpeechRecognition === 'function')
-    {      var streamer = new webkitSpeechRecognition()
-   }
+  /* Speech and server controllers
+   */
+  if (typeof webkitSpeechRecognition === 'function') {
+    var streamer = new webkitSpeechRecognition()
+  }
 
   var setupStreamer = function () {
-    console.log(streamer)
     if (typeof webkitSpeechRecognition !== 'function') {
        return
     }
@@ -142,6 +162,10 @@ $(document).ready(function() {
       if (isStartSession !== -1) {
         // Saying start session even when a session is active will set it to SESSION_DURATION
         sessionDuration = SESSION_DURATION
+        var panel = generateDiv()
+        var message = $('<pre>').html('Session started')
+        panel.find('.box').append(message)
+        $('.holder').prepend(panel)
         console.log('Session started')
         return
       }
@@ -150,6 +174,10 @@ $(document).ready(function() {
       var isStopSession = inputContent.search('stop session')
       if (isStopSession !== -1) {
         sessionDuration = 0
+        var panel = generateDiv()
+        var message = $('<pre>').html('Session stopped')
+        panel.find('.box').append(message)
+        $('.holder').prepend(panel)
         console.log('Session stopped')
         return
       }
@@ -206,16 +234,20 @@ $(document).ready(function() {
   $('#main-submit').click(function(e) {
     e.preventDefault()
 
-
     var inputContent = $('input[name=command_text]').val()
+
+    // All front end apps should have their code before the 'quit' check
     if (currentSession === 'tetris') {
       tetrisHandler(inputContent)
       return
     }
 
+    if (inputContent === 'quit session' || inputContent === 'quit') {
+      clearSession()
+      var panel = generateDiv()
+      return
+    }
 
-     // recorder[0].stop()
-     // streamer.stop()
     var submit = function() {
       var data = {}
       data.input = inputContent
@@ -227,14 +259,8 @@ $(document).ready(function() {
         method: 'POST',
         data: data,
         success: function(result) {
-          // Clear existing content
-          $('#message').html('')
-          $('#options').html('')
-          $('#result').html('')
-
           console.log(result)
           if (result.error === true) {
-          
             // Handle error
              oldResult = {}
              newCommand = true
@@ -244,12 +270,27 @@ $(document).ready(function() {
             oldResult = {}
             newCommand = true
             var parsed = JSON.stringify(result.parsed, null, 2)
-            $('#result').html(parsed).show().parent().show()
-            $('#message').html(result.message)
-            $('#tweet').hide()
+            var panel = generateDiv()
+            var parsed = $('<pre>').html(parsed)
+            var message = $('<pre>').html(result.message)
+            panel.find('.box').append(message)
+            panel.find('.box').append(parsed)
+            $('.holder').prepend(panel)
 
-              // if tetris
-            if (result.parsed.device === 'tetris') {
+            if (result.tweet) {
+              var panel = generateDiv()
+              var message = $('<pre>').html('Tweets found:')
+              var tweets = $('<ul>')
+              result.tweet.forEach(function(tweet) {
+                tweets.append($('<li>').html(tweet))
+              })
+              panel.find('.box').append(message)
+              panel.find('.box').append(tweets)
+              $('.holder').prepend(panel)
+            }
+
+            // If tetris
+            if (result.parsed && result.parsed.device === 'tetris') {
               var container = generateDiv()
               var iframe = $('<iframe>')
                             .attr('src', 'tetris')
@@ -258,51 +299,51 @@ $(document).ready(function() {
                             .addClass('tetris')
                             .append($('<div>').addClass('holder'))
               container.find('.box').append(iframe).removeClass('box')
-              container.insertAfter('#voiceForm')
+              // container.insertAfter('#voiceForm')
+              $('.holder').prepend(container)
               currentSession = 'tetris'
               sessionDuration = 600 // Game will be active for ten minutes without any input
             }
           }
-          // the below code is only for twitter delete after the interaction is made proper
-          if (result.final === 'twitter_False') {
-            var parsed = JSON.stringify(result.parsed, null, 2)
-            oldResult = {}
-            newCommand = true
-            $('#result').html(parsed).show().parent().show()
-            $('#message').html(result.message)
-            if (result.options !== undefined) {
-              var options = $('<ol>')
-              result.options.forEach(function(option) {
-                options.append($('<li>').html(option))
-              })
-              $('#options').html(options)
-              $('#tweet').hide()
-            }
-          }
-          // .............to display tweets............
-          if (result.tweet) {
-            var tweets = $('<ol>')
-            result.tweet.forEach(function(option) {
-              tweets.append($('<li>').html(option))
-              $('#tweet').html(tweets).show().parent().show()
-            })
-          }
+          // // the below code is only for twitter delete after the interaction is made proper
+          // if (result.final === 'twitter_False') {
+          //   var parsed = JSON.stringify(result.parsed, null, 2)
+          //   oldResult = {}
+          //   newCommand = true
+          //   $('#result').html(parsed).show().parent().show()
+          //   $('#message').html(result.message)
+          //   if (result.options !== undefined) {
+          //     var options = $('<ol>')
+          //     result.options.forEach(function(option) {
+          //       options.append($('<li>').html(option))
+          //     })
+          //     $('#options').html(options)
+          //     $('#tweet').hide()
+          //   }
+          // }
 
           else if (result.final === false) { // Needs confirmation or more information
             var parsed = JSON.stringify(result.parsed, null, 2)
             oldResult = result
             newCommand = false
-            $('#result').html(parsed).show().parent().show()
-            $('#message').html(result.message)
+            var panel = generateDiv()
+            var message = $('<pre>').html(result.message)
+            var parsed = $('<pre>').html(parsed)
+            panel.find('.box').append(message)
+            $('.holder').prepend(panel)
             if (result.options !== undefined) {
+              var optionsPre = $('<pre>')
               var options = $('<ol>')
               result.options.forEach(function(option) {
                 options.append($('<li>').html(option))
               })
-              $('#options').html(options)
+              optionsPre.append(options)
+              panel.find('.box').append(optionsPre)
             }
-           }
-           if (typeof webkitSpeechRecognition === 'function') {
+            panel.find('.box').append(parsed)
+
+          }
+          if (typeof webkitSpeechRecognition === 'function') {
             streamer.stop()
           }
          },
