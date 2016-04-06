@@ -2,12 +2,10 @@ from TwitterAPI import TwitterAPI
 import os
 import re
 
-consumer_key = "Tldm6plGgyeGsxhxb2GQj6qyU"
-consumer_secret = "ueEuRr6a2ndxZ4iwrXrXL2qbFPvzU9Bfp8xrPrjY9CZOAS3I37"
-access_token_secret = "UIoINgPNBSrflcgZFa3ZkyJvKowLyDFm1HQw47D2voSWL"
-access_token_key = "2296276094-ywo927aAwEsO9rNYBw8734QGeU0oT3Xe1caRfm2"
-
-
+consumer_key = ""
+consumer_secret = "u"
+access_token_secret = "HQw47D2voSWL"
+access_token_key = "2"
 
 def filename_matcher(text, filename):
     if text == filename:
@@ -83,7 +81,7 @@ def tweet(command, device, output):
         example =[]
         example.append("fetch/get tweets by/of @screen_name")
         example.append("fetch/get tweets on/about @some_name")
-        output['final'] = 'twitter_False'
+        output['final'] = False
         output['message'] = 'Enter as shown below'
         output['options'] = example
         output['type'] = 'option'
@@ -104,7 +102,7 @@ def tweet(command, device, output):
 
             example.append("fetch/get tweets by/of @screen_name")
             example.append("fetch/get tweets on/about @some_name")
-            output['final'] = 'twitter_False' # use this for time being
+            output['final'] = False # use this for time being
             output['message'] = 'Enter as shown below'
             output['options'] = example
             output['type'] = 'option'
