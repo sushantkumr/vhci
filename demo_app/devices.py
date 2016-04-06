@@ -86,17 +86,25 @@ tweet = {
     'operations' : {
         'search/tweets': {
             'triggers': [r'on', r'about'],
-        'arguments':{
+            'arguments':{
                  'name': ['{{trigger}}(?P<name>( .*)?)']
             },
             'confirm': False
         },
         'statuses/user_timeline': {
-        'triggers': [r'of', r'by'],
-        'arguments':{
-            'name': ['{{trigger}}(?P<name>( .*)?)']
+            'triggers': [r'of', r'by'],
+            'arguments':{
+                'name': ['{{trigger}}(?P<name>( .*)?)']
             },
-        'confirm': False
+            'confirm': False
+         },
+         'trends/place':{
+            'triggers': [r'in'],
+            'arguments':{
+                'name': ['{{trigger}}(?P<name>( .*)?)']
+            },
+            'confirm':False
+
          },
         'examples':{
             'triggers':[r'^get [a-z ]*tweets$',r'^get [a-z ]*tweet$',r'^fetch [a-z ]*tweet$', r'^fetch [a-z ]*tweets$',r'^tweets$'],
