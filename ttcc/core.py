@@ -20,12 +20,12 @@ def parse_device(sentence):
         aliases = device['alias']
         for alias in aliases:
             if re.search(alias, sentence):
+                sentence = sentence.replace(alias, device_name)
                 possible_targets.append((device_name, alias, aliases.index(alias), len(aliases)))
     return possible_targets
 
 def parse_intent(sentence, operations):
     # Limited to one operation only. We can add conflict handling later if required
-    print(0)
     for operation_name in operations.keys():
         operation = operations[operation_name]
         for trigger in operation['triggers']:
@@ -91,13 +91,9 @@ def parse(sentence, newCommand, oldResult, output):
         
         if intent is None:
             return get_intent(target_device,output)
-            # print("error")
-            # return {'error':True}, target_device
-            # pass # Return something like {'error': True} or return None]
 
         arguments = intent['operation']['arguments']
         argument_values = parse_args(sentence, intent)
-        print(argument_values)
         if 'name' in arguments.keys():
             if re.match('^[ ]*$',argument_values['name']):
                 argument_values['name'] = ''
@@ -116,14 +112,11 @@ def replace_macro(regex, intent):
         try:
             start = regex.index('{{')
             end = regex.index('}}')
-            print(start,end)
             if start < end:
                 macro = regex[start+2:end]
                 if macro == 'trigger':
                     regex = regex[:start] + intent['trigger'] + regex[end+2:]
         except ValueError:
-            # Substitution is done
-            # print(regex)
             return regex
 
 
@@ -141,12 +134,10 @@ def get_intent(target_device, output): # called when no intent is mathced, ask u
     return response, device, output
 
 def get_arguments(target_device, intent, argument_values, output): # calls when no argument is given, ask user to provide
-    print('arg')
     response = {
         'device' : target_device,
         'intent' : intent['operation_name'],
         'arguments':argument_values
     }
-    print(argument_values['name'])
     device = DEVICES[target_device]
     return response, device, output

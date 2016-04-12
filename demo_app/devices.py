@@ -7,12 +7,11 @@ sys.path.insert(0, '../')
 # temperature = test.Temperature()
 
 totem = {
-    'alias': ['totem', 'video player', 'media player', 'play'],
+    'alias': ['totem', 'video player', 'media player'],
     'operations': {
         '--play': {
             'triggers': [r'play music', r'play video', r'play playlist', r'play songs?', r'play'],
             'arguments':{
-
                 'name': ['{{trigger}}(?P<name>( .*)?)'],
             },
             'confirm': False
@@ -150,52 +149,56 @@ tweet = {
 tetris = {
     'alias': ['tetris'],
     'operations': {
-        '--start': {
+        '--play': {
             'triggers': [r'tetris'],
             'arguments': {
+                'name': ['{{trigger}}(?P<name>( .*)?)'],
             },
             'confirm': False,
         }
     }
 }
 
-
-# refrigerator = {
-#     'alias': ['refrigerator', 'fridge'],
-#     'operations': {
-#         'setTemperature': {
-#             'triggers': [r'set [a-z]* ?temperature'], # Use regex to allow complex phrases
-#             'arguments': {
-#                 'target_temperature': {
-#                     'multiple': False, # Can use somethig like this to fetch more than one item from a sentence. eg: How many apples and oranges are left
-#                     'type': 'temperature', # Make a list of commonly used units so that we can parse it by making rules such as "... X degrees celsius ..." where X will be fetched.
-#                     'unit': 'celsius' # This will be the default, can change it if it's specified by the user
-#                 }
-#             }
-#         },
-#         'getTemperature': {
-#             'triggers': [r'what is the temperature', r'get [a-z]* ?temperature'],
-#             'arguments': {}
-#         },
-#     },
-# }
-
-# # channels = types.Items([0, 1, 2, 3])
-# television = {
-#     'alias': ['television', 'tv'],
-#     'operations': {
-#         'mute': {
-#             'triggers': [r'mute', r'quite'],
-#             'arguments': {}
-#         },
-#         'setChannel': {
-#             'triggers': [r'go to', r'set channel'],
-#             'arguments': {
-#                 'channel_number': {
-#                     'multiple': False,
-#                     'type': 'channel'
-#                 }
-#             }
-#         }
-#     }
-# }
+#Soundcloud Docs can be found at https://developers.soundcloud.com/
+soundcloud = {
+    'alias': [r'soundcloud'],
+    'operations': {
+        '--pause': {
+            'triggers': [r'pause'],
+            'arguments': {
+            },
+            'confirm': False
+        },
+        '--play': {
+            'triggers': [r'play'],
+            'arguments': {
+            },
+            'confirm': False
+        },
+        '--play-song': {
+            'triggers': [r'xyz'],
+            'arguments': {
+            },
+            'confirm': False
+        },
+        '--play-pause': {
+            'triggers': [r'toggle'],
+            'arguments': {
+            },
+            'confirm': False
+        },
+        '--list': {
+            'triggers': [r'list'],
+            'arguments': {
+                'name': ['{{trigger}}(?P<name>( .*)?)'],
+            },
+            'confirm': False,
+        },
+        '--quit': {
+            'triggers': [r'quit'],
+            'arguments': {
+            },
+            'confirm': False,
+        },
+    }
+}
