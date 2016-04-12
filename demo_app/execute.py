@@ -24,7 +24,9 @@ def filename_matcher(text, filename):
 def totem(command, device, output):
     cl = 'totem ' + command['intent']
     if command['intent'] == '--play':
-        
+        for alias in device['alias']:
+            command['arguments']['name'] = command['arguments']['name'].replace(alias, 'totem')
+
         # Remove 'totem' and 'in','with','using' if it exists in the filname
         if ('totem') in command['arguments']['name']:
             temp = command['arguments']['name'].split(' ')
@@ -68,29 +70,26 @@ def totem(command, device, output):
                 }
                 cl += ' "' + matched_files[0] + '"'
     cl += ' &'
-    print(cl)
     return_value = os.system(cl)
     if return_value == 0:
         return output
     # What should we do if return value isn't 0?
     return output
 
-def tweet(command, device, output): 
-    tweets=[]    
-    others = True # used to differentitae trending tweets from others 
-    
+def tweet(command, device, output):
+    tweets = []
+    others = True # used to differentitae trending tweets from others
+
     try:
-        api = TwitterAPI(consumer_key, consumer_secret, access_token_key, access_token_secret)   
-        obj = command['arguments']['name'] 
-        
+        api = TwitterAPI(consumer_key, consumer_secret, access_token_key, access_token_secret)
+        obj = command['arguments']['name']
         if command['intent'] == 'trends/place':
             others = False
             res = api.request('trends/available') # to find the what on earth id 'an id for a particular place'
             for i in res:
                 if i['country'].lower() == command['arguments']['name'][1:]:
                     woeid = i['woeid']
-
-            response = api.request(command['intent'], {'id':woeid}) # you only get links to trending news in twitter 
+            response = api.request(command['intent'], {'id':woeid}) # you only get links to trending news in twitter
             count = 0 # specifies no of tweets for places 'currently  5'
             for item in response:
                 count += 1
@@ -98,23 +97,23 @@ def tweet(command, device, output):
                     ret_query = item['query'][3:]
                 else:
                     ret_query = item['query']
-                tweets.append(ret_query+'<br />       '+str(item['url'])) # change the output format as required
+                tweets.append(ret_query + '<br />       ' + str(item['url'])) # change the output format as required
                 if count == 5:
                     break
 
-        elif command['intent'] == 'statuses/user_timeline':    
-            query = 'screen_name'   
+        elif command['intent'] == 'statuses/user_timeline':
+            query = 'screen_name'
 
-        else:    
-            query = 'q'    
-  
+        else:
+            query = 'q'
+
         if others == True: # if the request is not on trending news
             response = api.request(command['intent'], {query:obj, 'count':5})
-            print(response.status_code)  
+            print(response.status_code)
 
-            for item in response:       
-                string = item['text'].replace('\n', '<br />')    
-                tweets.append(string)    
+            for item in response:
+                string = item['text'].replace('\n', '<br />')
+                tweets.append(string)
                 # print(item['text'])
         
         # FOR MAKING HREF LINKS
@@ -166,9 +165,13 @@ def process(command, device, output):
         return totem(command, device, output)
     if command['device'] == 'tweet':
         return tweet(command, device, output)
+    if command['device'] == 'soundcloud':
+        return soundcloud(command, device, output)
     elif command['device'] == 'tetris':
         return tetris(command, device, output)
 
 def tetris(command, device, output):
     return output
 
+def soundcloud(command, device, output):
+    return output
