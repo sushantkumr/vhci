@@ -31,7 +31,7 @@ def totem(command, device, output):
             temp.remove('totem')
             if temp[len(temp)-1] in ['in','with','using']:
                 del temp[len(temp)-1]
-                command['arguments']['name'] = ' '.join(temp)
+            command['arguments']['name'] = ' '.join(temp)
 
         #Only `totem --play` will unpause the application
         # If the name of a song is mentioned `totem --play songname` will be executed
