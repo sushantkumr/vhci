@@ -249,6 +249,7 @@ $(document).ready(function() {
     }
 
     var submit = function() {
+      console.log(inputContent)
       var data = {}
       data.input = inputContent
       data.newCommand = newCommand // Global variable
@@ -340,8 +341,17 @@ $(document).ready(function() {
               optionsPre.append(options)
               panel.find('.box').append(optionsPre)
             }
+            // to handle when input provided with no intent or arguments
+            if(result.type === 'continue') {
+              var optionsPre = $('<pre>')
+              var messages= $('<ol>')
+              result.example.forEach(function(option) {
+                messages.append($('<li>').html(option))
+              })
+              optionsPre.append(messages)
+              panel.find('.box').append(optionsPre)
+            }
             panel.find('.box').append(parsed)
-
           }
           if (typeof webkitSpeechRecognition === 'function') {
             streamer.stop()

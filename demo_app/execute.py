@@ -3,9 +3,9 @@ import os
 import re
 
 consumer_key = ""
-consumer_secret = "u"
-access_token_secret = "HQw47D2voSWL"
-access_token_key = "2"
+consumer_secret = ""
+access_token_secret = ""
+access_token_key = ""
 
 def filename_matcher(text, filename):
     if text == filename:
@@ -24,7 +24,6 @@ def filename_matcher(text, filename):
 def totem(command, device, output):
     cl = 'totem ' + command['intent']
     if command['intent'] == '--play':
-
         # Only `totem --play` will unpause the application
         # If the name of a song is mentioned `totem --play songname` will be executed
         if command['arguments']['name']:
@@ -42,7 +41,7 @@ def totem(command, device, output):
             for dirName, subdirList, fileList in os.walk("./"):
                 for filename in fileList:
                     if filename_matcher(command['arguments']['name'], filename):
-                        print('Matched: ', filename)
+                        # print('Matched: ', filename)
                         matched_files.append(filename)
             if len(matched_files) == 0:
                 output['message'] = 'No files were found'
@@ -76,58 +75,29 @@ def totem(command, device, output):
 def tweet(command, device, output): 
     tweets=[]    
     others = True # used to differentitae trending tweets from others 
-    print(command)
-    if command['intent'] == 'examples':
-        example =[]
-        example.append("fetch/get tweets by/of @screen_name")
-        example.append("fetch/get tweets on/about @some_name")
-        output['final'] = False
-        output['message'] = 'Enter as shown below'
-        output['options'] = example
-        output['type'] = 'option'
-        output['option-type'] = 'arguments' # Refer JSON to know what this refers to
-        output['option-name'] = 'name' # Refer JSON to know what this refers to
-        return output
-
+    
     try:
         api = TwitterAPI(consumer_key, consumer_secret, access_token_key, access_token_secret)   
         obj = command['arguments']['name'] 
-
-        if re.match('^[ ]*$', obj): #checks if the name is empty
-            obj=''
-
-        if obj is '': #if empty ask user to enter the command as described
-            print(2)
-            example =[]
-
-            example.append("fetch/get tweets by/of @screen_name")
-            example.append("fetch/get tweets on/about @some_name")
-            output['final'] = False # use this for time being
-            output['message'] = 'Enter as shown below'
-            output['options'] = example
-            output['type'] = 'option'
-            output['option-type'] = 'arguments' # Refer JSON to know what this refers to
-            output['option-name'] = 'name' # Refer JSON to know what this refers to
-            return output   
         
         if command['intent'] == 'trends/place':
             others = False
-            res = api.request('trends/available') # to find the what on earth id 'an id of particular place'
+            res = api.request('trends/available') # to find the what on earth id 'an id for a particular place'
             for i in res:
                 if i['country'].lower() == command['arguments']['name'][1:]:
                     woeid = i['woeid']
 
             response = api.request(command['intent'], {'id':woeid}) # you only get links to trending news in twitter 
-            count = 0
+            count = 0 # specifies no of tweets for places 'currently  5'
             for item in response:
                 count += 1
                 if not re.match('[a-zA-Z0-9]',item['query'][0]):
                     ret_query = item['query'][3:]
                 else:
                     ret_query = item['query']
-                tweets.append(ret_query+'<br />       '+str(item['url'])) # change the output format as required later
+                tweets.append(ret_query+'<br />       '+str(item['url'])) # change the output format as required
                 if count == 5:
-                    pass
+                    break
 
         elif command['intent'] == 'statuses/user_timeline':    
             query = 'screen_name'   
@@ -135,14 +105,14 @@ def tweet(command, device, output):
         else:    
             query = 'q'    
   
-        if others == True: # if the request is not trending one
+        if others == True: # if the request is not on trending news
             response = api.request(command['intent'], {query:obj, 'count':5})
             print(response.status_code)  
 
             for item in response:       
                 string = item['text'].replace('\n', '<br />')    
                 tweets.append(string)    
-                print(item['text'])
+                # print(item['text'])
         
         # FOR MAKING HREF LINKS
         no_of_tweets = len(tweets)

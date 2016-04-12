@@ -77,7 +77,23 @@ totem = {
             },
             'confirm': True,
             'message': 'Do you want to quit totem? (yes/no)'
-        }
+        },
+        'examples':{
+            'triggers':[r'none'],
+            'arguments':{
+                'example':['the possible intents are play, pause', 'Example: play "some file"'],
+                'message':'no intent provided'
+            },
+            'confirm':False
+        },
+        'examples_arguments':{
+            'triggers':[r'none'],
+            'arguments':{
+                'example':['Example: play filename'],
+                'message':'no arguments provided'
+            },
+            'confirm':False
+        },
     }
 }
 
@@ -106,14 +122,27 @@ tweet = {
             'confirm':False
 
          },
-        'examples':{
-            'triggers':[r'^get [a-z ]*tweets$',r'^get [a-z ]*tweet$',r'^fetch [a-z ]*tweet$', r'^fetch [a-z ]*tweets$',r'^tweets$'],
+        'examples_intent':{
+            'triggers':[r'none'],
             'arguments':{
-                'name':''
+                'example':['the possible intents are \'on\', \'by\'', 'Example: tweets by "@somename"'],
+                'message':'no intent provided'
+            },
+            'confirm':False
+        },
+        'examples_arguments':{
+            'triggers':[r'none'],
+            'arguments':{
+                'example':['Example: tweets by "@somename"'],
+                'message':'no arguments provided'
             },
             'confirm':False
         }
-
+        # 'example_intent':{
+        #     1:'there is no intent, provide one',[r'^get [a-z ]*tweets$',r'^get [a-z ]*tweet$',r'^fetch [a-z ]*tweet$', r'^fetch [a-z ]*tweets$',r'^tweets$'],
+        #     2:'the possible intents are \'on\', \'by\'',
+        #     3:'Example: tweets by "@somename"'
+        #     }
     }
 }
 
