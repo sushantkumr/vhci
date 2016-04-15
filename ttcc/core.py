@@ -54,10 +54,17 @@ def parse_args(sentence, intent):
 def parse(sentence, newCommand, oldResult, output):
     if newCommand == 'false' and oldResult['type'] == 'option': # when the given command has many options to deal with
         device = DEVICES[oldResult['parsed']['device']]
+        print(oldResult['option-type'])
         if oldResult['option-type'] == 'arguments':
-            optionSelected = utils.text2int(sentence) - 1
-            oldResult['parsed']['arguments'][oldResult['option-name']] = oldResult['options'][optionSelected]
-            return oldResult['parsed'] , device, output
+            try:
+                print(oldResult['option-type'])
+                optionSelected = utils.text2int(sentence) - 1
+                oldResult['parsed']['arguments'][oldResult['option-name']] = oldResult['options'][optionSelected]
+                return oldResult['parsed'] , device, output
+            except:
+                if oldResult['parsed']['device'] == 'soundcloud':
+                    oldResult['parsed']['intent'] = '--list' # because in main.js the intent is set to --play
+                return oldResult['parsed'], device, output
    
     if newCommand == 'false' and oldResult['type'] == 'confirm': # to deal with yes/no
         device = DEVICES[oldResult['parsed']['device']]
@@ -78,6 +85,7 @@ def parse(sentence, newCommand, oldResult, output):
         return oldResult['parsed'], device, output
 
     else:
+        print(90)
         devices = parse_device(sentence)
         if devices == []: # If no device was matched
             return {'message': 'No devices matched'}
@@ -88,7 +96,7 @@ def parse(sentence, newCommand, oldResult, output):
 
         operations = DEVICES[target_device]['operations']
         intent = parse_intent(sentence, operations)
-        
+        print(intent)
         if intent is None:
             return get_intent(target_device,output)
 
