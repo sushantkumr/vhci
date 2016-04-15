@@ -77,7 +77,7 @@ totem = {
             'confirm': True,
             'message': 'Do you want to quit totem? (yes/no)'
         },
-        'examples':{
+        'examples_intent':{
             'triggers':[r'none'],
             'arguments':{
                 'example':['the possible intents are play, pause', 'Example: play "some file"'],
