@@ -85,7 +85,6 @@ def parse(sentence, newCommand, oldResult, output):
         return oldResult['parsed'], device, output
 
     else:
-        print(90)
         devices = parse_device(sentence)
         if devices == []: # If no device was matched
             return {'message': 'No devices matched'}
@@ -96,7 +95,6 @@ def parse(sentence, newCommand, oldResult, output):
 
         operations = DEVICES[target_device]['operations']
         intent = parse_intent(sentence, operations)
-        print(intent)
         if intent is None:
             return get_intent(target_device,output)
 
