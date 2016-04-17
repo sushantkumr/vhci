@@ -65,21 +65,22 @@ def parse(sentence, newCommand, oldResult, output):
                 if oldResult['parsed']['device'] == 'soundcloud':
                     oldResult['parsed']['intent'] = '--list' # because in main.js the intent is set to --play
                 return oldResult['parsed'], device, output
-   
-    if newCommand == 'false' and oldResult['type'] == 'confirm': # to deal with yes/no
+
+    # If the command is a confirmation for the previous command
+    if newCommand == 'false' and oldResult['type'] == 'confirm':
         device = DEVICES[oldResult['parsed']['device']]
-        if sentence.lower() in ['yes', 'yeah', 'yup', 'yep', 'ya', 'y'] :
+        if sentence.lower() in ['yes', 'yeah', 'yup', 'yep', 'ya', 'y']:
             output = execution_handler(oldResult['parsed'], device, output)
             output['final'] = True
             output['parsed'] = oldResult['parsed']
             output['message'] = 'Executed command'
-            output['dummy']='' # this dummy variable is to check whether the input is neither yes/no
+            device['operations'][oldResult['parsed']['intent']]['confirm'] = False
             return oldResult['parsed'], device, output
 
-        if sentence.lower() in ['nope', 'no','n']:
+        if sentence.lower() in ['nope', 'no', 'n']:
             output['final'] = True
-            output['message'] = 'Execution Terminated'
-            output['dummy']='' # this dummy variable is to check whether the input is neither yes/no
+            output['message'] = 'Operation cancelled'
+            output['cancel'] = '' # The operations wasn't confirmed
             return oldResult['parsed'], device, output
 
         return oldResult['parsed'], device, output

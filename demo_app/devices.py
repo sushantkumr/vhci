@@ -7,10 +7,10 @@ sys.path.insert(0, '../')
 # temperature = test.Temperature()
 
 totem = {
-    'alias': ['totem', 'video player', 'media player'],
+    'alias': ['totem', 'video player', 'media player', 'total'],
     'operations': {
         '--play': {
-            'triggers': [r'play music', r'play video', r'play playlist', r'play songs?', r'play'],
+            'triggers': [r'play music', r'play video', r'play playlist', r'play songs?', r'play '],
             'arguments':{
                 'name': ['{{trigger}}(?P<name>( .*)?)'],
             },
@@ -71,7 +71,7 @@ totem = {
             'confirm': False
         },
         '--quit': {
-            'triggers': [r'quit'],
+            'triggers': [r'quit', r'quick'],
             'arguments': {
             },
             'confirm': True,
@@ -161,7 +161,7 @@ tetris = {
 
 #Soundcloud Docs can be found at https://developers.soundcloud.com/
 soundcloud = {
-    'alias': [r'soundcloud'],
+    'alias': [r'soundcloud', r'sound cloud'],
     'operations': {
         '--pause': {
             'triggers': [r'pause'],
@@ -188,7 +188,7 @@ soundcloud = {
             'confirm': False
         },
         '--list': {
-            'triggers': [r'list'],
+            'triggers': [r'list', r'search'],
             'arguments': {
                 'name': ['{{trigger}}(?P<name>( .*)?)'],
             },
