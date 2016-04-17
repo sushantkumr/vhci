@@ -83,6 +83,19 @@ $(document).ready(function() {
               $('.holder').prepend(panel)
             }
 
+            if (result.weather) {
+              var panel = utils.generateDiv()
+              var message = $('<pre>').html('Weather condition in ' + result.info[0] + ' as on ' + result.info[1])
+              var weather = $('<ul>')
+              // result.weather= result.weather[1:5]
+              result.weather.forEach(function(option) {
+                weather.append($('<li>').html(option))
+              })
+              panel.find('.box').append(message)
+              panel.find('.box').append(weather)
+              $('.holder').prepend(panel)
+            }
+
             // If tetris
             if (result.parsed && result.parsed.device === 'tetris') {
               var container = utils.generateDiv()

@@ -199,6 +199,82 @@ soundcloud = {
             'arguments': {
             },
             'confirm': False,
+        }
+    }
+}
+
+weather = {
+    'alias' : ['forecast'],
+    'operations' : {
+        'minTemperature':{
+            'triggers':[r'min[a-z]* temperature'],
+            'arguments':{
+                # 'name': ['{{trigger}}(?P<name>( .*)?)']
+            },
+            'confirm':False,
         },
+        'maxTemperature':{
+            'triggers':[r'max[a-z]* temperature'],
+            'arguments':{
+                # 'name': ['{{trigger}}(?P<name>( .*)?)']
+            },
+            'confirm':False,
+        },
+        'need':{
+            'triggers':[r'need an umbrella'],
+            'arguments':{
+                # 'name': ['{{trigger}}(?P<name>( .*)?)']
+            },
+             'confirm':False,
+        },
+        'will':{
+            'triggers':[r'(rain|cloudy|sunny)'],
+            'arguments':{
+                # 'name': ['{{trigger}}(?P<name>( .*)?)']
+            },
+            'confirm':False,
+        },
+        'windspeed':{
+            'triggers':[r'wind speed'],
+            'arguments':{
+                # 'name': ['{{trigger}}(?P<name>( .*)?)']
+            },
+            'confirm':False,
+        },
+        'humidity':{
+            'triggers':[r'humidity'],
+            'arguments':{
+                # 'name': ['{{trigger}}(?P<name>( .*)?)']
+            },
+            'confirm':False,
+        },
+        'weather':{
+            'triggers':[r'weather'],
+            'arguments':{
+                # 'name': ['{{trigger}}(?P<name>( .*)?)']
+            },
+            'confirm':False,
+        },
+        # 'set city':{
+        #     'triggers':[r'set city'],
+        #     'arguments':{
+        #         'name': ['{{trigger}}(?P<name>( .*)?)']
+        #     },
+        #     'confirm':False
+        # },
+        'reset':{
+            'triggers':[r'reset city'],
+            'arguments':{
+
+            },
+            'confirm':False
+        },
+        'set city':{
+            'triggers':[r'set city'],
+            'arguments':{
+                'name': ['{{trigger}}(?P<name>( .*)?)']
+            },
+            'confirm':False
+        }
     }
 }

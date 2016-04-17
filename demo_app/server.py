@@ -19,6 +19,7 @@ def setup():
     core.register('tweet', devices.tweet)
     core.register('tetris', devices.tetris)
     core.register('soundcloud',devices.soundcloud)
+    core.register('weather', devices.weather)
 
 @app.route('/')
 def home():

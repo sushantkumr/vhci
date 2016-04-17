@@ -29,7 +29,7 @@ def parse_intent(sentence, operations):
     for operation_name in operations.keys():
         operation = operations[operation_name]
         for trigger in operation['triggers']:
-
+            print(trigger)
             if re.search(trigger, sentence):
                 return {
                     'operation_name': operation_name,
@@ -106,6 +106,8 @@ def parse(sentence, newCommand, oldResult, output):
                 argument_values['name'] = ''
                 return get_arguments(target_device, intent, argument_values, output)
         
+        if target_device == 'weather': # this is further processing of sentence  in execute.py
+            output['input'] = sentence
         response = {
             'device': target_device,
             'intent': intent['operation_name'],
