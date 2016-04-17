@@ -12,6 +12,9 @@ import json
 app = Flask(__name__)
 
 def setup():
+    '''
+    Register devices with the core parser
+    '''
     core.register('totem', devices.totem)
     core.register('tweet', devices.tweet)
     core.register('tetris', devices.tetris)
@@ -20,18 +23,30 @@ def setup():
 
 @app.route('/')
 def home():
+    '''
+    The homepage
+    '''
     return render_template('home.html')
 
 @app.route('/tetris')
 def tetris():
+    '''
+    Tetris window
+    '''
     return render_template('tetris.html')
 
 def execution_handler(result, device, output):
+    '''
+    Calls the execution module
+    '''
     execution_result = execute.process(result, device, output)
     return execution_result
 
 @app.route('/command', methods=['POST'])
 def command():
+    '''
+    Recevies commands from the client, parses it and takes appropriate action.
+    '''
 
     # This object will be sent to the client
     output = {
@@ -44,45 +59,13 @@ def command():
                       # Can be one of confirm, option, intent, argument,
     }
 
-    command = request.form['input']
-    oldResult = json.loads(request.form['oldResult'])
-    newCommand = request.form['newCommand']
-    # print(newCommand)
-    # print(output['final'])
-
+    command = request.form['input'] # The input command
+    newCommand = request.form['newCommand'] # Flag indicating whether the command is new or a continuation
+    oldResult = json.loads(request.form['oldResult']) # Any old results if the command is a continuation
     output['commands'].append(command)
-    # if newCommand == 'false' and oldResult['type'] == 'confirm': # Handle interactive mode; doing only yes/no for now
-    #     device = core.DEVICES[oldResult['parsed']['device']]
-    #     if command.lower() in ['yes', 'yeah', 'yup', 'yep', 'ya', 'y']:
-    #         output = execution_handler(oldResult['parsed'], device, output) # Need to send device details instead of None
-
-    #         # This should be done in execution_handler
-    #         # These values may not always be the same
-    #         # More info may be needed sometimes
-    #         output['final'] = True
-    #         output['parsed'] = oldResult['parsed']
-    #         output['message'] = 'Executed command'
-    #     elif command.lower() in ['nope', 'no', 'n']:
-    #         output['final'] = True
-    #         output['message'] = 'Execution terminated. Ready to receive a new command'
-    #     else:
-    #         return jsonify(oldResult)
-    #     return jsonify(output)
-
-    # if newCommand == 'false' and oldResult['type'] == 'option':
-    #     device = core.DEVICES[oldResult['parsed']['device']]
-    #     print(device)
-    #     if oldResult['option-type'] == 'arguments':
-    #         try:
-    #             optionSelected = utils.text2int(command) - 1
-    #             oldResult['parsed']['arguments'][oldResult['option-name']] = oldResult['options'][optionSelected]
-    #             output = execution_handler(oldResult['parsed'], device, oldResult)
-    #             return jsonify(output)
-    #         except:
-    #             return jsonify(oldResult)
 
     try:
-        result, device,output = core.parse(command, newCommand, oldResult, output)
+        result, device, output = core.parse(command, newCommand, oldResult, output)
         output['parsed'] = result
         if output['parsed']['intent'] == None: # no intent given, so ask user to give one
             output['final'] = False
@@ -91,18 +74,9 @@ def command():
             output['message'] = device['operations']['examples_intent']['arguments']['message'] # example in devices.py
             return jsonify(output)
 
-        # if 'name' in output['parsed']['arguments'].keys(): # some command has no arguments,ex: 'totem pause', see devices.py
-        #     print(2, output)
-        #     if output['parsed']['arguments']['name'] == '': # no arguments given, so ask user to give one
-        #         output['final'] = False
-        #         output['type'] = 'continue'
-        #         output['example'] = device['operations']['examples_arguments']['arguments']['example'] # provide the required message
-        #         output['message'] = device['operations']['examples_arguments']['arguments']['message'] # and example in devices.py
-        #         return jsonify(output)
-
-        # print(device['operations'][result['intent']])
+        print(device['operations'][result['intent']]['confirm'])
         if device['operations'][result['intent']]['confirm'] == True:
-            if 'dummy' in output.keys(): # this is for checking yes or no
+            if 'cancel' in output.keys():
                 return jsonify(output)
 
             output['final'] = False
