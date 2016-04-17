@@ -16,6 +16,7 @@ def setup():
     core.register('tweet', devices.tweet)
     core.register('tetris', devices.tetris)
     core.register('soundcloud',devices.soundcloud)
+    core.register('weather', devices.weather)
 
 @app.route('/')
 def home():
@@ -82,7 +83,6 @@ def command():
 
     try:
         result, device,output = core.parse(command, newCommand, oldResult, output)
-
         output['parsed'] = result
         if output['parsed']['intent'] == None: # no intent given, so ask user to give one
             output['final'] = False
