@@ -104,5 +104,6 @@ var soundCloudHandler = function(result) {
   else if (result.parsed.intent === '--quit') {
     console.log("Quiting SC")
     $('.soundcloud').remove() // Removing the SoundCloud iframe
+    utils.clearSession()
   }
 }

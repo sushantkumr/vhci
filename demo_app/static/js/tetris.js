@@ -39,26 +39,13 @@ var tetrisHandler = function(inputContent) {
                 }
   var commands = getCommands(inputContent)
   if (commands.length === 0) {
-    if (inputContent.search('quit session') !== -1 || inputContent.search('stop session') !== -1) {
-      // The session itself is stopped
+    if (inputContent.search('quit') !== -1 || inputContent.search('stop session') !== -1) {
       var panel = utils.generateDiv()
       var message = $('<pre>').html('Tetris closed and session terminated')
       panel.find('.box').append(message)
       $('.holder').prepend(panel)
 
-      clearSession()
-      messageTetris(gameCommands['stop'])
-      $('.tetris').remove()
-    }
-    else if (inputContent.search('quit') !== -1) {
-      // Exit only from the game, session is still active
-      var panel = utils.generateDiv()
-      var message = $('<pre>').html('Tetris closed')
-      panel.find('.box').append(message)
-      $('.holder').prepend(panel)
-
-      // sessionDuration = SESSION_DURATION
-      currentSession = ''
+      utils.clearSession()
       messageTetris(gameCommands['stop'])
       $('.tetris').remove()
     }
