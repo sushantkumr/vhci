@@ -3,6 +3,8 @@
 var soundCloudHandler = function(result) {
   // Creates an iframe in order to load the widget
   var iframeGenerator = function() {
+    $('.soundcloud').remove()
+    player = null
     var container = utils.generateDiv()
     var iframe = $('<iframe>')
                   .attr('src','https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundlcoud.com%2Ftracks%2F1848538&show_artwork=true') // Source of iframe has a link to a default song as an empty widget cannot be loaded
@@ -45,16 +47,26 @@ var soundCloudHandler = function(result) {
         limit: 10
     })
     .then(function(tracks) { // Tracks contains a list of songs retrieved from SCloud
-      result.parsed.intent = '--play-song' //Mimic a request to server for continuation of selection of song from a list
+      // Return if no songs were found
+      if (tracks.length === 0) {
+        var panel = utils.generateDiv()
+        var message = $('<pre>').html('No matches were found')
+        panel.find('.box').append(message)
+        $('.holder').prepend(panel)
+        return
+      }
+
+      result.parsed.intent = '--play-song' // Mimic a request to server for continuation of selection of song from a list
       newCommand = false
 
-       // Creating an array of dictionaries from an array of tracks which stores the uri and song name
+      // Creating an array of dictionaries from an array of tracks which stores the uri and song name
       var options = tracks.map(function(track) {
         return {
           'uri': track.uri,
           'optionName': track.title
         }
       })
+      console.log('options: ', options)
       result = {
         'message': 'Which song do you want to play?',
         'options': options,
@@ -68,9 +80,7 @@ var soundCloudHandler = function(result) {
       oldResult = result
       var panel = utils.generateDiv()
       var message = $('<pre>').html(result.message)
-      var parsed = $('<pre>').html(parsed)
       panel.find('.box').append(message)
-      $('.holder').prepend(panel)
       if (result.options !== undefined) {
         var optionsPre = $('<pre>')
         var options = $('<ol>')
@@ -80,7 +90,7 @@ var soundCloudHandler = function(result) {
         optionsPre.append(options)
         panel.find('.box').append(optionsPre)
       }
-      $('.holder').prepend(container)
+      $('.holder').prepend(panel)
     })
   }
 
