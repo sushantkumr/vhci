@@ -7,7 +7,7 @@ totem = {
     'alias': ['totem', 'video player', 'media player', 'total'],
     'operations': {
         '--play': {
-            'triggers': [r'play music', r'play video', r'play playlist', r'play songs?', r'play '],
+            'triggers': [r'play music', r'play video', r'play playlist', r'play songs?', r'play'],
             'arguments':{
                 'name': ['{{trigger}}(?P<name>( .*)?)'],
             },

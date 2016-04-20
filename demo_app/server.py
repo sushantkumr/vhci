@@ -62,13 +62,17 @@ def command():
 
     command = request.form['input'] # The input command
     newCommand = request.form['newCommand'] # Flag indicating whether the command is new or a continuation
+    currentSession = request.form['currentSession'] # The application that is currently running
     oldResult = json.loads(request.form['oldResult']) # Any old results if the command is a continuation
 
     output['commands'].append(command)
 
     try:
-        result, device, output = core.parse(command, newCommand, oldResult, output)
+        result, device, output = core.parse(command, newCommand, oldResult, currentSession, output)
         output['parsed'] = result
+        if 'dont_execute' in output.keys():
+            return jsonify(output)
+
         if output['parsed']['intent'] == None: # no intent given, so ask user to give one
             output['final'] = False
             output['type'] = 'continue' # user needs to provide the correct command

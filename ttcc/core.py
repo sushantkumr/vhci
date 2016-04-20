@@ -52,7 +52,7 @@ def parse_args(sentence, intent):
                 values[argument_name] = value.group(argument_name)
     return values
 
-def parse(sentence, newCommand, oldResult, output):
+def parse(sentence, newCommand, oldResult, currentSession, output):
     if newCommand == 'false' and oldResult['type'] == 'option': # When the given command has many options to deal with
         device = DEVICES[oldResult['parsed']['device']]
         # print(oldResult['option-type'])
@@ -89,11 +89,21 @@ def parse(sentence, newCommand, oldResult, output):
     else:
         devices = parse_device(sentence)
         if devices == []: # If no device was matched
-            return {'message': 'No devices matched'}
+            target_device = currentSession
         elif len(devices) > 1: # If more than one device and/or alias was found
             target_device = select_device(devices)
         else:
             target_device = devices[0][0]
+            if currentSession != '' and target_device != currentSession:
+                print('currentSession', currentSession)
+                response = {
+                    'device': currentSession,
+                    'intent': 'Unknown'
+                }
+                device = None
+                output['message'] = 'Please start a new session to interact with another application'
+                output['dont_execute'] = True
+                return response, device, output
 
         operations = DEVICES[target_device]['operations']
         intent = parse_intent(sentence, operations)

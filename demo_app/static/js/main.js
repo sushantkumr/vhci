@@ -44,6 +44,7 @@ $(document).ready(function() {
       var data = {} // The object that will be sent to the server
       data.input = inputContent // The latest command that has been issued
       data.newCommand = newCommand
+      data.currentSession = currentSession
       data.oldResult = JSON.stringify(oldResult)
       console.log('submitting:', data)
 
@@ -65,6 +66,8 @@ $(document).ready(function() {
           var message = $('<pre>').html(result.message)
           panel.find('.box').append(message)
           $('.holder').prepend(panel) // Add it to the webpage
+
+          console.log(123456, result)
 
           // If current command has been executed completely
           if (result.final === true) {
@@ -122,11 +125,16 @@ $(document).ready(function() {
               currentSession = 'totem'
             }
 
-            //If file explorer
+            // If file explorer
             if (result.parsed && result.parsed.device === 'file_explorer') {
               currentSession = 'file_explorer'
               fileExplorerHandler(result)
-            }            
+            }
+
+            // If weather
+            if (result.parsed && result.parsed.device === 'forecast') {
+              currentSession = 'forecast'
+            }
           }
 
           // Needs confirmation or more information

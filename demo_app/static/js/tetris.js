@@ -57,7 +57,7 @@ var tetrisHandler = function(inputContent) {
       panel.find('.box').append(message)
       $('.holder').prepend(panel)
 
-      sessionDuration = SESSION_DURATION
+      // sessionDuration = SESSION_DURATION
       currentSession = ''
       messageTetris(gameCommands['stop'])
       $('.tetris').remove()
