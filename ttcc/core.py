@@ -52,13 +52,40 @@ def parse_args(sentence, intent):
                 values[argument_name] = value.group(argument_name)
     return values
 
+def file_explorer_parser(operations, sentence):
+    intent = None
+    list_of_operations = [
+        ['--goto', ['go to']],
+        ['--step-into', ['step into', 'move into', 'move to']],
+        ['--move-up', ['move up', 'level up']],
+        ['--current-path', ['current path']],
+        ['--reset-path', ['reset path']],
+        ['--hidden-files', ['hidden files']],
+        ['--hidden-dir', ['hidden directories', 'hidden folders']],
+        ['--hidden', ['hidden', 'hidden contents']],
+        ['--display-files', ['files']],
+        ['--display-dir', ['directories', 'folders']],
+        ['--display', ['display contents', 'show contents', 'list contents']],
+    ]
+    for i in list_of_operations:
+        for j in i[1]:
+            if j in sentence:
+                intent = {
+                    'trigger': j,
+                    'operation_name': i[0],
+                    'operation': DEVICES['file_explorer']['operations'][i[0]]
+                }
+                break
+        if intent is not None:
+            break
+    return intent
+
 def parse(sentence, newCommand, oldResult, currentSession, output):
     if newCommand == 'false' and oldResult['type'] == 'option': # When the given command has many options to deal with
         device = DEVICES[oldResult['parsed']['device']]
-        # print(oldResult['option-type'])
+
         if oldResult['option-type'] == 'arguments':
             try:
-                print(oldResult['option-type'])
                 optionSelected = utils.text2int(sentence) - 1
                 oldResult['parsed']['arguments'][oldResult['option-name']] = oldResult['options'][optionSelected]
                 return oldResult['parsed'] , device, output
@@ -106,7 +133,10 @@ def parse(sentence, newCommand, oldResult, currentSession, output):
                 return response, device, output
 
         operations = DEVICES[target_device]['operations']
-        intent = parse_intent(sentence, operations)
+        if target_device == 'file_explorer':
+            intent = file_explorer_parser(operations, sentence)
+        else:
+            intent = parse_intent(sentence, operations)
         if intent is None:
             return get_intent(target_device,output)
 

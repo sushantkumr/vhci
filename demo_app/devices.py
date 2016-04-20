@@ -293,7 +293,7 @@ file_explorer = {
     'alias': ['file explorer'],
     'operations': {
         '--goto': {
-            'triggers': [r'go to'],
+            'triggers': [r'go to', r'goto'],
             'arguments': {
                 'name': ['{{trigger}}(?P<name>( .*)?)'],
             },
@@ -313,37 +313,37 @@ file_explorer = {
             'confirm': False,
         },
         '--display': {
-            'triggers': [r'display', r'display contents', r'show contents', r'list contents'],
+            'triggers': [r'display contents', r'show contents'],
             'arguments': {
             },
             'confirm': False,
         },
         '--display-files': {
-            'triggers': [r'display files', r'show files', r'list files'],
+            'triggers': [r'display files', r'show files'],
             'arguments': {
             },
             'confirm': False,
         },
         '--display-dir': {
-            'triggers': [r'display directories', r'show directories', r'list directories', r'display folders', r'show folders', r'list folders'],
+            'triggers': [r'display directories', r'show directories', r'display folders', r'show folders'],
             'arguments': {
             },
             'confirm': False,
         },
         '--hidden': {
-            'triggers': [r'display hidden', r'display hidden contents', r'show hidden contents', r'list hidden contents'],
+            'triggers': [r'display hidden contents', r'show hidden contents'],
             'arguments': {
             },
             'confirm': False,
         },
         '--hidden-files': {
-            'triggers': [r'display hidden files', r'show hidden files', r'list hidden files'],
+            'triggers': [r'display hidden files', r'show hidden files'],
             'arguments': {
             },
             'confirm': False,
         },
         '--hidden-dir': {
-            'triggers': [r'display hidden directories', r'show hidden directories', r'list hidden directories', r'display hidden folders', r'show hidden folders', r'list hidden folders'],
+            'triggers': [r'display hidden directories', r'show hidden directories', r'display hidden folders', r'show hidden folders'],
             'arguments': {
             },
             'confirm': False,

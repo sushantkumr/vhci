@@ -28,7 +28,6 @@ var soundCloudHandler = function(result) {
 
     // Register an asynchronous function that will be called when the song is over
     player.bind(SC.Widget.Events.FINISH, function() {
-      console.log("Song finished")
       var panel = utils.generateDiv()
       var message = $('<pre>').html('Soundcloud closed and session terminated')
       panel.find('.box').append(message)
@@ -44,7 +43,7 @@ var soundCloudHandler = function(result) {
     SC.get('/tracks', {
         q: result.parsed.arguments.name,
         license: 'cc-by-sa',
-        limit: 10
+        limit: 20
     })
     .then(function(tracks) { // Tracks contains a list of songs retrieved from SCloud
       // Return if no songs were found
@@ -95,24 +94,20 @@ var soundCloudHandler = function(result) {
   }
 
   else if (result.parsed.intent === '--pause') {
-    console.log("Paused SC")
     player.pause()
   }
 
   // Plays the song only if it has been paused
   else if (result.parsed.intent === '--play') {
-    console.log("Playing SC")
     player.play()
   }
 
   // Toggles the widget
   else if (result.parsed.intent === '--play-pause') {
-    console.log("Toggle SC")
     player.toggle()
   }
 
   else if (result.parsed.intent === '--quit') {
-    console.log("Quiting SC")
     $('.soundcloud').remove() // Removing the SoundCloud iframe
     utils.clearSession()
   }
