@@ -4,10 +4,12 @@ import re
 
 DEVICES = {}
 
-def execution_handler(result, device, output): # had to use because of some conflict, maybe resolved later
+# Used to call the respective device function in execute.py
+def execution_handler(result, device, output):
     execution_result = execute.process(result, device, output)
     return execution_result
 
+#Used to register devices with their details
 def register(device_name, device_details):
     global DEVICES
     DEVICES[device_name] = device_details
@@ -25,11 +27,10 @@ def parse_device(sentence):
     return possible_targets
 
 def parse_intent(sentence, operations):
-    # Limited to one operation only. We can add conflict handling later if required
+    # Limited to one operation.
     for operation_name in operations.keys():
         operation = operations[operation_name]
         for trigger in operation['triggers']:
-            print(trigger)
             if re.search(trigger, sentence):
                 return {
                     'operation_name': operation_name,
@@ -52,9 +53,9 @@ def parse_args(sentence, intent):
     return values
 
 def parse(sentence, newCommand, oldResult, output):
-    if newCommand == 'false' and oldResult['type'] == 'option': # when the given command has many options to deal with
+    if newCommand == 'false' and oldResult['type'] == 'option': # When the given command has many options to deal with
         device = DEVICES[oldResult['parsed']['device']]
-        print(oldResult['option-type'])
+        # print(oldResult['option-type'])
         if oldResult['option-type'] == 'arguments':
             try:
                 print(oldResult['option-type'])

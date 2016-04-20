@@ -1,3 +1,4 @@
+
 /* Constants, global variables and clock controllers
  */
 var newCommand // Indicates whether a command is a continuation of the previous command or not
@@ -19,9 +20,9 @@ $(document).ready(function() {
     setupRecognizer() // Setup the speech recognizer
   })()
 
-  // // Handles voice input
+  // // // Handles voice input
   // $('#main-speech').click(function() {
-  //   $('input[name=command_text]').val("soundcloud list in the end")
+  //   $('input[name=command_text]').val("file explorer move up")
   //   $('#main-submit').click()
   // })
 
@@ -120,6 +121,12 @@ $(document).ready(function() {
             if (result.parsed && result.parsed.device === 'totem') {
               currentSession = 'totem'
             }
+
+            //If file explorer
+            if (result.parsed && result.parsed.device === 'file_explorer') {
+              currentSession = 'file_explorer'
+              fileExplorerHandler(result)
+            }            
           }
 
           // Needs confirmation or more information

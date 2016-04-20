@@ -3,9 +3,6 @@ import sys
 sys.path.insert(0, '../')
 ######
 
-# from ttcc import test
-# temperature = test.Temperature()
-
 totem = {
     'alias': ['totem', 'video player', 'media player', 'total'],
     'operations': {
@@ -80,8 +77,8 @@ totem = {
         'examples_intent':{
             'triggers':[r'none'],
             'arguments':{
-                'example':['the possible intents are play, pause', 'Example: play "some file"'],
-                'message':'no intent provided'
+                'example':['The possible intents are play, pause', 'Example: play "some file"'],
+                'message':'No intent provided'
             },
             'confirm':False
         },
@@ -89,12 +86,12 @@ totem = {
             'triggers':[r'none'],
             'arguments':{
                 'example':['Example: play filename'],
-                'message':'no arguments provided'
+                'message':'No arguments provided'
             },
             'confirm':False
         },
     }
-}
+} #20 words
 
 tweet = {
     'alias' : ['tweet', 'tweets'],
@@ -114,7 +111,7 @@ tweet = {
             'confirm': False
          },
          'trends/place':{
-            'triggers': [r'in'],
+            'triggers': [r'in', r'trending in'],
             'arguments':{
                 'name': ['{{trigger}}(?P<name>( .*)?)']
             },
@@ -137,13 +134,8 @@ tweet = {
             },
             'confirm':False
         }
-        # 'example_intent':{
-        #     1:'there is no intent, provide one',[r'^get [a-z ]*tweets$',r'^get [a-z ]*tweet$',r'^fetch [a-z ]*tweet$', r'^fetch [a-z ]*tweets$',r'^tweets$'],
-        #     2:'the possible intents are \'on\', \'by\'',
-        #     3:'Example: tweets by "@somename"'
-        #     }
     }
-}
+} #8
 
 # Core game code for tetris from https://github.com/jakesgordon/javascript-tetris
 tetris = {
@@ -157,7 +149,7 @@ tetris = {
             'confirm': False,
         }
     }
-}
+} # 6+1(tetris)
 
 #Soundcloud Docs can be found at https://developers.soundcloud.com/
 soundcloud = {
@@ -195,11 +187,27 @@ soundcloud = {
             'confirm': False,
         },
         '--quit': {
-            'triggers': [r'quit'],
+            'triggers': [r'quit','quiz', 'quick'],
             'arguments': {
             },
             'confirm': False,
-        }
+        },
+        'examples_intent':{
+            'triggers':[r'none'],
+            'arguments':{
+                'example':['The possible intents are play, pause, list', 'Example: soundcloud list "name"'],
+                'message':'No intent provided'
+            },
+            'confirm':False
+        },
+        'examples_arguments':{
+            'triggers':[r'none'],
+            'arguments':{
+                'example':['Example: soundcloud list filename'],
+                'message':'No arguments provided'
+            },
+            'confirm':False
+        },        
     }
 }
 
@@ -276,5 +284,97 @@ weather = {
             },
             'confirm':False
         }
+    }
+}
+
+
+#Explore and traverse the various directories in a UNIX system
+file_explorer = {
+    'alias': ['file explorer'],
+    'operations': {
+        '--goto': {
+            'triggers': [r'go to'],
+            'arguments': {
+                'name': ['{{trigger}}(?P<name>( .*)?)'],
+            },
+            'confirm': False,
+        },
+        '--step-into': {
+            'triggers': [r'step into', r'move into', r'move to'],
+            'arguments': {
+                'name': ['{{trigger}}(?P<name>( .*)?)'],
+            },
+            'confirm': False,
+        },
+        '--move-up': {
+            'triggers': [r'move up', r'level up'],
+            'arguments': {
+            },
+            'confirm': False,
+        },
+        '--display': {
+            'triggers': [r'display', r'display contents', r'show contents', r'list contents'],
+            'arguments': {
+            },
+            'confirm': False,
+        },
+        '--display-files': {
+            'triggers': [r'display files', r'show files', r'list files'],
+            'arguments': {
+            },
+            'confirm': False,
+        },
+        '--display-dir': {
+            'triggers': [r'display directories', r'show directories', r'list directories', r'display folders', r'show folders', r'list folders'],
+            'arguments': {
+            },
+            'confirm': False,
+        },
+        '--hidden': {
+            'triggers': [r'display hidden', r'display hidden contents', r'show hidden contents', r'list hidden contents'],
+            'arguments': {
+            },
+            'confirm': False,
+        },
+        '--hidden-files': {
+            'triggers': [r'display hidden files', r'show hidden files', r'list hidden files'],
+            'arguments': {
+            },
+            'confirm': False,
+        },
+        '--hidden-dir': {
+            'triggers': [r'display hidden directories', r'show hidden directories', r'list hidden directories', r'display hidden folders', r'show hidden folders', r'list hidden folders'],
+            'arguments': {
+            },
+            'confirm': False,
+        },
+        '--current-path': {
+            'triggers': [r'current path'],
+            'arguments': {
+            },
+            'confirm': False,
+        },
+        '--reset-path': {
+            'triggers': [r'reset path', r'clear path', r'reset'],
+            'arguments': {
+            },
+            'confirm': False,
+        },
+        'examples_intent':{
+            'triggers':[r'none'],
+            'arguments':{
+                'example':['The possible intents are display, goto, current path ', 'Example: file explorer display contents'],
+                'message':'No intent provided'
+            },
+            'confirm':False
+        },
+        'examples_arguments':{
+            'triggers':[r'none'],
+            'arguments':{
+                'example':['Example: goto home'],
+                'message':'No arguments provided'
+            },
+            'confirm':False
+        },
     }
 }
