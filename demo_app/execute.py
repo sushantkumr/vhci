@@ -160,11 +160,14 @@ def tweet(command, device, output):
              'type': None,
              'tweet': tweets
         }
-        return output    except:        output = {           'message':'invalid input',           'error':True,
-           'final':True
-        }        return output
-
-
+        return output
+    except:
+        output = {
+            'message': 'Invalid input',
+            'error':True,
+            'final':True
+        }
+        return output
 
 # example: forecast set city 'cityname'
 # 2. forecast will it rain tomorrow
@@ -174,9 +177,9 @@ def tweet(command, device, output):
 # etc...
 # the output displayed should be made proper
 def weather(command, device, output):
+    global city
     weather_report = []
     info = []
-    global city
     try:
         if command['intent'] == 'set city':
             city = command['arguments']['name']
@@ -192,10 +195,19 @@ def weather(command, device, output):
             return output
         input_array = output['input'].split()
         if 'today' in input_array:
+<<<<<<< HEAD
+            day = 0 # day == 0 represents today
+        elif 'tomorrow' in input_array:
+            day = 1
+        elif 'yesterday' in input_array: # when input is on yesterday's weather, should be handled later
+            day =0
+        elif 'week' in input_array:
+=======
             day = 0 # day == 0 represents today        elif 'tomorrow' in input_array:
             day = 1
         elif 'yesterday' in input_array: # when input is on yesterday's weather, should be handled later
             day =0        elif 'week' in input_array:
+>>>>>>> c95dab16af6238b2f3d45161c120eeac0a9a821c
             day = 6
         else:
             day = 0
@@ -268,9 +280,12 @@ def weather(command, device, output):
             }
         return output
     except:
-        output = {           'message':'invalid input',           'error':True,
-           'final':True
-        }        return output
+        output = {
+            'message': 'invalid input',
+            'error':True,
+            'final':True
+        }
+        return output
 
 def file_explorer(command, device, output):
     global path
@@ -283,7 +298,12 @@ def file_explorer(command, device, output):
             'message': 'Executed command',
             'type': None,
             'path': path
+<<<<<<< HEAD
+        }
+        return output
+=======
         }        return output
+>>>>>>> c95dab16af6238b2f3d45161c120eeac0a9a821c
 
     if command['intent'] == '--goto':
         home_folders = ['desktop','documents','music','pictures','videos','public','templates']
