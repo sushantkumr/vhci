@@ -1,4 +1,5 @@
 var utils = {
+
    generateDiv: function() {
     var container = $('<div>').addClass('container').css('margin-top', '20px')
     var row = $('<div>').addClass('row')
@@ -59,6 +60,30 @@ var utils = {
         method: 'POST'
       })
     }
+
+    // else if (currentSession === 'file_explorer') {
+    //   newCommand = false
+    //   oldResult = {
+    //     'commands': ['file explorer '],
+    //     'final': True,
+    //     'parsed': {
+    //       'arguments': {},
+    //       'device': 'file_explorer',
+    //       'intent': '--reset'
+    //     },
+    //     'message': 'Path has been reset',
+    //     'type': None,
+    //     'path': ''
+    //   }
+    //   $.ajax({
+    //     url: '/command',
+    //     data: {
+    //       newCommand: false,
+    //       oldResult: JSON.stringify(oldResult),
+    //     },
+    //     method: 'POST'
+    //   })      
+    // }
 
     newCommand = true
     oldResult = {}
