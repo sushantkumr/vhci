@@ -220,7 +220,8 @@ def weather(command, device, output):
         elif command['intent'] == 'will': # ex: will it rain tomorrow
             if 'rain' in input_array:
                 if 'rain' in result['list'][day].keys():
-                    weather_report.append('Yes it rains today')                    weather_report.append('Rain upto '+str(result['list'][day]['rain']) + ' millimetres is expected')
+                    weather_report.append('Yes it rains today')
+                    weather_report.append('Rain upto '+str(result['list'][day]['rain']) + ' millimetres is expected')
                 else:
                     weather_report.append('no rain')
             elif 'sunny' in input_array:
@@ -239,7 +240,8 @@ def weather(command, device, output):
             weather_report.append(result['list'][day]['humidity'])
         elif command['intent'] == 'windspeed':
             weather_report.append(result['list'][day]['speed'])
-        elif command['intent'] == 'need': # ex: do i need an umbrella,            if 'rain' in result['list'][day].keys(): # need one when it is raining
+        elif command['intent'] == 'need': # ex: do i need an umbrella,
+            if 'rain' in result['list'][day].keys(): # need one when it is raining
                 weather_report.append('Yes, you need an umbrella')
                 weather_report.append('Rain upto '+str(result['list'][day]['rain']) + ' millimetres is expected')
             elif round(result['list'][day]['temp']['max'] -273, 2) > 30.00: # need one when its hot
