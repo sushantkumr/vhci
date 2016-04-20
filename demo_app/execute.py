@@ -195,19 +195,12 @@ def weather(command, device, output):
             return output
         input_array = output['input'].split()
         if 'today' in input_array:
-<<<<<<< HEAD
             day = 0 # day == 0 represents today
         elif 'tomorrow' in input_array:
             day = 1
         elif 'yesterday' in input_array: # when input is on yesterday's weather, should be handled later
             day =0
         elif 'week' in input_array:
-=======
-            day = 0 # day == 0 represents today        elif 'tomorrow' in input_array:
-            day = 1
-        elif 'yesterday' in input_array: # when input is on yesterday's weather, should be handled later
-            day =0        elif 'week' in input_array:
->>>>>>> c95dab16af6238b2f3d45161c120eeac0a9a821c
             day = 6
         else:
             day = 0
@@ -298,12 +291,8 @@ def file_explorer(command, device, output):
             'message': 'Executed command',
             'type': None,
             'path': path
-<<<<<<< HEAD
         }
         return output
-=======
-        }        return output
->>>>>>> c95dab16af6238b2f3d45161c120eeac0a9a821c
 
     if command['intent'] == '--goto':
         home_folders = ['desktop','documents','music','pictures','videos','public','templates']
