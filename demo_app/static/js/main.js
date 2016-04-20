@@ -59,21 +59,18 @@ $(document).ready(function() {
              newCommand = true
           }
 
-          // Show details on screen
-          var panel = utils.generateDiv()
-          var parsedResult = JSON.stringify(result.parsed, null, 2) // The JSON object that has been returned
-          var parsed = $('<pre>').html(parsedResult)
-          var message = $('<pre>').html(result.message)
-          panel.find('.box').append(message)
-          $('.holder').prepend(panel) // Add it to the webpage
-
-          console.log(123456, result)
-
           // If current command has been executed completely
           if (result.final === true) {
             oldResult = {}
             newCommand = true
+            // Show details on screen
+            var panel = utils.generateDiv()
+            var parsedResult = JSON.stringify(result.parsed, null, 2) // The JSON object that has been returned
+            var parsed = $('<pre>').html(parsedResult)
+            var message = $('<pre>').html(result.message)
+            panel.find('.box').append(message)
             panel.find('.box').append(parsed)
+            $('.holder').prepend(panel) // Add it to the webpage
 
             if (result.tweet !== undefined) {
               var panel = utils.generateDiv()
@@ -139,6 +136,13 @@ $(document).ready(function() {
 
           // Needs confirmation or more information
           else if (result.final === false) {
+            // Show details on screen
+            var panel = utils.generateDiv()
+            var parsedResult = JSON.stringify(result.parsed, null, 2) // The JSON object that has been returned
+            var parsed = $('<pre>').html(parsedResult)
+            var message = $('<pre>').html(result.message)
+            panel.find('.box').append(message)
+
             oldResult = result
             newCommand = false
             if (result.options !== undefined) {
@@ -162,6 +166,7 @@ $(document).ready(function() {
               panel.find('.box').append(optionsPre)
             }
             panel.find('.box').append(parsed)
+            $('.holder').prepend(panel) // Add it to the webpage
           }
         },
         error: function(a, b, c) {
