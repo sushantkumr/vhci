@@ -184,13 +184,13 @@ def weather(command, device, output):
         if command['intent'] == 'set city':
             city = command['arguments']['name']
             city = city[1:len(city)] # to remove the space, which is the first character
-            output['final'] = False
+            output['final'] = True
             output['message'] = 'now ask what you want'
             return output
 
         if command['intent'] == 'reset':
             city ='bangalore'
-            output['final'] = False
+            output['final'] = True
             output['message'] = 'now ask what you want'
             return output
         input_array = output['input'].split()
