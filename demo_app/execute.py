@@ -33,7 +33,7 @@ def name_matcher(text, filename):
     return True
 
 def kelvin2celsius(temp):
-    return temp - 273
+    return str(round(temp - 273)) + ' °C'
 
 def totem(command, device, output):
     cl = 'totem ' + command['intent']
@@ -84,6 +84,7 @@ def totem(command, device, output):
                     'type': None,
                     'duration': duration
                 }
+                print(duration)
                 cl += ' "' + matched_files[0] + '"'
     cl += ' &'
     return_value = os.system(cl)
@@ -216,9 +217,9 @@ def weather(command, device, output):
         info.append(result['city']['name'])
         info.append('Date : '+str(' '.join(str(e) for e in date_time[0:3]))) # getting only year, month, and day
         if command['intent'] == 'minTemperature':
-            weather_report.append('Minimum Temperature is '+str(round(kelvin2celsius(result['list'][day]['temp']['min']), 2)))
+            weather_report.append('Minimum Temperature is ' + kelvin2celsius(result['list'][day]['temp']['min']))
         elif command['intent'] == 'maxTemperature':
-            weather_report.append('Maximum Temperature is '+str(round(kelvin2celsius(result['list'][day]['temp']['max']), 2)))
+            weather_report.append('Maximum Temperature is '+ kelvin2celsius(result['list'][day]['temp']['max']))
         elif command['intent'] == 'will': # ex: will it rain tomorrow
             if 'rain' in input_array:
                 if 'rain' in result['list'][day].keys():
@@ -239,26 +240,26 @@ def weather(command, device, output):
                     weather_report.append('Not cloudy')
 
         elif command['intent'] == 'humidity':
-            weather_report.append(result['list'][day]['humidity'])
+            weather_report.append(str(result['list'][day]['humidity']) + '  %')
         elif command['intent'] == 'windspeed':
-            weather_report.append(result['list'][day]['speed'])
+            weather_report.append(str(result['list'][day]['speed']) + ' knots')
         elif command['intent'] == 'need': # ex: do i need an umbrella,
             if 'rain' in result['list'][day].keys(): # need one when it is raining
                 weather_report.append('Yes, you need an umbrella')
                 weather_report.append('Rain upto '+str(result['list'][day]['rain']) + ' millimetres is expected')
-            elif round(kelvin2celsius(result['list'][day]['temp']['max']), 2) > 30.00: # need one when its hot
+            elif round(result['list'][day]['temp']['max']) - 273 > 30.00: # need one when its hot
                 weather_report.append('Yes you need an umbrella')
-                weather_report.append('Maximum Temperature is about '+str(round(kelvin2celsius(result['list'][day]['temp']['max']), 2)) + ' celcius')
+                weather_report.append('Maximum Temperature is about '+ kelvin2celsius(result['list'][day]['temp']['max']))
             else:weather_report.append('No')
 
         elif command['intent'] == 'weather':
             weather_report.append('Humidity : '+str(result['list'][day]['humidity']))
             weather_report.append('Wind Speed : '+str(result['list'][day]['speed']))
-            weather_report.append('Minimum Temperature : '+str(round(kelvin2celsius(result['list'][day]['temp']['min']), 2))+ ' celcius')
-            weather_report.append('Maximum Temperature : '+str(round(kelvin2celsius(result['list'][day]['temp']['max']), 2)) + ' celcius')
-            weather_report.append('Day Temperature : '+str(round(kelvin2celsius(result['list'][day]['temp']['day']), 2)) + ' celcius')
-            weather_report.append('Evening Temperature : '+str(round(kelvin2celsius(result['list'][day]['temp']['eve']), 2)) + ' celcius')
-            weather_report.append('Morning Temperature : '+str(round(kelvin2celsius(result['list'][day]['temp']['morn']), 2)) + ' celcius')
+            weather_report.append('Minimum Temperature : '+ kelvin2celsius(result['list'][day]['temp']['min']))
+            weather_report.append('Maximum Temperature : '+ kelvin2celsius(result['list'][day]['temp']['max']))
+            weather_report.append('Day Temperature : '+ kelvin2celsius(result['list'][day]['temp']['day']))
+            weather_report.append('Evening Temperature : '+ kelvin2celsius(result['list'][day]['temp']['eve']))
+            weather_report.append('Morning Temperature : '+ kelvin2celsius(result['list'][day]['temp']['morn']))
             if 'rain' in result['list'][day].keys():
                 weather_report.append('Rain upto '+str(result['list'][day]['rain']) + ' millimetres is expected')
 
@@ -305,19 +306,41 @@ def file_explorer(command, device, output):
         if command['arguments']['name'] == 'home':
             path = os.path.expanduser('~/')
             path = path[:-1] # This has been done because when 'move up' is said it removes the directory before the last slash.
+            output = {
+                'commands': [],
+                'error': False,
+                'final': True,
+                'parsed': command,
+                'message': 'Executed command',
+                'type': None,
+                'path': path
+            }
+            return output
 
         elif command['arguments']['name'] in home_folders:
             temp_path = '~/' + command['arguments']['name'].title() # /home/username/music becomes /home/username/Music
             path = os.path.expanduser(temp_path)
-        output = {
-            'commands': [],
-            'error': False,
-            'final': True,
-            'parsed': command,
-            'message': 'Executed command',
-            'type': None,
-            'path': path
-        }
+            output = {
+                'commands': [],
+                'error': False,
+                'final': True,
+                'parsed': command,
+                'message': 'Executed command',
+                'type': None,
+                'path': path
+            }
+            return output
+
+        else :
+            output = {
+                'commands': [],
+                'error': False,
+                'final': True,
+                'parsed': command,
+                'message': 'Invalid input. Path has been set to Home',
+                'type': None,
+                'path': path
+            }            
         return output
 
     if command['intent'] == '--reset-path':
