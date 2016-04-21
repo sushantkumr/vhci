@@ -222,7 +222,7 @@ def weather(command, device, output):
         if command['intent'] == 'minTemperature':
             weather_report.append('Minimum Temperature is ' + kelvin2celsius(result['list'][day]['temp']['min']))
         elif command['intent'] == 'maxTemperature':
-            weather_report.append('Maximum Temperature is '+ kelvin2celsius(result['list'][day]['temp']['max']))
+            weather_report.append('Maximum Temperature is ' + kelvin2celsius(result['list'][day]['temp']['max']))
         elif command['intent'] == 'will': # ex: will it rain tomorrow
             if 'rain' in input_array:
                 if 'rain' in result['list'][day].keys():
@@ -257,13 +257,13 @@ def weather(command, device, output):
                 weather_report.append('No, you may not need an umbrella')
 
         elif command['intent'] == 'weather':
-            weather_report.append('Humidity : '+str(result['list'][day]['humidity']))
-            weather_report.append('Wind Speed : '+str(result['list'][day]['speed']))
-            weather_report.append('Minimum Temperature : '+ kelvin2celsius(result['list'][day]['temp']['min']))
-            weather_report.append('Maximum Temperature : '+ kelvin2celsius(result['list'][day]['temp']['max']))
-            weather_report.append('Day Temperature : '+ kelvin2celsius(result['list'][day]['temp']['day']))
-            weather_report.append('Evening Temperature : '+ kelvin2celsius(result['list'][day]['temp']['eve']))
-            weather_report.append('Morning Temperature : '+ kelvin2celsius(result['list'][day]['temp']['morn']))
+            weather_report.append('Humidity : ' + str(result['list'][day]['humidity']))
+            weather_report.append('Wind Speed : ' + str(result['list'][day]['speed']))
+            weather_report.append('Minimum Temperature : ' + kelvin2celsius(result['list'][day]['temp']['min']))
+            weather_report.append('Maximum Temperature : ' + kelvin2celsius(result['list'][day]['temp']['max']))
+            weather_report.append('Day Temperature : ' + kelvin2celsius(result['list'][day]['temp']['day']))
+            weather_report.append('Evening Temperature : ' + kelvin2celsius(result['list'][day]['temp']['eve']))
+            weather_report.append('Morning Temperature : ' + kelvin2celsius(result['list'][day]['temp']['morn']))
             if 'rain' in result['list'][day].keys():
                 weather_report.append('Rain upto '+str(result['list'][day]['rain']) + ' millimetres is expected')
 
