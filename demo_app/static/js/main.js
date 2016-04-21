@@ -39,6 +39,7 @@ $(document).ready(function() {
     }
 
     // All front end apps should have their code before submit
+    // If low latency is a requirement then parsing can be done in the client itself
     if (currentSession === 'tetris') {
       tetrisHandler(inputContent)
       return
@@ -75,7 +76,7 @@ $(document).ready(function() {
             panel.find('.box').append(parsed)
             $('.holder').prepend(panel) // Add it to the webpage
 
-            if (result.tweet !== undefined) {
+            if (result.tweet) {
               var panel = utils.generateDiv()
               var message = $('<pre>').html('Tweets found:')
               var tweets = $('<ul>')
@@ -108,7 +109,6 @@ $(document).ready(function() {
                             .attr('width', '100%')
                             .attr('height', '270px')
                             .addClass('tetris')
-                            .append($('<div>').addClass('holder'))
               container.find('.box').append(iframe).removeClass('box')
               $('.holder').prepend(container)
               currentSession = 'tetris'
@@ -132,7 +132,6 @@ $(document).ready(function() {
             }
 
             // If weather
-            console.log(result.parsed.device)
             if (result.parsed && result.parsed.device === 'forecast') {
               currentSession = 'forecast'
             }
@@ -173,9 +172,6 @@ $(document).ready(function() {
             $('.holder').prepend(panel) // Add it to the webpage
           }
         },
-        error: function(a, b, c) {
-          $('#message').html('Something went wrong. Please try again.').show().parent().show()
-        }
       })
     }
     submit()

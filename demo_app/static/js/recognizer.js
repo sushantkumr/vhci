@@ -3,22 +3,17 @@
 var recognizer
 
 var setupRecognizer = function () {
+  // Required class is defined only in Google chrome
   if (typeof webkitSpeechRecognition !== 'function') {
      return
   }
-  recognizer = new webkitSpeechRecognition()
-  recognizer.lang = 'en-IN'
-  recognizer.continuous = true
-  recognizer.interimResults = false
+  recognizer = new webkitSpeechRecognition() // Create an instance of class
+  recognizer.lang = 'en-IN' // Set language to English India
 
+  // Function binding for onresult
   recognizer.onresult = function(event) {
-    var inputContent = ''
-    for (var i = event.resultIndex; i < event.results.length; i++) {
-         inputContent += event.results[i][0].transcript
-    }
-    inputContent = inputContent.toLowerCase()
+    var inputContent = event.results[0][0].transcript.toLowerCase().trim()
     console.log('inputContent: ', inputContent)
-    inputContent = inputContent.trim()
 
     // Check if the command is to start a new session
     if (utils.isStartSession(inputContent)) {

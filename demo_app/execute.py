@@ -97,18 +97,21 @@ def tweet(command, device, output):
     others = True # used to differentitae trending tweets from others
 
     try:
+        # consumer_key & consumer_secret are application specific and other two
+        # account specific
         api = TwitterAPI(consumer_key, consumer_secret, access_token_key, access_token_secret)
-        obj = command['arguments']['name']
+        obj = command['arguments']['name'] # this is argument name
         if command['intent'] == 'trends/place':
-            others = False
-            res = api.request('trends/available') # to find the what on earth id 'an id for a particular place'
-            for i in res:
-                if i['country'].lower() == command['arguments']['name'][1:]:
-                    woeid = i['woeid']
+            others = False # Not trending
+            country_codes = api.request('trends/available') # to find the 'What On Earth ID' an id for a particular place
+            for code in country_codes:
+                if code['country'].lower() == obj[1:]:
+                    woeid = code['woeid']
             response = api.request(command['intent'], {'id':woeid}) # you only get links to trending news in twitter
             count = 0 # specifies no of tweets for places 'currently  5'
             for item in response:
                 count += 1
+                # If tweets starts with a special character then clean up
                 if not re.match('[a-zA-Z0-9]',item['query'][0]):
                     ret_query = item['query'][3:]
                 else:
@@ -138,20 +141,20 @@ def tweet(command, device, output):
                 index = tweets[i].find('http', first_char, tweet_length)
                 if index == -1:
                     break
-                m = index # 'm' to find the end of https
-                while tweets[i][m]!=' ' and m < (tweet_length-1):
-                    m += 1
-                if m < tweet_length:
-                    text = tweets[i][index:m+1]
+                last_pos_link = index # 'last_pos_link' to find the end of https
+                while tweets[i][last_pos_link]!=' ' and last_pos_link < (tweet_length-1):
+                    last_pos_link += 1
+                if last_pos_link < tweet_length:
+                    text = tweets[i][index:last_pos_link+1]
                     tweets[i] = tweets[i].replace(text, 'replace')
-                    first_char = m
+                    first_char = last_pos_link
                     tweet_length = len(tweets[i])
 
-            replace_index = tweets[i].find('replace')
-            if replace_index != -1:
-                blank = '_blank'
-                replace = '<a href = '+text+' target = '+blank+'>'+text+'</a> '
-                tweets[i] = tweets[i].replace('replace', replace)
+                replace_index = tweets[i].find('replace')
+                if replace_index != -1:
+                    blank = '_blank'
+                    replace = '<a href = '+text+' target = '+ blank +'>'+text+'</a> '
+                    tweets[i] = tweets[i].replace('replace', replace)
 
         output = {
              'commands': [],
