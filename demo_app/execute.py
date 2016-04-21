@@ -38,7 +38,6 @@ def kelvin2celsius(temp):
 def totem(command, device, output):
     cl = 'totem ' + command['intent']
     if command['intent'] == '--play':
-        print(command)
         for alias in device['alias']:
             command['arguments']['name'] = command['arguments']['name'].replace(alias, 'totem')
 
@@ -195,7 +194,8 @@ def weather(command, device, output):
             output['final'] = True
             output['message'] = 'now ask what you want'
             return output
-        input_array = output['input'].split()
+
+        input_array = output['commands'][-1].split()
         if 'today' in input_array:
             day = 0 # day == 0 represents today
         elif 'tomorrow' in input_array:
@@ -482,7 +482,7 @@ def process(command, device, output):
         return soundcloud(command, device, output)
     if command['device'] == 'file_explorer':
         return file_explorer(command, device, output)
-    if command['device'] == 'weather':
+    if command['device'] == 'forecast':
         return weather(command, device, output)
     elif command['device'] == 'tetris':
         return tetris(command, device, output)

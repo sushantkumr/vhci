@@ -20,7 +20,7 @@ def setup():
     core.register('tetris', devices.tetris)
     core.register('soundcloud',devices.soundcloud)
     core.register('file_explorer',devices.file_explorer)
-    core.register('weather', devices.weather)
+    core.register('forecast', devices.weather)
 
 @app.route('/')
 def home():
@@ -79,7 +79,7 @@ def command():
             output['example'] = device['operations']['examples_intent']['arguments']['example'] # provide the required message and
             output['message'] = device['operations']['examples_intent']['arguments']['message'] # example in devices.py
             return jsonify(output)
-        
+
         if device['operations'][result['intent']]['confirm'] == True:
             if 'cancel' in output.keys():
                 return jsonify(output)
