@@ -146,7 +146,7 @@ def parse(sentence, newCommand, oldResult, currentSession, output):
             if re.match('^[ ]*$',argument_values['name']):
                 argument_values['name'] = ''
                 return get_arguments(target_device, intent, argument_values, output)
-        
+
         if target_device == 'weather': # this is further processing of sentence  in execute.py
             output['input'] = sentence
         response = {
