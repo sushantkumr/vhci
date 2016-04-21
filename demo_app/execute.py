@@ -187,13 +187,13 @@ def weather(command, device, output):
             city = command['arguments']['name']
             city = city[1:len(city)] # to remove the space, which is the first character
             output['final'] = True
-            output['message'] = 'now ask what you want'
+            output['message'] = 'Now what are your queries?'
             return output
 
         if command['intent'] == 'reset':
             city ='bangalore'
             output['final'] = True
-            output['message'] = 'now ask what you want'
+            output['message'] = 'Now what are your queries?'
             return output
 
         input_array = output['commands'][-1].split()
@@ -223,34 +223,35 @@ def weather(command, device, output):
         elif command['intent'] == 'will': # ex: will it rain tomorrow
             if 'rain' in input_array:
                 if 'rain' in result['list'][day].keys():
-                    weather_report.append('Yes it rains today')
+                    weather_report.append('Yes, it may rain')
                     weather_report.append('Rain upto '+str(result['list'][day]['rain']) + ' millimetres is expected')
                 else:
-                    weather_report.append('no rain')
+                    weather_report.append('No rain expected')
             elif 'sunny' in input_array:
                 if result['list'][day]['temp']['max'] > 303:
-                    weather_report.append('yes its sunny, you may even need umbrella')
+                    weather_report.append('Yes, it may be sunny, you may even need an umbrella')
                 else:
-                    weather_report.append('No')
+                    weather_report.append('Not sunny')
             else:
                 if result['list'][day]['weather'][0]['main'] == 'Clouds': # need to check on 'main' in returned json
-                    weather_report.append('Yes its cloudy')
+                    weather_report.append('Yes, it may be cloudy')
                     weather_report.append(result['list'][day]['weather'][0]['description'])
                 else:
-                    weather_report.append('Not cloudy')
+                    weather_report.append('No, it may not be cloudy')
 
         elif command['intent'] == 'humidity':
-            weather_report.append(str(result['list'][day]['humidity']) + '  %')
+            weather_report.append(str(result['list'][day]['humidity']) + ' %')
         elif command['intent'] == 'windspeed':
             weather_report.append(str(result['list'][day]['speed']) + ' knots')
         elif command['intent'] == 'need': # ex: do i need an umbrella,
             if 'rain' in result['list'][day].keys(): # need one when it is raining
-                weather_report.append('Yes, you need an umbrella')
+                weather_report.append('Yes, you may need an umbrella')
                 weather_report.append('Rain upto '+str(result['list'][day]['rain']) + ' millimetres is expected')
             elif round(result['list'][day]['temp']['max']) - 273 > 30.00: # need one when its hot
-                weather_report.append('Yes you need an umbrella')
+                weather_report.append('Yes, you may need an umbrella')
                 weather_report.append('Maximum Temperature is about '+ kelvin2celsius(result['list'][day]['temp']['max']))
-            else:weather_report.append('No')
+            else:
+                weather_report.append('No, you may not need an umbrella')
 
         elif command['intent'] == 'weather':
             weather_report.append('Humidity : '+str(result['list'][day]['humidity']))
@@ -262,9 +263,6 @@ def weather(command, device, output):
             weather_report.append('Morning Temperature : '+ kelvin2celsius(result['list'][day]['temp']['morn']))
             if 'rain' in result['list'][day].keys():
                 weather_report.append('Rain upto '+str(result['list'][day]['rain']) + ' millimetres is expected')
-
-        # s = datetime.datetime(2016,4,15,0,0).timestamp()
-        # e = datetime.datetime(2016,4,16,0,0).timestamp()
 
         output = {
                  'commands': [],
@@ -279,9 +277,9 @@ def weather(command, device, output):
         return output
     except:
         output = {
-            'message': 'invalid input',
-            'error':True,
-            'final':True
+            'message': 'Invalid input',
+            'error': True,
+            'final': True
         }
         return output
 

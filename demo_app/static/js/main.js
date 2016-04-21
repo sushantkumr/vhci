@@ -133,7 +133,7 @@ $(document).ready(function() {
 
             // If weather
             console.log(result.parsed.device)
-            if (result.parsed && result.parsed.device === 'weather') {
+            if (result.parsed && result.parsed.device === 'forecast') {
               currentSession = 'forecast'
             }
           }
