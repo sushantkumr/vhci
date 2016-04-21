@@ -42,7 +42,7 @@ var setupRecognizer = function () {
     // If the message is not related to session (de)activation AND a session is active send input to server
     if (isSessionActive) {
       $('input[name=command_text]').val(inputContent)
-      $('#main-submit').click()
+      $('#command_form').submit()
     }
   }
 

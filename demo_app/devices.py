@@ -111,7 +111,7 @@ tweet = {
             'confirm': False
          },
          'trends/place':{
-            'triggers': [r'in', r'trending in'],
+            'triggers': [r'from', r'trending in'],
             'arguments':{
                 'name': ['{{trigger}}(?P<name>( .*)?)']
             },
@@ -215,61 +215,47 @@ weather = {
     'alias' : ['forecast'],
     'operations' : {
         'minTemperature':{
-            'triggers':[r'min[a-z]* temperature'],
+            'triggers':[r'min[a-z]* temp[a-z]*'],
             'arguments':{
-                # 'name': ['{{trigger}}(?P<name>( .*)?)']
             },
             'confirm':False,
         },
         'maxTemperature':{
-            'triggers':[r'max[a-z]* temperature'],
+            'triggers':[r'max[a-z]* temp[a-z]*'],
             'arguments':{
-                # 'name': ['{{trigger}}(?P<name>( .*)?)']
             },
             'confirm':False,
         },
         'need':{
             'triggers':[r'need an umbrella'],
             'arguments':{
-                # 'name': ['{{trigger}}(?P<name>( .*)?)']
             },
              'confirm':False,
         },
         'will':{
             'triggers':[r'(rain|cloudy|sunny)'],
             'arguments':{
-                # 'name': ['{{trigger}}(?P<name>( .*)?)']
             },
             'confirm':False,
         },
         'windspeed':{
             'triggers':[r'wind speed'],
             'arguments':{
-                # 'name': ['{{trigger}}(?P<name>( .*)?)']
             },
             'confirm':False,
         },
         'humidity':{
             'triggers':[r'humidity'],
             'arguments':{
-                # 'name': ['{{trigger}}(?P<name>( .*)?)']
             },
             'confirm':False,
         },
         'weather':{
             'triggers':[r'weather'],
             'arguments':{
-                # 'name': ['{{trigger}}(?P<name>( .*)?)']
             },
             'confirm':False,
         },
-        # 'set city':{
-        #     'triggers':[r'set city'],
-        #     'arguments':{
-        #         'name': ['{{trigger}}(?P<name>( .*)?)']
-        #     },
-        #     'confirm':False
-        # },
         'reset':{
             'triggers':[r'reset city'],
             'arguments':{
@@ -278,12 +264,20 @@ weather = {
             'confirm':False
         },
         'set city':{
-            'triggers':[r'set city'],
+            'triggers':[r'set city( to)?'],
             'arguments':{
                 'name': ['{{trigger}}(?P<name>( .*)?)']
             },
             'confirm':False
-        }
+        },
+        'examples_intent':{
+            'triggers':[r'none'],
+            'arguments':{
+                'example':['The possible intents are max temperature, min temperature', 'Example: forecast max temperature'],
+                'message':'No intent provided'
+            },
+            'confirm':False
+        },        
     }
 }
 

@@ -1,4 +1,3 @@
-from pprint import pprint
 from TwitterAPI import TwitterAPI
 import datetime
 import os
@@ -32,6 +31,9 @@ def name_matcher(text, filename):
         else:
             return False
     return True
+
+def kelvin2celsius(temp):
+    return temp - 273
 
 def totem(command, device, output):
     cl = 'totem ' + command['intent']
@@ -214,9 +216,9 @@ def weather(command, device, output):
         info.append(result['city']['name'])
         info.append('Date : '+str(' '.join(str(e) for e in date_time[0:3]))) # getting only year, month, and day
         if command['intent'] == 'minTemperature':
-            weather_report.append('Minimum Temperature is '+str(result['list'][day]['temp']['min']))
+            weather_report.append('Minimum Temperature is '+str(round(kelvin2celsius(result['list'][day]['temp']['min']), 2)))
         elif command['intent'] == 'maxTemperature':
-            weather_report.append('Maximum Temperature is '+str(result['list'][day]['temp']['max']))
+            weather_report.append('Maximum Temperature is '+str(round(kelvin2celsius(result['list'][day]['temp']['max']), 2)))
         elif command['intent'] == 'will': # ex: will it rain tomorrow
             if 'rain' in input_array:
                 if 'rain' in result['list'][day].keys():
@@ -244,19 +246,19 @@ def weather(command, device, output):
             if 'rain' in result['list'][day].keys(): # need one when it is raining
                 weather_report.append('Yes, you need an umbrella')
                 weather_report.append('Rain upto '+str(result['list'][day]['rain']) + ' millimetres is expected')
-            elif round(result['list'][day]['temp']['max'] -273, 2) > 30.00: # need one when its hot
+            elif round(kelvin2celsius(result['list'][day]['temp']['max']), 2) > 30.00: # need one when its hot
                 weather_report.append('Yes you need an umbrella')
-                weather_report.append('Maximum Temperature is about '+str(round(result['list'][day]['temp']['max'] -273, 2)) + ' celcius')
+                weather_report.append('Maximum Temperature is about '+str(round(kelvin2celsius(result['list'][day]['temp']['max']), 2)) + ' celcius')
             else:weather_report.append('No')
 
         elif command['intent'] == 'weather':
             weather_report.append('Humidity : '+str(result['list'][day]['humidity']))
             weather_report.append('Wind Speed : '+str(result['list'][day]['speed']))
-            weather_report.append('Minimum Temperature : '+str(round(result['list'][day]['temp']['min'] - 273, 2))+ ' celcius')
-            weather_report.append('Maximum Temperature : '+str(round(result['list'][day]['temp']['max'] -273, 2)) + ' celcius')
-            weather_report.append('Day Temperature : '+str(round(result['list'][day]['temp']['day'] - 273, 2)) + ' celcius')
-            weather_report.append('Evening Temperature : '+str(round(result['list'][day]['temp']['eve'] - 273, 2)) + ' celcius')
-            weather_report.append('Morning Temperature : '+str(round(result['list'][day]['temp']['morn'] - 273, 2)) + ' celcius')
+            weather_report.append('Minimum Temperature : '+str(round(kelvin2celsius(result['list'][day]['temp']['min']), 2))+ ' celcius')
+            weather_report.append('Maximum Temperature : '+str(round(kelvin2celsius(result['list'][day]['temp']['max']), 2)) + ' celcius')
+            weather_report.append('Day Temperature : '+str(round(kelvin2celsius(result['list'][day]['temp']['day']), 2)) + ' celcius')
+            weather_report.append('Evening Temperature : '+str(round(kelvin2celsius(result['list'][day]['temp']['eve']), 2)) + ' celcius')
+            weather_report.append('Morning Temperature : '+str(round(kelvin2celsius(result['list'][day]['temp']['morn']), 2)) + ' celcius')
             if 'rain' in result['list'][day].keys():
                 weather_report.append('Rain upto '+str(result['list'][day]['rain']) + ' millimetres is expected')
 

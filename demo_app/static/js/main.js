@@ -20,14 +20,8 @@ $(document).ready(function() {
     setupRecognizer() // Setup the speech recognizer
   })()
 
-  // // // Handles voice input
-  // $('#main-speech').click(function() {
-  //   $('input[name=command_text]').val("file explorer move up")
-  //   $('#main-submit').click()
-  // })
-
   // Submits form using AJAX
-  $('#main-submit').click(function(e) {
+  $('#command_form').submit(function(e) {
     e.preventDefault()
 
     // Read text in the form field and clear it
