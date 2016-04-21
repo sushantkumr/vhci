@@ -34,6 +34,16 @@ $(document).ready(function() {
     var inputContent = $('input[name=command_text]').val()
     $('input[name=command_text]').val('')
 
+    if (inputContent.search('reset session') !== -1) {
+      utils.clearSession()
+      isSessionActive = true
+      var panel = utils.generateDiv()
+      var message = 'Session has been reset'
+      panel.find('.box').append($('<pre>').html(message))
+      $('.holder').prepend(panel)
+      return
+    }
+
     // All front end apps should have their code before submit
     if (currentSession === 'tetris') {
       tetrisHandler(inputContent)

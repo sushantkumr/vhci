@@ -107,7 +107,7 @@ def parse(sentence, newCommand, oldResult, currentSession, output):
 
         if sentence.lower() in ['nope', 'no', 'n']:
             output['final'] = True
-            output['message'] = 'Operation cancelled'
+            output['message'] = 'Operation canceled'
             output['cancel'] = '' # The operations wasn't confirmed
             return oldResult['parsed'], device, output
 

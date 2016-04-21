@@ -94,7 +94,7 @@ totem = {
 } #20 words
 
 tweet = {
-    'alias' : ['tweet', 'tweets'],
+    'alias' : ['tweet'],
     'operations' : {
         'search/tweets': {
             'triggers': [r'on', r'about'],
