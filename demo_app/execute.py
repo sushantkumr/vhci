@@ -130,6 +130,7 @@ def tweet(command, device, output):
                 string = item['text'].replace('\n', '<br />')
                 tweets.append(string)
 
+        output_tweets = []
         # Convert links in string format to HTML format
         for tweet in tweets:
             tweet_length = len(tweet)
@@ -143,16 +144,14 @@ def tweet(command, device, output):
                 if last_pos_link == -2:
                     last_pos_link = tweet_length - 1
 
-                # last_pos_link = index # 'last_pos_link' to find the end of link
-                # while tweet[last_pos_link] != ' ' and last_pos_link < (tweet_length-1):
-                #     last_pos_link += 1
-
                 if last_pos_link < tweet_length:
                     text = tweet[index:last_pos_link+1]
-                    link = '<a href=' + text + ' target="_blank">' + text + '</a>'
+                    blank = '_blank'
+                    link = '<a href="' + text + '" target="_blank">' + text + '</a>'
                     tweet = tweet.replace(text, link)
                     first_char = index + len(link)
                     tweet_length = len(tweet)
+            output_tweets.append(tweet)
 
         output = {
              'commands': [],
@@ -161,7 +160,7 @@ def tweet(command, device, output):
              'parsed': command,
              'message': 'Executed command',
              'type': None,
-             'tweet': tweets
+             'tweet': output_tweets
         }
         return output
     except:
