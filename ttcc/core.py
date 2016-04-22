@@ -49,7 +49,6 @@ def parse_args(sentence, intent):
             value = re.search(regex, sentence)
             if value:
                 values[argument_name] = value.group(argument_name)
-    print(values)
     return values
 
 def file_explorer_parser(operations, sentence):
