@@ -99,7 +99,7 @@ tweet = {
         'search/tweets': {
             'triggers': [r'on', r'about'],
             'arguments':{
-                 'name': ['{{trigger}}(?P<name>( .*)?)']
+                 'name': ['{{trigger}}(?P<name>( .*)?)'] # r'on microsoft' 
             },
             'confirm': False
         },
@@ -251,7 +251,7 @@ weather = {
             'confirm':False,
         },
         'weather':{
-            'triggers':[r'weather'],
+            'triggers':[r'weather', r'whether'],
             'arguments':{
             },
             'confirm':False,
@@ -264,7 +264,7 @@ weather = {
             'confirm':False
         },
         'set city':{
-            'triggers':[r'set city( to)?'],
+            'triggers':[r'set city( to)?', r'change city( to)?'],
             'arguments':{
                 'name': ['{{trigger}}(?P<name>( .*)?)']
             },

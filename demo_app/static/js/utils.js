@@ -32,6 +32,7 @@ var utils = {
   },
 
   clearSession: function() {
+    clearTimeout(timeout)
     if (currentSession === 'soundcloud') {
       $('.soundcloud').remove()
     }
@@ -55,9 +56,10 @@ var utils = {
         data: {
           newCommand: false,
           oldResult: JSON.stringify(oldResult),
-          input: 'yes'
+          input: 'yes',
+          currentSession: currentSession
         },
-        method: 'POST'
+        method: 'POST',
       })
     }
 

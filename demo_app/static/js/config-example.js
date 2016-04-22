@@ -1,0 +1,3 @@
+SoundCloud = {
+  client_id : ''
+}

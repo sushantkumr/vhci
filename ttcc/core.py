@@ -33,11 +33,10 @@ def parse_intent(sentence, operations):
         for trigger in operation['triggers']:
             if re.search(trigger, sentence):
                 return {
-                    'operation_name': operation_name,
+                    'operation_name': operation_name, # example : --play
                     'trigger': trigger,
-                    'operation': operation
+                    'operation': operation # example : whole --play dict
                 }
-                return (operation_name, trigger, operation)
     return None
 
 def parse_args(sentence, intent):
@@ -46,7 +45,7 @@ def parse_args(sentence, intent):
     for argument_name in arguments.keys():
         for regex in arguments[argument_name]:
             regex = replace_macro(regex, intent)
-            regex = re.compile(regex)
+            regex = re.compile(regex) # Convert string to regular expression
             value = re.search(regex, sentence)
             if value:
                 values[argument_name] = value.group(argument_name)
@@ -98,12 +97,13 @@ def parse(sentence, newCommand, oldResult, currentSession, output):
     if newCommand == 'false' and oldResult['type'] == 'confirm':
         device = DEVICES[oldResult['parsed']['device']]
         if sentence.lower() in ['yes', 'yeah', 'yup', 'yep', 'ya', 'y']:
-            output = execution_handler(oldResult['parsed'], device, output)
+            # output = execution_handler(oldResult['parsed'], device, output)
             output['final'] = True
             output['parsed'] = oldResult['parsed']
             output['message'] = 'Executed command'
-            device['operations'][oldResult['parsed']['intent']]['confirm'] = False
-            return oldResult['parsed'], device, output
+            temp = device
+            temp['operations'][oldResult['parsed']['intent']]['confirm'] = False
+            return oldResult['parsed'], temp, output
 
         if sentence.lower() in ['nope', 'no', 'n']:
             output['final'] = True
@@ -142,13 +142,11 @@ def parse(sentence, newCommand, oldResult, currentSession, output):
 
         arguments = intent['operation']['arguments']
         argument_values = parse_args(sentence, intent)
-        if 'name' in arguments.keys():
-            if re.match('^[ ]*$',argument_values['name']):
-                argument_values['name'] = ''
-                return get_arguments(target_device, intent, argument_values, output)
+        # if 'name' in arguments.keys():
+        #     if re.match('^[ ]*$',argument_values['name']): # Removes redundant spaces
+        #         argument_values['name'] = ''
+        #         return get_arguments(target_device, intent, argument_values, output)
 
-        if target_device == 'weather': # this is further processing of sentence  in execute.py
-            output['input'] = sentence
         response = {
             'device': target_device,
             'intent': intent['operation_name'],
@@ -158,6 +156,7 @@ def parse(sentence, newCommand, oldResult, currentSession, output):
         return response, device, output
 
 def replace_macro(regex, intent):
+    # return regex.replace('{{trigger}}', intent)
     while True:
         try:
             start = regex.index('{{')

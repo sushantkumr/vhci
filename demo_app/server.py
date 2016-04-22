@@ -3,7 +3,7 @@ import sys
 sys.path.insert(0, '../')
 ######
 
-from flask import Flask, request, jsonify, redirect, url_for, render_template
+from flask import Flask, request, jsonify, render_template
 from ttcc import core, utils
 import devices
 import execute
@@ -35,13 +35,6 @@ def tetris():
     Tetris window
     '''
     return render_template('tetris.html')
-
-def execution_handler(result, device, output):
-    '''
-    Calls the execution module
-    '''
-    execution_result = execute.process(result, device, output)
-    return execution_result
 
 @app.route('/command', methods=['POST'])
 def command():
@@ -90,7 +83,7 @@ def command():
             output['parsed'] = result
             return jsonify(output)
         else:
-            output = execution_handler(result, device, output)
+            output = execute.process(result, device, output)
             return jsonify(output)
     except:
         output = {
