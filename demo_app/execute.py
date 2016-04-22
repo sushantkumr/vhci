@@ -23,6 +23,8 @@ def name_matcher(text, filename):
     filename = filename.lower()
     if text == filename:
         return True
+    if filename.endswith(('.mp3','.MP3','.mp4','.m3u','.m4a','.wav','.flv')):
+        filename = filename[:-4]
     fn_list_words = re.split(' |-|_|\.', filename)
     for word in text.split():
         if word in fn_list_words:
@@ -56,8 +58,7 @@ def totem(command, device, output):
             # Walk in the required directories to find music
             for dirName, subdirList, fileList in os.walk("./"):
                 for filename in fileList:
-                    if filename.endswith(('.mp3','.MP3','.mp4','.m3u','.m4a','.wav','.flv')):
-                        if name_matcher(command['arguments']['name'], filename[:-4]):
+                        if name_matcher(command['arguments']['name'], filename):
                             matched_files.append(filename)
             if len(matched_files) == 0:
                 output['message'] = 'No files were found'
