@@ -47,20 +47,20 @@
 					<hr/>
 					<div style="float: left; text-align: left;">
 					<small>
-						<p>Under the guidance of:</p>
-						<p><span style="font-size: 30px;"> Dr. M V Sudhamani </span></p>
-						<p>Professor and Head of Department</p>
-						<p>Dept. of Information Science and Engineering</p>
-					</small>
-					</div>
-					<div style="float: right; text-align: left;">
-					<small>
 						<p>Carried out by:</p>
 						<p>Prashant R (1RN12IS064)</p>
 						<p>Rohith PR (1RN12IS077)</p>
 						<p>Shreyas R (1RN12IS089)</p>
 						<p>Sushant K (1RN12IS101)</p>
 					</small>
+					</div>
+					<div style="float: right; text-align: left;">
+						<small>
+							<p>Under the guidance of:</p>
+							<p><span style="font-size: 30px;"> Dr. M V Sudhamani </span></p>
+							<p>Professor and Head of Department</p>
+							<p>Dept. of Information Science and Engineering</p>
+						</small>
 					</div>
 				</section>
 
@@ -90,7 +90,7 @@
 						<li>Statistical methods have to be trained before being used</li>
 						<li>Parts of speech tagging: probability based</li>
 						<li>A sentence has to be parsed completely</li>
-						<li>Commercially available software is often inaccurate</li>
+						<li>Commercially available software is initially inaccurate</li>
 						<li>Increases time to market due to tweaking needed for the parser</li>
 						<li>Simple, general purpose, ready to use solution is required</li>
 					</ul>
@@ -114,22 +114,67 @@
 				<section>
 					<h3>Hardware Requirements</h3>
 					<ul>
-						<li>Processor: Intel i5</li>
+						<li>Processor: Intel i3</li>
 						<li>RAM: 2GB</li>
 						<li>Hard disk: 4GB</li>
+						<li>Microphone</li>
 					</ul>
 				</section>
 
 				<section>
 					<h3>System Design</h3>
 					<p style="text-align: left;">The application has been built using a modular approach</p>
-					<p style="text-align: left;">The different modules and their responsibilities are:</p>
+					<img src="img/modules.png" />
+				</section>
+
+				<section>
+					<h3>Client Side</h3>
 					<ul>
-						<li>Client side: Speech recognition and session handling</li>
-						<li>Controller: Validation and communication between components</li>
-						<li>Parser: Conversion of unstructured text to actionable data</li>
-						<li>Execution Handlers: Application specific code that executes commands</li>
+						<li>Call speech recognition API to convert user's voice input to text</li>
+						<li>Look out for reserved keywords</li>
+						<li>Sends commands to the server once a session is started</li>
+						<li>Responsible for tracking state</li>
+						<li>Render output on screen</li>
+						<li>Control front end applications based on the parser's output</li>
 					</ul>
+				</section>
+
+				<section>
+					<h3>Parser</h3>
+					<ul>
+						<li>Does not classify words as nouns, verbs etc.</li>
+						<li>Hierarchically organized collection of regular expressions</li>
+						<li>Reduces search space - increases speed</li>
+						<li>Databases are optional</li>
+					</ul>
+					<img src="img/hierarchy.png" />
+				</section>
+
+				<section>
+					<h3>Registering and Parsing</h3>
+					<span style="font-size: 30px;">
+<pre>{
+  'alias': ['totem', 'video player', 'media player'],
+  'operations': {
+    '--play': {
+      'triggers': [r'play video', r'play songs?', r'play'],
+      'arguments':{
+          'name': ['{trigger}(?P&lt;name&gt;( .*)?)((in )?{alias})?'],
+      }
+    }
+  }
+}</pre>
+					</span>
+					<img src="img/parsing.png" />
+					<span style="font-size: 30px;">
+<pre>{
+  "arguments": {
+    "name": "space bound"
+  },
+  "device": "totem",
+  "intent": "--play"
+}</pre>
+					</span>
 				</section>
 
 				<section>
@@ -150,11 +195,11 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td><img src="img/COTS.png"></td>
+								<td><img src="img/COTS.png" /></td>
 								<td></td>
 								<td></td>
 								<td></td>
-								<td><img src="img/ttcc.png"></td>
+								<td><img src="img/ttcc.png" /></td>
 							</tr>
 						</tbody>
 					</table>

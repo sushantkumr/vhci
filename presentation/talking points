@@ -16,7 +16,14 @@ Commercially available software is often subject to these limitations.
 When companies use these software for their products they have to spend time on tweaking and training it so that it works as per their needs. This increases the time taken to release the product to market.
 Therefore, a simple, ready use to solution is required. We have developed a general purpose parser that can be used in a plug and play manner by anyone.
 
-Literature Survey
+
+Literature Survey:
+
+
+Non-functional Requirements:
+
+
+Functional Requirements:
 
 
 Software Requirements:
@@ -27,11 +34,47 @@ The back end and the core parser is built using Python.
 The server used to run the Flask application is Werkzeug.
 
 Hardware Requirements:
-The application itself has a very light footprint. But to support the OS and the server a minimum of 2GB memory and 4GB of storage is recommended.
+The application itself has a very light footprint, but to support the OS and the server a minimum of 2GB memory and 4GB of storage is recommended. A microphone is required to give voice input to the system.
 
 
+System design:
+The application is built in a modular manner where each module is designed to be plug and play. We can replace any module with improved versions without affecting other parts of the system as long as old method signatures are still respected.
+These are some of the major components of the system:
+The client side controller is responsible for speech recognition and session handling. Text is sent to the server side controller for further processing.
+The server side controller validates input and forwards the input text to the parser.
+The parser is in charge of converting unstructured text to a structured format that is easy to act on. This is a general purpose module that can be used in other applications too with minimum modification.
+The JSON output from the parser is then forwarded to execution handlers. Execution handlers are tied to individual applications. They contain some application specific code that perform the tasks that are requested from them.
+
+Client side:
+The main task of the client side controller is to call the speech recognition API and convert a user's voice input to text. This process is done asynchronously by using JavaScript.
+We record the users speech continuously and look out for reserved keywords that indicate that a user wishes to interact with the application. This way, we can avoid wasting resources on parsing sentences that have no meaning to the application.
+The user has to say the words "start session" to start communicating with the application. Once these words are said a session is started.
+Anything that is spoken while a session is active is sent to the server for further processing.
+The controller on the server performs the requested operation and returns the results to the client. This result is then rendered on to the screen along with a suitable message.
+
+Parser:
+The parser that we've built does not perform parts of speech tagging. Instead, it takes a collection of regular expressions that describe an application, it's operations and any arguments that may be required to perform an operation.
+By organizing these regular expressions in a hierarchical manner we have reduced the search space which leads to improved performance.
+By explicitly defining the operations that a device is capable of performing we can avoid going through a database to find out which part of the sentence could be an action request and which part of it is an argument.
+As the rules are required for parsing are all known in advance, using a database is optional. We can use it to log commands and results to identify issues if required. However, some advanced features such as conflict resolution will require the use of databases.
+
+Registering and Parsing:
+We make use of a template to register devices with the parser. An example to register a music player has been shown here.
+When a sentence is sent to the parser it first tries to identify the application whose services are being invoked.
+Once the application is identified we try to find the operation that is required and finally any arguments that may be required.
+This information is then packed into a JSON object and returned so that the application can easily act on it.
+
+Advantages:
+Gives results faster.
+Training data sets aren't required.
+
+Disadvantages:
+Difficulty in identifying proper nouns as we can't write regular expressions correctly for all possible cases. POS tagging is simpler to identify proper nouns.
 
 Comparison:
-Results have been compared after registering a media player with a 
+Results have been compared after registering a media player with a
 
-
+Future work:
+Handle complex commands that invoke functionality of multiple applications.
+Generate strict and tighter rules based on past input and by improving contextual awareness.
+Needs better conflict resolution. (play forecast)
