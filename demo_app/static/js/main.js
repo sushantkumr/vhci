@@ -9,9 +9,9 @@ var timeout
 var player // SoundCloud widget reference.
 
 // Initializing SCloud object
-// SC.initialize({
-//   client_id : SoundCloud.client_id
-// })
+SC.initialize({
+  client_id : SoundCloud.client_id
+})
 
 $(document).ready(function() {
   // This will be executed when the page is loaded
@@ -123,9 +123,11 @@ $(document).ready(function() {
             // If totem
             if (result.parsed && result.parsed.device === 'totem') {
               currentSession = 'totem'
-              timeout = setTimeout(function() {
-                utils.clearSession()
-              }, result.duration)
+              if (result.parsed.intent === '--play' && result.duration) {
+                timeout = setTimeout(function() {
+                  utils.clearSession()
+                }, result.duration)
+              }
             }
 
             // If file explorer
