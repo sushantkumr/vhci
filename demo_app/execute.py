@@ -11,7 +11,6 @@ from mutagen.mp3 import MP3
 import requests
 import time
 
-city = 'bangalore' # the default city to check on weather in bangalore
 path = os.path.expanduser('~/')
 city = 'bangalore' # the default city to check on weather in bangalore
 
@@ -211,7 +210,6 @@ def weather(command, device, output):
         else:
             day = 0
 
-        # response = requests.get('http://api.openweathermap.org/data/2.5/forecast/daily?q='+city+'&APPID='+appid)
         response = requests.get('http://api.openweathermap.org/data/2.5/forecast/daily', params = {'q': city, 'APPID': appid})
         result = response.json()
 

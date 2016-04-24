@@ -33,7 +33,7 @@ System architecture:
 In the sequence diagram dashed line represents reply, normal line represents request. the rectangle indicates
 various actors. open headed arrow represents asyncronous response.At first the user is required to say start session on which the client is activated. Then the commands given are validated, if the commands are correct then 
 it will be parsed and executed. If the input is not valid then user will be asked to enter the proper input.
-User at any point of time can stop a session and start a new one. In a session the user can give give commands related to particular application.
+User at any point of time can stop a session and start a new one. In a session the user can give give commands related to particular application. 
 
 Comparison:
 Results have been compared after registering a media player with a 
