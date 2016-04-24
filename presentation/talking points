@@ -1,0 +1,25 @@
+Abstract:
+Statistical methods have been preferred over rule based parsers for building general purpose natural language processing software because the number of rules required to describe a language grows exponentially with the number of words in the language.
+These parsers give inaccurate results if the training data set used is small or if the sentence being parsed is grammatically incorrect.
+For Human-Computer Interaction (HCI) we need a high degree of accuracy for a limited number of commands.
+To suit these needs and overcome the drawbacks of statistical parsers we recommend a hierarchical rule based parser.
+This parser treats each input sentence as a collection of independent and meaningful phrases and parses them separately rather than trying to comprehend the entire sentence at once.
+By doing this we can even parse commands that have been issued by someone who is weak in the language.
+
+
+Introduction:
+Statistical methods often need to be trained with large training sets before they can be useful.
+They try to comprehend entire sentences by performing probabilistic parts of speech tagging.
+After classifying words into verbs, nouns etc. they try to identify the action that must be taken on an object by the subject.
+This process will lead to inaccurate results if the command issued is grammatically incorrect or if the sentence is something that is completely new.
+Commercially available software is often subject to these limitations.
+When companies use these software for their products they have to spend time on tweaking and training it so that it works as per their needs. This increases the time taken to release the product to market.
+Therefore, a simple, ready to solution is required. We have developed a general purpose parser that can be used in a plug and play manner by anyone.
+
+Literature Survey
+
+
+Comparison:
+Results have been compared after registering a media player with a 
+
+
