@@ -368,7 +368,7 @@ file_explorer = {
                 'message':'No arguments provided'
             },
             'confirm':False
-        }    
+        }
     }
 }
 

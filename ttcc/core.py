@@ -137,7 +137,6 @@ def parse(sentence, newCommand, oldResult, currentSession, output):
             intent = file_explorer_parser(operations, sentence)
         else:
             intent = parse_intent(sentence, operations)
-
         if intent is None:
             return get_intent(target_device,output)
 
