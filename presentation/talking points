@@ -29,18 +29,25 @@ Functional Requirements:
 Software Requirements:
 The application has been developed for Debian 8 and it's derivatives such as Ubuntu 14.
 For speech recognition we are making use of Google Speech Recognition API that is built into Google Chrome hence that is the only browser that is supported.
-For the application's front end we use HTML, JavaScript and jQuery.
-The back end and the core parser is built using Python.
+For the application's front end we use HTML, JavaScript and jQuery. jQuery provides simple methods to manipulate DOM elements.
+The back end and the core parser is built using Python. Python is a dynamically typed, interpreted language. It comes with a rich standard library that simplifies many routine tasks.
 The server used to run the Flask application is Werkzeug.
+
 
 Hardware Requirements:
 The application itself has a very light footprint, but to support the OS and the server a minimum of 2GB memory and 4GB of storage is recommended. A microphone is required to give voice input to the system.
 
+
 System architecture:
-In the sequence diagram dashed line represents reply, normal line represents request. the rectangle indicates
-various actors. open headed arrow represents asyncronous response.At first the user is required to say start session on which the client is activated. Then the commands given are validated, if the commands are correct then 
-it will be parsed and executed. If the input is not valid then user will be asked to enter the proper input.
-User at any point of time can stop a session and start a new one. In a session the user can give give commands related to particular application.
+The sequence diagram shows the interaction between the different components of the system.
+In the sequence diagram dashed line represents reply, normal line represents request.
+Open headed arrow represents asynchronous events.
+The rectangle indicates various actors.
+The vertical lines represent the lifelines of each component. The server is active at all times as it has to listen to requests from clients.
+The client controller can be activated by the user by speaking the words "start session".
+Once the client controller is activated it will send all commands to the server for parsing and execution.
+The client can be deactivated by the user by speaking the words "stop session".
+
 
 System design:
 The application is built in a modular manner where each module is designed to be plug and play. We can replace any module with improved versions without affecting other parts of the system as long as old method signatures are still respected.
@@ -56,6 +63,9 @@ We record the users speech continuously and look out for reserved keywords that 
 The user has to say the words "start session" to start communicating with the application. Once these words are said a session is started.
 Anything that is spoken while a session is active is sent to the server for further processing.
 The controller on the server performs the requested operation and returns the results to the client. This result is then rendered on to the screen along with a suitable message.
+In addition to this, the client side controller is also responsible for keeping track of the state of the application. This helps us when we have to ask the user for additional information or request confirmation.
+
+
 
 Parser:
 The parser that we've built does not perform parts of speech tagging. Instead, it takes a collection of regular expressions that describe an application, it's operations and any arguments that may be required to perform an operation.

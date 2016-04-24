@@ -49,7 +49,7 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
-					<h3>Hierarchical Rule Based Parser for Conversion of Text to Commands for Human-Computer Interaction</h3>
+					<h3>Hierarchical Rule Based Parser for the Conversion of Text to Commands for Human-Computer Interaction</h3>
 					<hr/>
 					<div style="float: left; text-align: left;">
 					<small>
@@ -97,7 +97,7 @@
 						<li>Parts of speech tagging: probability based</li>
 						<li>A sentence has to be parsed completely</li>
 						<li>Commercially available software is initially inaccurate</li>
-						<li>Increases time to market due to tweaking needed for the parser</li>
+						<li>Increases time to market due to tweaking needed by the parser</li>
 						<li>Simple, general purpose, ready to use solution is required</li>
 					</ul>
 				</section>
@@ -107,14 +107,19 @@
 				</section>
 
 				<section>
-					<h4 style="text-align: left;">Functional Requirements</h4>
+					<h3>Functional Requirements</h3>
 					<ul>
-						<li>The system requires a server, parser and execute handler</li>
-						<li>Client gets input from user.</li>
-						<li>The parser will parse the unstructured input into required actionable data based on rule based classification.</li>
-						<li>The parsed values will be executed by an execution handler.</li>
-						<li>once executed the output will be sent back to client.</li>
-					</ul>
+					<!-- Is this correct? -->
+<!-- 						<li>The system requires a server, parser and execute handler</li>
+						<li>Client gets input from user</li>
+						<li>The parser will parse the unstructured input into required actionable data based on rule based classification</li>
+						<li>The parsed values will be executed by an execution handler</li>
+						<li>Once executed the output will be sent back to client</li>
+ -->					</ul>
+				</section>
+
+				<section>
+					<h3>Non-functional Requirements</h3>
 				</section>
 
 				<section>
@@ -144,17 +149,6 @@
 				</section>
 
 				<section>
-					<ul>
-						<li>On start session client gets activated.</li>
-						<li>The input from a user will be parsed and executed.</li>
-						<li>Output will be sent back to client after execution.</li>
-						<li>Respose is an asynchronous event.</li>
-						<li>Client gets deactivated on stop session.</li>
-						<li>If the input is not parsed, an error message is displayed asking user to enter a proper command.</li>
-					</ul>
-				</section>
-
-				<section>
 					<h3>System Design</h3>
 					<p style="text-align: left;">The application has been built using a modular approach</p>
 					<img src="img/modules.png" />
@@ -170,6 +164,16 @@
 						<li>Render output on screen</li>
 						<li>Control front end applications based on the parser's output</li>
 					</ul>
+				</section>
+
+				<section>
+					<h3>Confirm before performing critical operations</h3>
+					<img src="img/quit.png" />
+				</section>
+
+				<section>
+					<h3>Request additional information</h3>
+					<img src="img/options.png" alt="Options screenshot here" />
 				</section>
 
 				<section>
@@ -211,12 +215,21 @@
 				</section>
 
 				<section>
-					<h3>Implementation</h3>
+					<h3>Execution Handlers</h3>
+					<ul>
+						<li>Each application has its own interface</li>
+						<li></li>
+					</ul>
 				</section>
+
+				<section>
+					<h3>Vocabulary and Accuracy</h3>
+				</section>
+
 				<section>
 					<h3>Testing</h3>
-					<table class = 'display' id='tablee'>
-						<thead style="font-size: 25px">
+					<table class="display" id="tablee">
+						<thead style="font-size: 25px;">
 							<tr >
 								<th>id</th>
 								<th>description</th>
@@ -225,7 +238,7 @@
 								<th>status</th>
 							<tr>
 						</thead>
-						<tbody style="font-size: 25px">
+						<tbody style="font-size: 25px;">
 							<tr>
 								<td>1</td>
 								<td>totem play space bound</td>
@@ -234,7 +247,7 @@
 								<td>correct</td>
 							</tr>
 						</tbody>
-						<tbody style="font-size: 25px">
+						<tbody style="font-size: 25px;">
 							<tr>
 								<td>2</td>
 								<td>get tweets about cricket</td>
@@ -244,7 +257,7 @@
 							</tr>
 						</tbody>
 						
-						<tbody style="font-size: 25px">
+						<tbody style="font-size: 25px;">
 							<tr>
 								<td>4</td>
 								<td>soundcloud list pursuit</td>
@@ -253,7 +266,7 @@
 								<td>correct</td>
 							</tr>
 						</tbody>
-						<tbody style="font-size: 25px">
+						<tbody style="font-size: 25px;">
 							<tr>
 								<td>5</td>
 								<td>forecast describe weather</td>
@@ -263,6 +276,14 @@
 							</tr>
 						</tbody>
 					</table>
+				</section>
+
+				<section>
+					<h3>Advantages</h3>
+				</section>
+
+				<section>
+					<h3>Disadvantages</h3>
 				</section>
 
 				<!-- Results -->
@@ -287,6 +308,22 @@
 							</tr>
 						</tbody>
 					</table>
+				</section>
+
+				<section>
+					<h3>Future work</h3>
+				</section>
+
+				<section>
+					<h3>Conclusion</h3>
+				</section>
+
+				<section>
+					<h3>Demo</h3>
+				</section>
+
+				<section>
+					<h3>Thank you</h3>
 				</section>
 			</div>
 		</div>
