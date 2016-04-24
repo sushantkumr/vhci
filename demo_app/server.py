@@ -21,6 +21,8 @@ def setup():
     core.register('soundcloud',devices.soundcloud)
     core.register('file_explorer',devices.file_explorer)
     core.register('forecast', devices.weather)
+    core.register('weather', devices.weather)
+
 
 @app.route('/')
 def home():

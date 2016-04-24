@@ -1,12 +1,17 @@
+from pprint import pprint
 from TwitterAPI import TwitterAPI
 import datetime
 import os
 import re
+<<<<<<< HEAD
 import config
 import requests
 import time
 from mutagen.mp3 import MP3
+import requests
+import time
 
+city = 'bangalore' # the default city to check on weather in bangalore
 path = os.path.expanduser('~/')
 city = 'bangalore' # the default city to check on weather in bangalore
 

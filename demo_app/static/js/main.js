@@ -90,7 +90,11 @@ $(document).ready(function() {
 
             if (result.weather) {
               var panel = utils.generateDiv()
+<<<<<<< HEAD
               var message = $('<pre>').html('Weather condition in ' + result.info[0] + ' as on ' + result.info[1])
+=======
+              var message = $('<pre>').html('Weather condition in '+result.info[0] +' as on ' +result.info[1] )
+>>>>>>> be532fae0f22be36d51a6e90ffb61e4d3582e66b
               var weather = $('<ul>')
               // result.weather= result.weather[1:5]
               result.weather.forEach(function(option) {
