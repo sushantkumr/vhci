@@ -14,9 +14,21 @@ After classifying words into verbs, nouns etc. they try to identify the action t
 This process will lead to inaccurate results if the command issued is grammatically incorrect or if the sentence is something that is completely new.
 Commercially available software is often subject to these limitations.
 When companies use these software for their products they have to spend time on tweaking and training it so that it works as per their needs. This increases the time taken to release the product to market.
-Therefore, a simple, ready to solution is required. We have developed a general purpose parser that can be used in a plug and play manner by anyone.
+Therefore, a simple, ready use to solution is required. We have developed a general purpose parser that can be used in a plug and play manner by anyone.
 
 Literature Survey
+
+
+Software Requirements:
+The application has been developed for Debian 8 and it's derivatives such as Ubuntu 14.
+For speech recognition we are making use of Google Speech Recognition API that is built into Google Chrome hence that is the only browser that is supported.
+For the application's front end we use HTML, JavaScript and jQuery.
+The back end and the core parser is built using Python.
+The server used to run the Flask application is Werkzeug.
+
+Hardware Requirements:
+The application itself has a very light footprint. But to support the OS and the server a minimum of 2GB memory and 4GB of storage is recommended.
+
 
 
 Comparison:
