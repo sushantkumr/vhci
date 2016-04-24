@@ -116,7 +116,6 @@ tweet = {
                 'name': ['{{trigger}}(?P<name>( .*)?)']
             },
             'confirm':False
-
          },
         'examples_intent':{
             'triggers':[r'none'],
@@ -369,6 +368,7 @@ file_explorer = {
                 'message':'No arguments provided'
             },
             'confirm':False
-        },
+        }
     }
 }
+

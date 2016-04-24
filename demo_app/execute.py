@@ -206,7 +206,6 @@ def weather(command, device, output):
         else:
             day = 0
 
-        # response = requests.get('http://api.openweathermap.org/data/2.5/forecast/daily?q='+city+'&APPID='+appid)
         response = requests.get('http://api.openweathermap.org/data/2.5/forecast/daily', params = {'q': city, 'APPID': appid})
         result = response.json()
 

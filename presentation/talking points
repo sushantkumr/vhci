@@ -36,6 +36,11 @@ The server used to run the Flask application is Werkzeug.
 Hardware Requirements:
 The application itself has a very light footprint, but to support the OS and the server a minimum of 2GB memory and 4GB of storage is recommended. A microphone is required to give voice input to the system.
 
+System architecture:
+In the sequence diagram dashed line represents reply, normal line represents request. the rectangle indicates
+various actors. open headed arrow represents asyncronous response.At first the user is required to say start session on which the client is activated. Then the commands given are validated, if the commands are correct then 
+it will be parsed and executed. If the input is not valid then user will be asked to enter the proper input.
+User at any point of time can stop a session and start a new one. In a session the user can give give commands related to particular application.
 
 System design:
 The application is built in a modular manner where each module is designed to be plug and play. We can replace any module with improved versions without affecting other parts of the system as long as old method signatures are still respected.

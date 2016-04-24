@@ -34,6 +34,12 @@
 		<!--[if lt IE 9]>
 		<script src="lib/js/html5shiv.js"></script>
 		<![endif]-->
+
+		<style>
+		 .display{
+
+		 }
+		 </style>
 	</head>
 
 	<body>
@@ -101,6 +107,17 @@
 				</section>
 
 				<section>
+					<h4 style="text-align: left;">Functional Requirements</h4>
+					<ul>
+						<li>The system requires a server, parser and execute handler</li>
+						<li>Client gets input from user.</li>
+						<li>The parser will parse the unstructured input into required actionable data based on rule based classification.</li>
+						<li>The parsed values will be executed by an execution handler.</li>
+						<li>once executed the output will be sent back to client.</li>
+					</ul>
+				</section>
+
+				<section>
 					<h3>Software Requirements</h3>
 					<ul>
 						<li>Operating System: Ubuntu 14.04, Debian 8</li>
@@ -118,6 +135,22 @@
 						<li>RAM: 2GB</li>
 						<li>Hard disk: 4GB</li>
 						<li>Microphone</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>System Architecture</h3>
+					<img src="img/sequence_dgram.png">
+				</section>
+
+				<section>
+					<ul>
+						<li>On start session client gets activated.</li>
+						<li>The input from a user will be parsed and executed.</li>
+						<li>Output will be sent back to client after execution.</li>
+						<li>Respose is an asynchronous event.</li>
+						<li>Client gets deactivated on stop session.</li>
+						<li>If the input is not parsed, an error message is displayed asking user to enter a proper command.</li>
 					</ul>
 				</section>
 
@@ -179,6 +212,57 @@
 
 				<section>
 					<h3>Implementation</h3>
+				</section>
+				<section>
+					<h3>Testing</h3>
+					<table class = 'display' id='tablee'>
+						<thead style="font-size: 25px">
+							<tr >
+								<th>id</th>
+								<th>description</th>
+								<th>expected_output<table><tr><th>device</th><th>intent</th></tr></table></th>
+								<th>actual_output<table><th>device</th><th>intent</th></table></th>
+								<th>status</th>
+							<tr>
+						</thead>
+						<tbody style="font-size: 25px">
+							<tr>
+								<td>1</td>
+								<td>totem play space bound</td>
+								<td><table><td>totem</td><td>play</td></table></td>
+								<td><table><td>totem</td><td>play</td></table></td>
+								<td>correct</td>
+							</tr>
+						</tbody>
+						<tbody style="font-size: 25px">
+							<tr>
+								<td>2</td>
+								<td>get tweets about cricket</td>
+								<td><table><td>tweet</td><td>cricket</td></table></td>
+								<td><table><td>tweet</td><td>cricket</td></table></td>
+								<td>correct</td>
+							</tr>
+						</tbody>
+						
+						<tbody style="font-size: 25px">
+							<tr>
+								<td>4</td>
+								<td>soundcloud list pursuit</td>
+								<td><table><td>soundcloud</td><td>list</td></table></td>
+								<td><table><td>soundcloud</td><td>list</td></table></td>
+								<td>correct</td>
+							</tr>
+						</tbody>
+						<tbody style="font-size: 25px">
+							<tr>
+								<td>5</td>
+								<td>forecast describe weather</td>
+								<td><table><td>forecast</td><td>weather</td></table></td>
+								<td><table><td>forecast</td><td>weather</td></table></td>
+								<td>correct</td>
+							</tr>
+						</tbody>
+					</table>
 				</section>
 
 				<!-- Results -->
