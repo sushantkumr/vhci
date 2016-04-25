@@ -6,3 +6,5 @@ twitter = {
 }
 
 weather_appid =	''
+
+music_directory = './music'

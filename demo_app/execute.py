@@ -34,7 +34,7 @@ def name_matcher(text, filename):
     return True
 
 def kelvin2celsius(temp):
-    return str(round(temp - 273)) + ' °C'
+    return str(round(temp - 273)) + '°C'
 
 def totem(command, device, output):
     cl = 'totem ' + command['intent']
@@ -56,7 +56,7 @@ def totem(command, device, output):
             matched_files = [] # Keep track of all the files that match
 
             # Walk in the required directories to find music
-            for dirName, subdirList, fileList in os.walk("./"):
+            for dirName, subdirList, fileList in os.walk(config.music_directory):
                 for filename in fileList:
                         if name_matcher(command['arguments']['name'], filename):
                             matched_files.append(filename)
@@ -72,7 +72,7 @@ def totem(command, device, output):
                 output['option-name'] = 'name' # Refer JSON to know what this refers to
                 return output
             else:
-                song_details = MP3(matched_files[0])
+                song_details = MP3(config.music_directory + '/' + matched_files[0])
                 duration = round(song_details.info.length + 3, 3) * 1000
                 output = {
                     'commands': [],
@@ -83,7 +83,7 @@ def totem(command, device, output):
                     'type': None,
                     'duration': duration
                 }
-                cl += ' "' + matched_files[0] + '"'
+                cl += ' "' + config.music_directory + '/' + matched_files[0] + '"'
     cl += ' &'
     return_value = os.system(cl)
     if return_value == 0:
