@@ -17,6 +17,7 @@ var setupRecognizer = function () {
 
     // Check if the command is to start a new session
     if (utils.isStartSession(inputContent)) {
+      utils.clearSession()
       var panel = utils.generateDiv()
       var message = $('<pre>').html('Session started')
       panel.find('.box').append(message)
