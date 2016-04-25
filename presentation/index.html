@@ -15,7 +15,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
 		<link rel="stylesheet" href="css/reveal.css">
-		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+		<link rel="stylesheet" href="css/theme/beige.css" id="theme">
 
 		<!-- Code syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -63,7 +63,7 @@
 					<div style="float: right; text-align: left;">
 						<small>
 							<p>Under the guidance of:</p>
-							<p><span style="font-size: 30px;"> Dr. M V Sudhamani </span></p>
+							<p><span style="font-size: 30px;">Dr. M V Sudhamani</span></p>
 							<p>Professor and Head of Department</p>
 							<p>Dept. of Information Science and Engineering</p>
 						</small>
@@ -72,11 +72,20 @@
 
 				<section>
 					<h3>Agenda</h3>
-					<ul>
+					<ol>
 						<li>Abstract</li>
 						<li>Introduction</li>
 						<li>Literature survey</li>
-					</ul>
+						<li>Functional and non-functional requirements</li>
+						<li>Software and hardware requirements</li>
+						<li>System architecture and design</li>
+						<li>Modules: Client, Server, Application and Parser</li>
+						<li>Testing</li>
+						<li>Advantages and Disadvantages</li>
+						<li>Comparison with a commercial tool</li>
+						<li>Screenshots</li>
+						<li>Future work and conclusion</li>
+					</ol>
 				</section>
 
 				<section>
@@ -96,6 +105,8 @@
 						<li>Statistical methods have to be trained before being used</li>
 						<li>Parts of speech tagging: probability based</li>
 						<li>A sentence has to be parsed completely</li>
+						<li>Problematic when the user does not know the language correctly</li>
+						<li>Difficult write rule based parsers as the number of rules grows exponentially</li>
 						<li>Commercially available software is initially inaccurate</li>
 						<li>Increases time to market due to tweaking needed by the parser</li>
 						<li>Simple, general purpose, ready to use solution is required</li>
@@ -167,22 +178,44 @@
 				</section>
 
 				<section>
-					<h3>Confirm before performing critical operations</h3>
-					<img src="img/quit.png" />
+					<h3>Server Side</h3>
+					<ul>
+						<li>Always active</li>
+						<li>Serves HTML pages, static content</li>
+						<li>Stateless</li>
+						<li>Pathway between the other components</li>
+						<li>Accepts and sends data in JSON format</li>
+					</ul>
 				</section>
 
 				<section>
-					<h3>Request additional information</h3>
-					<img src="img/options.png" alt="Options screenshot here" />
+					<h3>Applications</h3>
+					<ul>
+						<li>Has to be registered with the parser</li>
+						<li>Each application has its own interface</li>
+						<li>Independent execution handlers</li>
+						<li>Can ask for additional information or confirmation</li>
+						<li>
+							Supported applications:
+							<ol>
+								<li>File explorer: Traverse the file system</li>
+								<li>Totem: Play music locally</li>
+								<li>SoundCloud: Stream music online</li>
+								<li>Weather: Fetch reports from Open Weather</li>
+								<li>Twitter: Get latest tweets</li>
+							</ol>
+						</li>
+					</ul>
 				</section>
 
 				<section>
 					<h3>Parser</h3>
 					<ul>
-						<li>Does not classify words as nouns, verbs etc.</li>
+						<li>Number of rules grows at the rate of n<sup>3</sup></li>
 						<li>Hierarchically organized collection of regular expressions</li>
-						<li>Reduces search space - increases speed</li>
-						<li>Databases are optional</li>
+						<li>Number of searches grows at the rate of n only</li>
+						<li>Reduced search space: increased speed</li>
+						<li>Declaration of capabilities reduces resource wastage</li>
 					</ul>
 					<img src="img/hierarchy.png" />
 				</section>
@@ -215,64 +248,89 @@
 				</section>
 
 				<section>
-					<h3>Execution Handlers</h3>
+					<h3>Vocabulary</h3>
 					<ul>
-						<li>Each application has its own interface</li>
-						<li></li>
+						<li>Reserved (4): start, stop, reset, quit, session</li>
+						<li>Applications (11): media player, tweet, forecast</li>
+						<li>Intents (65): play, fetch, temperature</li>
+						<li>Arguments (6): song, topic, city, directory</li>
+						<li>Modifiers (5): in, by, about, to, from, yes, no</li>
 					</ul>
-				</section>
-
-				<section>
-					<h3>Vocabulary and Accuracy</h3>
 				</section>
 
 				<section>
 					<h3>Testing</h3>
 					<table class="display" id="tablee">
 						<thead style="font-size: 25px;">
-							<tr >
-								<th>id</th>
-								<th>description</th>
-								<th>expected_output<table><tr><th>device</th><th>intent</th></tr></table></th>
-								<th>actual_output<table><th>device</th><th>intent</th></table></th>
-								<th>status</th>
+							<tr>
+								<th>Id</th>
+								<th>Input</th>
+								<th></th>
+								<th>Expected Device</th>
+								<th>Expected Intent</th>
+								<th>Actual Device
+								<th>Actual Intent</th>
+								<th>Status</th>
 							<tr>
 						</thead>
 						<tbody style="font-size: 25px;">
 							<tr>
 								<td>1</td>
 								<td>totem play space bound</td>
-								<td><table><td>totem</td><td>play</td></table></td>
-								<td><table><td>totem</td><td>play</td></table></td>
-								<td>correct</td>
+								<td></td>
+								<td>totem</td>
+								<td>play</td>
+								<td>totem</td>
+								<td>play</td>
+								<td>✓</td>
 							</tr>
 						</tbody>
 						<tbody style="font-size: 25px;">
 							<tr>
 								<td>2</td>
 								<td>get tweets about cricket</td>
-								<td><table><td>tweet</td><td>cricket</td></table></td>
-								<td><table><td>tweet</td><td>cricket</td></table></td>
-								<td>correct</td>
+								<td></td>
+								<td>tweet</td>
+								<td>cricket</td>
+								<td>tweet</td>
+								<td>cricket</td>
+								<td>✓</td>
 							</tr>
 						</tbody>
 						
 						<tbody style="font-size: 25px;">
 							<tr>
-								<td>4</td>
+								<td>3</td>
 								<td>soundcloud list pursuit</td>
-								<td><table><td>soundcloud</td><td>list</td></table></td>
-								<td><table><td>soundcloud</td><td>list</td></table></td>
-								<td>correct</td>
+								<td></td>
+								<td>soundcloud</td>
+								<td>list</td>
+								<td>soundcloud</td>
+								<td>list</td>
+								<td>✓</td>
 							</tr>
 						</tbody>
 						<tbody style="font-size: 25px;">
 							<tr>
-								<td>5</td>
+								<td>4</td>
 								<td>forecast describe weather</td>
-								<td><table><td>forecast</td><td>weather</td></table></td>
-								<td><table><td>forecast</td><td>weather</td></table></td>
-								<td>correct</td>
+								<td></td>
+								<td>forecast</td>
+								<td>weather</td>
+								<td>forecast</td>
+								<td>weather</td>
+								<td>✓</td>
+							</tr>
+						<tbody style="font-size: 25px;">
+							<tr>
+								<td>5</td>
+								<td>play forecast in music player</td>
+								<td></td>
+								<td>totem</td>
+								<td>forecast</td>
+								<td>forecast</td>
+								<td>null</td>
+								<td>✗</td>
 							</tr>
 						</tbody>
 					</table>
@@ -284,9 +342,14 @@
 
 				<section>
 					<h3>Disadvantages</h3>
+					<ul>
+						<li>Difficult to parse arguments that are proper nouns</li>
+						<li>Negations should be handled correctly</li>
+					</ul>
 				</section>
 
 				<!-- Results -->
+
 				<section>
 					<h3>Comparison</h3>
 					<p>Command: "play space bound in media player"</p>
@@ -311,15 +374,32 @@
 				</section>
 
 				<section>
+					<h3>Confirm before performing critical operations</h3>
+					<img src="img/quit.png" />
+				</section>
+
+				<section>
+					<h3>Request additional information</h3>
+					<img src="img/options.png" alt="Options screenshot here" />
+				</section>
+
+				<section>
 					<h3>Future work</h3>
+					<ul>
+						<li>Handle commands that require services of more than one application</li>
+						<li>Improve robustness</li>
+						<li>Detect negations</li>
+						<li>Record history to predict missing information</li>
+					</ul>
 				</section>
 
 				<section>
 					<h3>Conclusion</h3>
-				</section>
-
-				<section>
-					<h3>Demo</h3>
+					<ul>
+						<li>Parses sentences that are grammatically incorrect</li>
+						<li>Works in O(n) time</li>
+						<li>Errors do not degrade performance</li>
+					</ul>
 				</section>
 
 				<section>

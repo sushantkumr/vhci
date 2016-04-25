@@ -1,3 +1,8 @@
+Agenda:
+We'll be discussing the drawbacks of statistical methods when it comes to writing parsers that extract information from unstructured text and propose a system that helps overcome these issues.
+We also present an application that makes use of the proposed parser to enable speedy HCI using voice commands.
+
+
 Abstract:
 Statistical methods have been preferred over rule based parsers for building general purpose natural language processing software because the number of rules required to describe a language grows exponentially with the number of words in the language.
 These parsers give inaccurate results if the training data set used is small or if the sentence being parsed is grammatically incorrect.
@@ -11,10 +16,13 @@ Introduction:
 Statistical methods often need to be trained with large training sets before they can be useful.
 They try to comprehend entire sentences by performing probabilistic parts of speech tagging.
 After classifying words into verbs, nouns etc. they try to identify the action that must be taken on an object by the subject.
-This process will lead to inaccurate results if the command issued is grammatically incorrect or if the sentence is something that is completely new.
-Commercially available software is often subject to these limitations.
+When we train the parser using data from newspapers and books sentences are going to be grammatically correct. If the person who is issuing commands by talking to the computer is still learning the language they are likely to make errors while forming sentences. A parser that hasn't seen such sentences in the past will not be able to handle it correctly.
+For example, the sentence "tomorrow 6 o'clock you me meet playground" is grammatically incorrect but has all the information that is required for a human being to understand. Our goal is to build a parser that works in a similar manner.
+It is difficult to write rule based parsers that can handle any sentence because the set of rules required to do this grows exponentially with the number of words in the language.
+When the number of rules to be checked against increases we experience delays which spoil the user experience of the application.
+Commercially available software is often subject to the limitations that have been discussed so far.
 When companies use these software for their products they have to spend time on tweaking and training it so that it works as per their needs. This increases the time taken to release the product to market.
-Therefore, a simple, ready use to solution is required. We have developed a general purpose parser that can be used in a plug and play manner by anyone.
+Therefore, a simple, ready to use solution is required. We have developed a general purpose parser that can be used in a plug and play manner by anyone.
 
 
 Literature Survey:
@@ -29,7 +37,7 @@ Functional Requirements:
 Software Requirements:
 The application has been developed for Debian 8 and it's derivatives such as Ubuntu 14.
 For speech recognition we are making use of Google Speech Recognition API that is built into Google Chrome hence that is the only browser that is supported.
-For the application's front end we use HTML, JavaScript and jQuery. jQuery provides simple methods to manipulate DOM elements.
+For the application's front end we use HTML, JavaScript and jQuery.
 The back end and the core parser is built using Python. Python is a dynamically typed, interpreted language. It comes with a rich standard library that simplifies many routine tasks.
 The server used to run the Flask application is Werkzeug.
 
@@ -57,6 +65,7 @@ The server side controller validates input and forwards the input text to the pa
 The parser is in charge of converting unstructured text to a structured format that is easy to act on. This is a general purpose module that can be used in other applications too with minimum modification.
 The JSON output from the parser is then forwarded to execution handlers. Execution handlers are tied to individual applications. They contain some application specific code that perform the tasks that are requested from them.
 
+
 Client side:
 The main task of the client side controller is to call the speech recognition API and convert a user's voice input to text. This process is done asynchronously by using JavaScript.
 We record the users speech continuously and look out for reserved keywords that indicate that a user wishes to interact with the application. This way, we can avoid wasting resources on parsing sentences that have no meaning to the application.
@@ -66,12 +75,30 @@ The controller on the server performs the requested operation and returns the re
 In addition to this, the client side controller is also responsible for keeping track of the state of the application. This helps us when we have to ask the user for additional information or request confirmation.
 
 
+Server Side:
+The server is active throughout the lifetime of the application and is responsible for serving HTML and other static content such as CSS and JS to the client when it receives requests.
+It is designed to be stateless and all responsibility of tracking session information is left to the browser.
+The server side controller acts as the communication pathway between the other components and none of the other components communicate with each other directly.
+Communication between the server and other components take place using JSON objects as it is natively supported in JS and has a closely matching data type in Python called dictionary that is well supported.
+
+
+Applications:
+Each application has it's own application handler as they have their own interface through which we can communicate.
+Some applications provide API's with which can control the widget while some applications take input in the form of shell commands.
+For this reason we have separate handlers for each application and they are all independent of one another.
+We have also ensured that they don't interact directly with other components but only act on data that they receive directly.
+Currently we support 5 applications that perform tasks such as fetching weather reports, showing the contents of your file system, playing music.
+
 
 Parser:
-The parser that we've built does not perform parts of speech tagging. Instead, it takes a collection of regular expressions that describe an application, it's operations and any arguments that may be required to perform an operation.
-By organizing these regular expressions in a hierarchical manner we have reduced the search space which leads to improved performance.
+It takes a collection of regular expressions that describe an application, it's operations and any arguments that may be required to perform an operation.
+The total number of rules required to specify all of this increases at the rate of n^3 as new applications are added.
+If we treat all these rules equally the parser will become slow as the number of applications registered with it increases. Therefore we classify these rules into three categories: application, intent and arguments.
+By organizing these regular expressions in a hierarchical manner we reduce the search space.
+The number of searches performed by the parser grows at the rate of n only. This leads to improved performance.
 By explicitly defining the operations that a device is capable of performing we can avoid going through a database to find out which part of the sentence could be an action request and which part of it is an argument.
 As the rules are required for parsing are all known in advance, using a database is optional. We can use it to log commands and results to identify issues if required. However, some advanced features such as conflict resolution will require the use of databases.
+
 
 Registering and Parsing:
 We make use of a template to register devices with the parser. An example to register a music player has been shown here.
@@ -79,12 +106,17 @@ When a sentence is sent to the parser it first tries to identify the application
 Once the application is identified we try to find the operation that is required and finally any arguments that may be required.
 This information is then packed into a JSON object and returned so that the application can easily act on it.
 
+Vocabulary:
+The system currently looks for 80 phrases in the commands that it receives.
+These can broadly be categorized as reserved keywords which the application uses for handling sessions; applications which help identify the application that has to perform an action; intents that tell what the application has to do. Modifiers are special words that can alter the meaning of an argument in a given context. Eg: tweets by vs tweets about.
+
 Advantages:
 Gives results faster.
 Training data sets aren't required.
 
 Disadvantages:
-Difficulty in identifying proper nouns as we can't write regular expressions correctly for all possible cases. POS tagging is simpler to identify proper nouns.
+Difficulty in identifying proper nouns as we can't write regular expressions correctly for all possible cases. POS tagging is simpler method to identify proper nouns. We must try to find a balance between the two.
+As we are not parsing the entire sentence at once we must ensure that sentences like "don't quit media player" do not actually end up closing the application.
 
 Comparison:
 Results have been compared after registering a media player with a
