@@ -29,10 +29,16 @@ Literature Survey:
 
 
 Non-functional Requirements:
-
+The application is reliable as you always get expected and same output on differnet trials. 
+The availability for some modules is high, for other modules it depends on internet speed.
+Higly scalable as it is able to handle growing amount work i.e more number of modules can be added without affecting the performance.
+Higly usable because the user needs know what are the apps they are using and what are the command it takes(user those who are not proficient in language can also use easily).
+Each module has a seperate execution handler, so if something goes wrong it can be managed.
+Because the application is voice dependent it has low reliabilty abd availabilty. 
 
 Functional Requirements:
-
+Application has a web interface for user interaction, where user gives voice input and output message is displayed. 
+Parsing of input commands is based on rules generated, as our application is rule based.
 
 Software Requirements:
 The application has been developed for Debian 8 and it's derivatives such as Ubuntu 14.
