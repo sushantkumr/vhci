@@ -49,7 +49,7 @@ def totem(command, device, output):
             if temp[len(temp)-1] in ['in','with','using']:
                 del temp[len(temp)-1]
             command['arguments']['name'] = ' '.join(temp)
-        # Only `totem --play` will unpause the application
+        # Only `totem --play` will unpause the device
         # If the name of a song is mentioned `totem --play songname` will be executed
         if command['arguments']['name']:
             command['arguments']['name'] = command['arguments']['name'].strip()
@@ -96,7 +96,7 @@ def tweet(command, device, output):
     is_trending = False # used to differentiate trending tweets from others
 
     try:
-        # consumer_key & consumer_secret are application specific and other two
+        # consumer_key & consumer_secret are device specific and other two
         # account specific
         api = TwitterAPI(consumer_key, consumer_secret, access_token_key, access_token_secret)
         search_term = command['arguments']['name'] # this is argument name

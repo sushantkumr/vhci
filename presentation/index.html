@@ -49,12 +49,13 @@
 			<!-- Any section element inside of this container is displayed as a slide -->
 			<div class="slides">
 				<section>
+					<img src="img/logo.png" />
 					<h3>Hierarchical Rule Based Parser for the Conversion of Text to Commands for Human-Computer Interaction</h3>
 					<hr/>
 					<div style="float: left; text-align: left;">
 					<small>
 						<p>Carried out by:</p>
-						<p>Prashant R (1RN12IS064)</p>
+						<p>Prashanth R (1RN12IS064)</p>
 						<p>Rohith PR (1RN12IS077)</p>
 						<p>Shreyas R (1RN12IS089)</p>
 						<p>Sushant K (1RN12IS101)</p>
@@ -66,6 +67,7 @@
 							<p><span style="font-size: 30px;">Dr. M V Sudhamani</span></p>
 							<p>Professor and Head of Department</p>
 							<p>Dept. of Information Science and Engineering</p>
+							<p>RNS Institute of Technology</p>
 						</small>
 					</div>
 				</section>
@@ -103,7 +105,6 @@
 					<h3>Introduction</h3>
 					<ul>
 						<li>Statistical methods have to be trained before being used</li>
-						<li>Parts of speech tagging: probability based</li>
 						<li>Sentences have to be parsed completely</li>
 						<li>Problematic when the user does not know the language correctly</li>
 						<li>Difficult to write rule based parsers as the number of rules grows exponentially</li>
@@ -145,13 +146,13 @@
 				<section>
 					<h3>Non-functional Requirements</h3>
 					<ul>
-						<li>Reliability: performs expected action</li>
-						<li>Availability: gain trust</li>
-						<li>Robust: errors, if any, should be localized</li>
-						<li>Scalable: performance shouldn't drop with an increase in the number of applications</li>
-						<li>Usability: simple interface that does not confuse users</li>
-						<li>Portability: parser should be general purpose</li>
-						<li>Testability: parser should have no side effects and testing should be automated</li>
+						<li>Reliability</li>
+						<li>Availability</li>
+						<li>Robust</li>
+						<li>Scalable</li>
+						<li>Usability</li>
+						<li>Portability</li>
+						<li>Testability</li>
 					</ul>
 				</section>
 
@@ -161,7 +162,7 @@
 						<li>Client should capture voice input and have it converted to text</li>
 						<li>Server side controller should act as a communication pathway between other modules</li>
 						<li>Parser should convert unstructured text to a structured format</li>
-						<li>Application handlers must register themselves with the parser and take action based on its output</li>
+						<li>Application handlers must register themselves with the parser</li>
 						<li>External interface should display relevant information to the user</li>
  					</ul>
 				</section>
@@ -225,7 +226,7 @@
 					<h3>Server Side</h3>
 					<ul>
 						<li>Always active</li>
-						<li>Serves HTML pages, static content</li>
+						<li>Serves HTML pages and other resources</li>
 						<li>Stateless</li>
 						<li>Pathway between the other components</li>
 						<li>Accepts and sends data in JSON format</li>
@@ -282,18 +283,18 @@
 					<img src="img/parsing.png" />
 					<span style="font-size: 30px;">
 <pre>{
+  "application": "totem",
+  "intent": "--play",
   "arguments": {
     "name": "space bound"
-  },
-  "application": "totem",
-  "intent": "--play"
+  }
 }</pre>
 					</span>
 				</section>
 
 				<section>
 					<h3>Testing</h3>
-					<table style="font-size: 25px;">
+					<table style="font-size: 22px;">
 						<thead>
 							<tr>
 								<th>Id</th>
@@ -393,12 +394,17 @@
 				</section>
 
 				<section>
+					<h3>Implementation</h3>
+					<img src="img/session.png">
+				</section>
+
+				<section>
 					<h3>Confirm before performing critical operations</h3>
 					<img src="img/quit.png" />
 				</section>
 
 				<section>
-					<h3>Request additional information</h3>
+					<h3>Provide options in case of conflict</h3>
 					<img src="img/options.png" alt="Options screenshot here" />
 				</section>
 

@@ -123,11 +123,15 @@ This information is then packed into a JSON object and returned so that the appl
 
 Testing:
 We have performed a number of tests to ensure that the application works as expected. Most of the tests have been successful.
-Test cases in which the input sentence have phrases that point to different devices or intents fail. There is a need for the parser to be improved in such a way that it is aware of the context and predicts more accurate results.
+Test cases in which the input sentences have phrases that point to different devices or intents fail. There is a need for the parser to be improved in such a way that it is aware of the context and predicts more accurate results.
 
 
 Comparison:
 Results have been compared after registering a media player with a commercial software and with the parser that we have built. The commercial tool which works well for many input cases gives completely incorrect result because it was confused by the proper nouns in the sentence while our parser was able to match the regular expressions correctly.
+
+
+Implementation:
+
 
 
 Future work:

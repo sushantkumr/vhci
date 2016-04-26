@@ -55,7 +55,7 @@ def command():
 
     command = request.form['input'] # The input command
     newCommand = request.form['newCommand'] # Flag indicating whether the command is new or a continuation
-    currentSession = request.form['currentSession'] # The application that is currently running
+    currentSession = request.form['currentSession'] # The device that is currently running
     oldResult = json.loads(request.form['oldResult']) # Any old results if the command is a continuation
 
     output['commands'].append(command)
@@ -73,6 +73,7 @@ def command():
             output['message'] = device['operations']['examples_intent']['arguments']['message'] # example in devices.py
             return jsonify(output)
 
+        print(device['operations'][result['intent']])
         if device['operations'][result['intent']]['confirm'] == True:
             if 'cancel' in output.keys():
                 return jsonify(output)
