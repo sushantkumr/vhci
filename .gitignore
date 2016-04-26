@@ -59,3 +59,4 @@ target/
 venv/
 demo_app/config.py
 demo_app/static/js/config.js
+demo_app/music

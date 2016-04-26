@@ -104,9 +104,9 @@
 					<ul>
 						<li>Statistical methods have to be trained before being used</li>
 						<li>Parts of speech tagging: probability based</li>
-						<li>A sentence has to be parsed completely</li>
+						<li>Sentences have to be parsed completely</li>
 						<li>Problematic when the user does not know the language correctly</li>
-						<li>Difficult write rule based parsers as the number of rules grows exponentially</li>
+						<li>Difficult to write rule based parsers as the number of rules grows exponentially</li>
 						<li>Commercially available software is initially inaccurate</li>
 						<li>Increases time to market due to tweaking needed by the parser</li>
 						<li>Simple, general purpose, ready to use solution is required</li>
@@ -150,16 +150,21 @@
 						<li>Reliability: performs expected action</li>
 						<li>Availability: gain trust</li>
 						<li>Robust: errors, if any, should be localized</li>
-						<li>Scalable: performance shouldn't drop with an increase in applications</li>
+						<li>Scalable: performance shouldn't drop with an increase in the number of applications</li>
 						<li>Usability: simple interface that does not confuse users</li>
+						<li>Portability: parser should be general purpose</li>
+						<li>Testability: parser should have no side effects and testing should be automated</li>
 					</ul>
 				</section>
 
 				<section>
 					<h3>Functional Requirements</h3>
 					<ul>
-						<li>External interface should display relevant information</li>
-						<li>Performs actions quickly</li>
+						<li>Client should capture voice input and have it converted to text</li>
+						<li>Server side controller should act as a communication pathway between other modules</li>
+						<li>Parser should convert unstructured text to a structured format</li>
+						<li>Application handlers must register themselves with the parser and take action based on its output</li>
+						<li>External interface should display relevant information to the user</li>
  					</ul>
 				</section>
 
@@ -181,6 +186,17 @@
 						<li>RAM: 2GB</li>
 						<li>Hard disk: 4GB</li>
 						<li>Microphone</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Other requirements: Vocabulary</h3>
+					<ul>
+						<li>Reserved (4): start, stop, reset, quit, session</li>
+						<li>Applications (11): media player, tweet, forecast</li>
+						<li>Intents (65): play, fetch, temperature</li>
+						<li>Arguments (6): song, topic, city, directory</li>
+						<li>Modifiers (5): in, by, about, to, from, yes, no</li>
 					</ul>
 				</section>
 
@@ -258,7 +274,7 @@
   'operations': {
     '--play': {
       'triggers': [r'play video', r'play songs?', r'play'],
-      'arguments':{
+      'arguments': {
           'name': ['{trigger}(?P&lt;name&gt;( .*)?)((in )?{alias})?'],
       }
     }
@@ -271,39 +287,28 @@
   "arguments": {
     "name": "space bound"
   },
-  "device": "totem",
+  "application": "totem",
   "intent": "--play"
 }</pre>
 					</span>
 				</section>
 
 				<section>
-					<h3>Vocabulary</h3>
-					<ul>
-						<li>Reserved (4): start, stop, reset, quit, session</li>
-						<li>Applications (11): media player, tweet, forecast</li>
-						<li>Intents (65): play, fetch, temperature</li>
-						<li>Arguments (6): song, topic, city, directory</li>
-						<li>Modifiers (5): in, by, about, to, from, yes, no</li>
-					</ul>
-				</section>
-
-				<section>
 					<h3>Testing</h3>
-					<table class="display" id="tablee">
-						<thead style="font-size: 25px;">
+					<table style="font-size: 25px;">
+						<thead>
 							<tr>
 								<th>Id</th>
 								<th>Input</th>
 								<th></th>
-								<th>Expected Device</th>
+								<th>Expected Application</th>
 								<th>Expected Intent</th>
-								<th>Actual Device
+								<th>Actual Application</th>
 								<th>Actual Intent</th>
 								<th>Status</th>
 							<tr>
 						</thead>
-						<tbody style="font-size: 25px;">
+						<tbody>
 							<tr>
 								<td>1</td>
 								<td>totem play space bound</td>
@@ -315,7 +320,7 @@
 								<td>✓</td>
 							</tr>
 						</tbody>
-						<tbody style="font-size: 25px;">
+						<tbody>
 							<tr>
 								<td>2</td>
 								<td>get tweets about cricket</td>
@@ -328,7 +333,7 @@
 							</tr>
 						</tbody>
 						
-						<tbody style="font-size: 25px;">
+						<tbody>
 							<tr>
 								<td>3</td>
 								<td>soundcloud list pursuit</td>
@@ -340,7 +345,7 @@
 								<td>✓</td>
 							</tr>
 						</tbody>
-						<tbody style="font-size: 25px;">
+						<tbody>
 							<tr>
 								<td>4</td>
 								<td>forecast describe weather</td>
@@ -351,7 +356,7 @@
 								<td>weather</td>
 								<td>✓</td>
 							</tr>
-						<tbody style="font-size: 25px;">
+						<tbody>
 							<tr>
 								<td>5</td>
 								<td>play forecast in music player</td>
@@ -367,20 +372,6 @@
 				</section>
 
 				<section>
-					<h3>Advantages</h3>
-				</section>
-
-				<section>
-					<h3>Disadvantages</h3>
-					<ul>
-						<li>Difficult to parse arguments that are proper nouns</li>
-						<li>Negations should be handled correctly</li>
-					</ul>
-				</section>
-
-				<!-- Results -->
-
-				<section>
 					<h3>Comparison</h3>
 					<p>Command: "play space bound in media player"</p>
 					<table>
@@ -389,7 +380,7 @@
 							<th></th>
 							<th></th>
 							<th></th>
-							<th>Rule based parser</th>
+							<th>Proposed parser</th>
 						</thead>
 						<tbody>
 							<tr>
@@ -417,8 +408,9 @@
 					<h3>Future work</h3>
 					<ul>
 						<li>Handle commands that require services of more than one application</li>
-						<li>Improve robustness</li>
 						<li>Detect negations</li>
+						<li>Add support for multiple arguments of the same type</li>
+						<li>Conflicts must be resolved correctly</li>
 						<li>Record history to predict missing information</li>
 					</ul>
 				</section>
@@ -427,7 +419,7 @@
 					<h3>Conclusion</h3>
 					<ul>
 						<li>Parses sentences that are grammatically incorrect</li>
-						<li>Works in O(n) time</li>
+						<li>Time complexity increases linearly with an increase in number of applications [ O(n) ]</li>
 						<li>Errors do not degrade performance</li>
 					</ul>
 				</section>

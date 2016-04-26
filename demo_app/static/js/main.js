@@ -84,7 +84,7 @@ $(document).ready(function() {
                 tweets.append($('<li>').html(tweet))
               })
               panel.find('.box').append(message)
-              panel.find('.box').append(tweets)
+              panel.find('.box').append($('<pre>').append(tweets))
               $('.holder').prepend(panel)
             }
 
@@ -97,7 +97,7 @@ $(document).ready(function() {
                 weather.append($('<li>').html(option))
               })
               panel.find('.box').append(message)
-              panel.find('.box').append(weather)
+              panel.find('.box').append($('<pre>').append(weather))
               $('.holder').prepend(panel)
             }
 
