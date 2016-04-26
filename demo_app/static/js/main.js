@@ -3,15 +3,20 @@
  */
 var newCommand // Indicates whether a command is a continuation of the previous command or not
 var oldResult // If the current command is a continuation, history will also be sent
-var currentSession // The application that owns the current session
+var currentSession // The device that owns the current session
 var isSessionActive // Whether or not a session is currently active
 var timeout
 var player // SoundCloud widget reference.
 
-// Initializing SCloud object
-SC.initialize({
-  client_id : SoundCloud.client_id
-})
+try {
+  // Initializing SCloud object
+  SC.initialize({
+    client_id : SoundCloud.client_id
+  })
+}
+catch (e) {
+  console.log('SoundCloud could not be loaded. Not connected to the internet.')
+}
 
 $(document).ready(function() {
   // This will be executed when the page is loaded

@@ -128,7 +128,7 @@ def parse(sentence, newCommand, oldResult, currentSession, output):
                     'intent': 'Unknown'
                 }
                 device = None
-                output['message'] = 'Please start a new session to interact with another application'
+                output['message'] = 'Please start a new session to interact with another device'
                 output['dont_execute'] = True
                 return response, device, output
 
