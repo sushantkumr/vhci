@@ -1,31 +1,79 @@
+Title : 
+
+
 Agenda:
 We'll be discussing the drawbacks of statistical methods when it comes to writing parsers that extract information from unstructured text and propose a system that helps overcome these issues.
 We also present an application that makes use of the proposed parser to enable speedy HCI using voice commands.
 
 
 Abstract:
+To enable Voice based Human Computer Interaction we will be designing a rule based parser that converts unstructured text to actionable data
+Our objective is to ensure high accuracy and the setup time required for the parser should be as low as possible
+To achieve this we will build a general purpose parser that can be used in a plug play manner by any application
+
+
+INTRO:
+
+1
+
+HCI is a discipline concerned with the study, design, construction and implementation of human-centric interactive computer system. A user interface, such as a GUI, is how a human interacts with a computer, and HCI goes beyond designing screens and menus that are easier to use and studies the reasoning behind building specific unctionality into computers and the long-term effects that systems will have on humans.
+
+HCI (human-computer interaction) is the study of how people interact with computers and to what extent computers are or are not developed for successful interaction with human beings.
+
+Types of Interfaces :-
+Command Line Interface - A CLI displays a prompt, the user types a command on the keyboard, the computer executes the command and provides textual output.
+
+Menu Driven Interface - The user has a list of items to choose from, and can make selections by highlighting one.
+
+Graphical User Interface - Uses windows, icons, menus and pointers (WIMP) which can be manipulated by a mouse (and often to an extent by a keyboard as well).
+
+Natural Language Interface - Can range from simple command systems to voice activated text processing. Commands are spoken in “normal”  or natural language.
+Natural language is any language that has evolved naturally in humans through use and repetition without conscious planning or premeditation. 
+
+2
+
+Voice-user interface (VUI) makes human interaction with computers possible through a voice/speech platform in order to initiate an automated service or process.
+
+Rule based parsing -- 
+
+Predictive Parsing -- Statistical parsing is a group of parsing methods within natural language processing. The methods have in common that they associate grammar rules with a probability. Different algorithms used in Stat Parsing are Viterbi algorithm, Baum-Welch algorithm.
 Statistical methods have been preferred over rule based parsers for building general purpose natural language processing software because the number of rules required to describe a language grows exponentially with the number of words in the language.
 These parsers give inaccurate results if the training data set used is small or if the sentence being parsed is grammatically incorrect.
-For Human-Computer Interaction (HCI) we need a high degree of accuracy for a limited number of commands.
-To suit these needs and overcome the drawbacks of statistical parsers we recommend a hierarchical rule based parser.
-This parser treats each input sentence as a collection of independent and meaningful phrases and parses them separately rather than trying to comprehend the entire sentence at once.
-By doing this we can even parse commands that have been issued by someone who is weak in the language.
-
-
-Introduction:
-Statistical methods often need to be trained with large training sets before they can be useful.
+//  Parser which uses statistical methods often need to be trained with large training sets before they can be useful.
 They try to comprehend entire sentences by performing probabilistic parts of speech tagging.
 After classifying words into verbs, nouns etc. they try to identify the action that must be taken on an object by the subject.
 When we train the parser using data from newspapers and books sentences are going to be grammatically correct. If the person who is issuing commands by talking to the computer is still learning the language they are likely to make errors while forming sentences. A parser that hasn't seen such sentences in the past will not be able to handle it correctly.
 For example, the sentence "tomorrow 6 o'clock you me meet playground" is grammatically incorrect but has all the information that is required for a human being to understand. Our goal is to build a parser that works in a similar manner.
+
+3
+
+Weak AI is defined as non-sentient computer intelligence or AI that is focused on one narrow task.
+
 It is difficult to write rule based parsers that can handle any sentence because the set of rules required to do this grows exponentially with the number of words in the language.
 When the number of rules to be checked against increases we experience delays which spoil the user experience of the application.
 Commercially available software is often subject to the limitations that have been discussed so far.
+MOTIVATION
 When companies use these software for their products they have to spend time on tweaking and training it so that it works as per their needs. This increases the time taken to release the product to market.
 Therefore, a simple, ready to use solution is required. We have developed a general purpose parser that can be used in a plug and play manner by anyone.
 
+For Human-Computer Interaction (HCI) we need a high degree of accuracy for a limited number of commands.
+To suit these needs and overcome the drawbacks of predictive parsers we recommend a hierarchical rule based parser.
+This parser treats each input sentence as a collection of independent and meaningful phrases and parses them separately rather than trying to comprehend the entire sentence at once.
+By doing this we can even parse commands that have been issued by someone who is weak in the language.
 
 Literature Survey:
+We have referred to the following papers to learn more about HCI and speech recognition and processing.
+[1]The first paper gives an overview of HCI. It includes the basic definitions and terminology, a survey of existing technologies and recent advances in the field, common architectures used in the design of HCI systems which includes unimodal and multimodal configurations, and finally the applications of HCI. Terminologies given are functionality (set of services provided to users) and usability(degree to which system can be used efficiently to achieve goals).
+Existing HCI basically relies on three human senses: vision(keyboard,mouse,joystick), audition (beeps, alarms and navigation commands of GPS) and touch (virtual keyboard that is made by projecting a QWERTY like pattern on a solid surface using a red light).
+Recent advances in HCI: Intelligent and Adaptive HCI. Intelligent HCI (Intelligence in developing interfaces) designs are interfaces that incorporate at least some kind of intelligence in perception from and/or response to users. A few examples are speech enabled interfaces that use natural language to interact with user. Adaptive HCI (intelligence in how to interact with users) like a website using regular GUI for selling various products.
+[2]The next paper gives us information about when talking to computers are useful. They are: When the user's hands or eyes are busy (control of automobile equipment such as radios), When only a limited keyboard and/or screen is available (telecommunication applications), When the user is disabled, When pronunciation is the subject matter of computer use, When natural language interaction is preferred.
+[3]The next paper proposes a project developed using java that is based on template-based recognition where the sysytem will perform the recognition process by matching the parameter set of the input speech with the stored templates.
+Speech recognition is a branch of artificial intelligence that is concerned with the computer's ability to understand human speech.
+The java based application has several modules such as JFeatureExtraction (extract features of sound and convert to processable data), JSound (performs the recording), JMatcher (class for recognizing or matching task), JMatching (uses JMatcher to produce recognized text) and others that allow user to command the computer by speaking to it.
+[4]The next paper involves personalized speech recognition for Internet of Things that allows each user to customize their speech communications with their devices that creates a more natural interaction between humans and IoT.
+Spoken language understanding is process of interpreting the meaning of a speech signal. The first step is to convert a speech signal to the text of what was said.T he next step is to obtain the semantic interpretation of what was said (device:light, intent: turn on) using semantic tagging approach.
+Semantic analysis is concerned with analysing the semantic interpretation obtained obtained from spoken language understanding as explained previously. The analysis is concerned with task accuracy (intended task is performed or not). The analysis gives what (intent), where (device) and value (arguments) as attributes of the given input command which leads to the proper task to be performed.
+[5]The next paper is about HeidelTime which is a rule based system, mainly using regular expression patterns for extraction of temporal expressions (related to time). HeidelTime achieved best results in assigning correct value attributes i.e understanding the semantics of temporal expressions. Assigning correct value attribute is crucial since the value is used for further analysis.
 
 
 Non-functional Requirements:
@@ -34,7 +82,7 @@ The system should have a high availability so that people can trust use it in sa
 The application should be robust. Any issues in the execution handler of one application should not affect other applications.
 The system should be easily scalable without sacrificing performance. We should be able to add more modules and features as and when they are required without taking a performance hit.
 We can improve the usability of the system by having a simple interface that doesn't confuse users.
-To improve portability of the parser we should write it in such a way that it does not have any prior knowledge of the application but only works with the input given to it at run time. By doing this we can ensure that the parser can be used in other applications.
+To improve usage of the parser we should write it in such a way that it does not have any prior knowledge of the application but only works with the input given to it at run time. By doing this we can ensure that the parser can be used in other applications.
 To ease the process of testing we have constrained ourselves to write a parser that is made up of only pure functions. A pure function is one that returns the same output every time it is called with a given input. This helps us automate the process of testing without worrying about state changes.
 
 Functional Requirements:
@@ -51,15 +99,16 @@ The server used to run the Flask application is Werkzeug.
 
 
 Hardware Requirements:
-The application itself has a very light footprint, but to support the OS and the server a minimum of 2GB memory and 4GB of storage is recommended. A microphone is required to give voice input to the system.
+The application itself has a very light footprint, but to support the OS and the server a minimum of 2GB memory and 10GB of storage is recommended. A microphone is required to give voice input to the system.
 
 
 Vocabulary:
 The system is initially expected to handle commands that may include different combinations of  90 phrases.
 These can broadly be categorized as reserved keywords which the application uses for handling sessions; applications which help identify the application that has to perform an action; intents that tell what the application has to do. Modifiers are special words that can alter the meaning of an argument in a given context. Eg: tweets by vs tweets about.
 
+System Architecture:
 
-System architecture:
+Sequence Diagram:
 The rectangle indicates various actors. The user is the person who is issuing the voice commands.
 The vertical lines represent the lifelines of each component. The server is active at all times as it has to listen to requests from clients.
 The sequence diagram shows the interaction between the different components of the system.
@@ -142,5 +191,4 @@ Needs better conflict resolution. (play forecast)
 The parser should be able to identify multiple arguments of the same type and assign roles to them.
 
 Conclusion:
-
 
