@@ -1,21 +1,25 @@
-Title : Hierarchical -
-	Rule based -
-	Conversion of text to commands - converting voice to text and from text to usable data
-	HCI - A human can control a computer using his/her voice
+Title:
+### NOTE:
+Explain these only if they ask questions..
+
+HCI - The process in which a human instructs a computer to perform a task and the computer provides feedback to the human.
+
+Rule based - We have a collection of rules (in the form of regular expressions) which are used to determine various aspects of the input sentence. We do not predict these aspects using probabilistic methods.
+
+Hierarchical - All the rules are not given equal priority. We organize them in a hierarchical manner and visit nodes at lower levels only if certain conditions are met at the upper level.
+
+Actionable data - Data in a structured format that the recipient is expecting. It has all the information that an application would need to perform a task.
 
 Agenda:
 In abstract we'll give a brief overview of what our project is about.
-We introduce the relevant terms used and motivation behind the project in the subsequnet slides.
-Related papers will be dicussed in Literature survey.
+We introduce the relevant terms used and motivation behind the project in the subsequent slides.
+Related papers will be discussed in Literature survey.
 The various requirements for the project following that.
 System arch and sequence diagram denoting the flow of control.
-Then we discuss the modules of the architecture individually as listed here.
+Then we discuss the main modules of the architecture individually as listed here. (name them?)
 We take a look at a few successful and failed test cases later.
 Comparison of test results of our project with a commercial tool.
 Ending it with possible enhancements and conclusion.
-
-We'll be discussing the drawbacks of statistical methods when it comes to writing parsers that extract information from unstructured text and propose a system that helps overcome these issues.
-We also present an application that makes use of the proposed parser to enable speedy HCI using voice commands.
 
 Abstract:
 To enable Voice based Human Computer Interaction we will be designing a rule based parser that converts unstructured text to actionable data
@@ -34,25 +38,27 @@ Graphical User Interface - Uses windows, icons, menus and pointers (WIMP) which 
 Voice-user interface (VUI) makes human interaction with computers possible through a voice/speech platform in order to initiate an automated service or process.
 
 2
+Predictive Parsing -- Predictive parsing is a group of parsing methods within natural language processing. The methods have in common that they associate grammar rules with a probability.
+Predictive methods have been preferred over rule based ones for building general purpose natural language processing software because the number of rules required to describe a language grows exponentially with the number of words in the language.
+Predictive parsers try to comprehend entire sentences by performing probabilistic parts of speech tagging.
+After classifying words into verbs, nouns etc. they try to identify the action that must be taken on an object by the subject.
+When we train the parser using data from newspapers and books sentences are going to be grammatically correct. If the person who is issuing commands by talking to the computer is still learning the language they are likely to make errors while forming sentences. A parser that hasn't seen such sentences in the past will not be able to handle it correctly.
+For example, the sentence "tomorrow 6 o'clock you me meet playground" is grammatically incorrect but has all the information that is required for a human being to understand. Our goal is to build a parser that works in a similar manner.
+
 Rule based parsing --  Rule-based system is a set of "if-then" statements that uses a set of assertions, to which rules on how to act upon those assertions are created.
+
+// These points and those on the slide don't match!
 Rule-based system has four basic components :
 * A list of rules or rule base, which is a specific type of knowledge base.
 * An inference engine or semantic reasoner, which infers information or takes action based on the interaction of input and the rule base.
 * Temporary working memory.
 * A user interface or other connection to the outside world through which input and output signals are received and sent.
 
-Predictive Parsing -- Predictive parsing is a group of parsing methods within natural language processing. The methods have in common that they associate grammar rules with a probability. Different algorithms used in Predictive Parsing are Viterbi algorithm, Baum-Welch algorithm.
-Predictive methods have been preferred over rule based parsers for building general purpose natural language processing software because the number of rules required to describe a language grows exponentially with the number of words in the language.
-They try to comprehend entire sentences by performing probabilistic parts of speech tagging.
-After classifying words into verbs, nouns etc. they try to identify the action that must be taken on an object by the subject.
-When we train the parser using data from newspapers and books sentences are going to be grammatically correct. If the person who is issuing commands by talking to the computer is still learning the language they are likely to make errors while forming sentences. A parser that hasn't seen such sentences in the past will not be able to handle it correctly.
-For example, the sentence "tomorrow 6 o'clock you me meet playground" is grammatically incorrect but has all the information that is required for a human being to understand. Our goal is to build a parser that works in a similar manner.
-These parsers give inaccurate results if the training data set used is small or if the sentence being parsed is grammatically incorrect.
-
 3
 It is difficult to write rule based parsers that can handle any sentence because the set of rules required to do this grows exponentially with the number of words in the language.
 When the number of rules to be checked against increases we experience delays which spoil the user experience of the application.
 Commercially available software is often subject to the limitations that have been discussed so far.
+
 MOTIVATION
 When companies use these software for their products they have to spend time on tweaking and training it so that it works as per their needs. This increases the time taken to release the product to market.
 Therefore, a simple, ready to use solution is required. We have developed a general purpose parser that can be used in a plug and play manner by anyone.
@@ -60,7 +66,7 @@ For Human-Computer Interaction (HCI) we need a high degree of accuracy for a lim
 To suit these needs and overcome the drawbacks of predictive parsers we recommend a hierarchical rule based parser.
 This parser treats each input sentence as a collection of independent and meaningful phrases and parses them separately rather than trying to comprehend the entire sentence at once.
 By doing this we can even parse commands that have been issued by someone who is weak in the language.
-Weak AI is defined as non-sentient computer intelligence or AI that is focused on one narrow task.
+Weak AI is defined as non-sentient computer intelligence or AI that is focused on one narrow task and operates within it's boundaries.
 The system is designed by us acts as a Weak AI performing various functions.
 
 Literature Survey:
