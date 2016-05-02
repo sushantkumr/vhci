@@ -9,6 +9,8 @@ var setupRecognizer = function () {
   }
   recognizer = new webkitSpeechRecognition() // Create an instance of class
   recognizer.lang = 'en-IN' // Set language to English India
+  recognizer.continuous = true
+  recognizer.interimResults = false
 
   // Function binding for onresult
   recognizer.onresult = function(event) {

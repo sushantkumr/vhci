@@ -81,7 +81,6 @@ For instance, in the example “I love the touchscreen of my phone but the batte
 An aspect can also be expressed indirectly through an implicit aspect clue (IAC), e.g.,
 in the sentence “This camera is sleek and very affordable”, which implicitly provides a positive opinion about the aspects appearance and price of the entity camera.
 
-
 Non-functional Requirements:
 The application has to be reliable and perform the expected action on each trial.
 The system should have a high availability so that people can trust use it in safety critical systems.
