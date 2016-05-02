@@ -80,7 +80,7 @@
 						<li>Literature survey</li>
 						<li>Functional and non-functional requirements</li>
 						<li>Software and hardware requirements</li>
-						<li>System architecture and design</li>
+						<li>System architecture and Sequence diagram</li>
 						<li>Modules: Client, Server, Application and Parser</li>
 						<li>Testing</li>
 						<li>Comparison with a commercial tool</li>
@@ -108,7 +108,7 @@
 							<li>Command Line Interface</li>
 							<li>Menu Driven Interface</li>
 							<li>Graphical User Interface</li>
-							<li>Natural Language Interface</li>
+							<li>Voice User Interface</li>
 						</ul>
 					</ul>
 				</section>
@@ -135,10 +135,10 @@
 				<section data-background= "img/bg.jpg">
 					<h3>Introduction <span style= "font-size: 27px;">(continued)</span></h3>
 					<ul>
-						<li>Weak AI</li>
 						<li>Issues</li>
 						<li>Motivation</li>
 						<li>General Purpose Parser</li>
+						<li>Weak AI</li>
 					</ul>
 				</section>
 
@@ -154,17 +154,18 @@
 								<li>When speaking to computer is useful</li>
 							</ul>
 				</section>
+
 				<section data-background= "img/bg.jpg">
-						<p style="text-align: justify;">[3] Speech Processing in Java-based PC Speech Commanding Application by Nguyen Chung et. al.</p>
-							<ul>
-								<li>Speech Recognition</li>
-								<li>Development of Java based application</li>
-							</ul>
-						<p style="text-align: justify;">[4] Personalized Speech Recognition for Internet of Things by Mahnoosh Mehrabani et. al.</p>
-							<ul>
-								<li>Spoken Language Understanding</li>
-								<li>Semantic analysis</li>
-							</ul>
+					<p style="text-align: justify;">[3] Speech Processing in Java-based PC Speech Commanding Application by Nguyen Chung et. al.</p>
+						<ul>
+							<li>Speech Recognition</li>
+							<li>Development of Java based application</li>
+						</ul>
+					<p style="text-align: justify;">[4] Personalized Speech Recognition for Internet of Things by Mahnoosh Mehrabani et. al.</p>
+						<ul>
+							<li>Spoken Language Understanding</li>
+							<li>Semantic analysis</li>
+						</ul>
 				</section>
 
 				<section data-background= "img/bg.jpg">
@@ -172,6 +173,11 @@
 					<ul>
 						<li>Rule based system using regular expressions</li>
 					</ul>
+					<p style="text-align: justify;">[6] A Rule-Based Approach to Aspect Extraction from Product Reviews by Soujanya Poria et. al.</p>
+					<ul>
+						<li>Opinion mining using a rule-based approach </li>
+						<li>Exploits common-sense knowledge and sentence dependency trees</li>
+					</ul>					
 				</section>
 
 				<section data-background= "img/bg.jpg">
@@ -258,17 +264,17 @@
 					<span style= "font-size: 30px;">
 						<ol>
 							<li>Set accent to Indian English</li>
-						  <li>Enable continuous recording and disable interim results</li>
+						  	<li>Enable continuous recording and disable interim results</li>
 							<li>Start listening</li>
 							<li>if (isStartSession(command))<br />
-						       &nbsp;&nbsp;&nbsp;&nbsp;set session flag to true<br />
-						       &nbsp;&nbsp;&nbsp;&nbsp;display message indicating that session has started<br />
-						   else if (isStopSession(command))<br />
-						       &nbsp;&nbsp;&nbsp;&nbsp;reset session flag<br />
-						       &nbsp;&nbsp;&nbsp;&nbsp;quit running applications<br />
-						       &nbsp;&nbsp;&nbsp;&nbsp;display message indicating that session has stopped<br />
-						   else<br />
-						       &nbsp;&nbsp;&nbsp;&nbsp;send command to server for parsing<br />
+						       	&nbsp;&nbsp;&nbsp;&nbsp;set session flag to true<br />
+						       	&nbsp;&nbsp;&nbsp;&nbsp;display message indicating that session has started<br />
+						   		else if (isStopSession(command))<br />
+						       	&nbsp;&nbsp;&nbsp;&nbsp;reset session flag<br />
+						       	&nbsp;&nbsp;&nbsp;&nbsp;quit running applications<br />
+						       	&nbsp;&nbsp;&nbsp;&nbsp;display message indicating that session has stopped<br />
+						   		else<br />
+						       	&nbsp;&nbsp;&nbsp;&nbsp;send command to server for parsing<br />
 						  </li>
 						</ol>
 					</span>
@@ -287,31 +293,83 @@
 
 				<section data-background= "img/bg.jpg">
 					<h3>Implementation - Server Side</h3>
+					<span style= "font-size: 30px;">
+						<ol>
+						  	<li>Render homepage</li>
+							<li>Default template of 'output', to be sent to client</li>
+							<li>Retrieve parsed details from parser</li>
+							<li>try block</li>
+								&nbsp;&nbsp;&nbsp;&nbsp;if target application is not current application<br />
+						       	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return<br />
+						    	&nbsp;&nbsp;&nbsp;&nbsp;if intent is not provided<br />
+						       	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set example as available intents<br />
+						       	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;set message as example message<br />
+						       	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return<br />
+						</ol>
+					</span>
+				</section>							     
+
+				<section data-background= "img/bg.jpg">
+					<h3>Implementation - Server Side</h3>
+					<span style= "font-size: 30px;">
+						<ol start = "5">
+					    	if operation requires confirmation<br />
+					       	&nbsp;&nbsp;&nbsp;&nbsp;if response was cancel<br />
+					       	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return<br />
+					       	&nbsp;&nbsp;&nbsp;&nbsp;set message as default intent message<br />
+					       	&nbsp;&nbsp;&nbsp;&nbsp;return<br/>
+					       	else<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;Retrieve result from application execution handler<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;return<br />
+					       	<li>except block</li>
+					       	&nbsp;&nbsp;&nbsp;&nbsp;set message to 'Something went wrong'<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;return<br />
+					    </ol>
+					</span>
 				</section>
 
 				<section data-background= "img/bg.jpg">
 					<h3>Applications</h3>
-					<ul>
-						<li>Has to be registered with the parser</li>
-						<li>Each application has its own interface</li>
-						<li>Independent execution handlers</li>
-						<li>Can ask for additional information or confirmation</li>
-						<li>
-							Supported applications:
-							<ol>
-								<li>File explorer: Traverse the file system</li>
-								<li>Totem: Play music locally</li>
-								<li>SoundCloud: Stream music online</li>
-								<li>Weather: Fetch reports from Open Weather</li>
-								<li>Twitter: Get latest tweets</li>
-							</ol>
-						</li>
-					</ul>
+						<ul>
+							<li>Has to be registered with the parser</li>
+							<li>Each application has its own interface</li>
+							<li>Independent execution handlers</li>
+							<li>Can ask for additional information or confirmation</li>
+							<li>
+								Supported applications:
+								<ol>
+									<li>File explorer: Traverse the file system</li>
+									<li>Totem: Play music locally</li>
+									<li>SoundCloud: Stream music online</li>
+									<li>Weather: Fetch reports from Open Weather</li>
+									<li>Twitter: Get latest tweets</li>
+								</ol>
+							</li>
+						</ul>
 				</section>
 
 				<section data-background= "img/bg.jpg">
 					<h3>Implementation - Applications</h3>
-				</section>				
+					<span style= "font-size: 25px;">
+						<ol>
+							<li>Register applications</li>
+							<li>Call totem execution handler</li>
+							<li>if intent is play</li>
+							&nbsp;&nbsp;&nbsp;&nbsp;replace alias with 'totem'<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;clean up command<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;if argument is present in command<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;traverse through directory tree to find matching filenames<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;if no matching file found<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;if more than one file found<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;provide options<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;else<br />
+							&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;store duration of song<br />
+							<li>Generate shell command and perform a system call</li>
+							<li>return</li>
+						</ol>
+				</section>
 
 				<section data-background= "img/bg.jpg">
 					<h3>Parser</h3>
@@ -350,6 +408,7 @@
     "name": "space bound"
   }
 }</pre>
+						</pre>
 					</span>
 				</section>
 
@@ -493,9 +552,10 @@
 				<section data-background= "img/bg.jpg">
 					<h3>Conclusion</h3>
 					<ul>
-						<li>Parses sentences that are grammatically incorrect</li>
-						<li>Time complexity increases linearly with an increase in number of applications [ O(n) ]</li>
-						<li>Errors do not degrade performance</li>
+						<li>Rule based parser for Voice based HCI</li>
+						<li>Unstructured text to structured usable data</li>
+						<li>General Purpose Parser</li>
+						<li>Scalable</li>
 					</ul>
 				</section>
 
