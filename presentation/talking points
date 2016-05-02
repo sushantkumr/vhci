@@ -94,7 +94,6 @@ To ease the process of testing we have constrained ourselves to write a parser t
 Functional Requirements:
 The application should display relevant information to the user so that they know what is happening.
 
-
 Software Requirements:
 The application has been developed for Debian 8 and it's derivatives such as Ubuntu 14.
 For speech recognition we are making use of Google Speech Recognition API that is built into Google Chrome hence that is the only browser that is supported.
@@ -102,10 +101,8 @@ For the application's front end we use HTML, JavaScript and jQuery.
 The back end and the core parser is built using Python. Python is a dynamically typed, interpreted language. It comes with a rich standard library that simplifies many routine tasks.
 The server used to run the Flask application is Werkzeug.
 
-
 Hardware Requirements:
 The application itself has a very light footprint, but to support the OS and the server a minimum of 2GB memory and 10GB of storage is recommended. A microphone is required to give voice input to the system. Internet connection with a minimum upload speed of 500 Kbps is required for speech recognition.
-
 
 Vocabulary:
 The system is initially expected to handle commands that may include different combinations of  90 phrases.
@@ -182,3 +179,7 @@ Needs better conflict resolution. (play forecast)
 The parser should be able to identify multiple arguments of the same type and assign roles to them.
 
 Conclusion:
+We have built a rule based parser for Voice based Human Computer Interaction
+which can be used to convert unstructured text to usable data corresponding to applications making use of them
+This General Purpose Parser works that is preconfigured for various applications
+The parser is quite handy while scaling up due to this feature.
