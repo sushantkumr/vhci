@@ -1,8 +1,7 @@
 Title : Hierarchical -
-		Rule based -
-		Conversion of text to commands - converting voice to text and from text to usable data
-		HCI - A human can control a computer using his/her voice
-
+	Rule based -
+	Conversion of text to commands - converting voice to text and from text to usable data
+	HCI - A human can control a computer using his/her voice
 
 Agenda:
 In abstract we'll give a brief overview of what our project is about.
@@ -18,32 +17,23 @@ Ending it with possible enhancements and conclusion.
 We'll be discussing the drawbacks of statistical methods when it comes to writing parsers that extract information from unstructured text and propose a system that helps overcome these issues.
 We also present an application that makes use of the proposed parser to enable speedy HCI using voice commands.
 
-
 Abstract:
 To enable Voice based Human Computer Interaction we will be designing a rule based parser that converts unstructured text to actionable data
 Our objective is to ensure high accuracy and the setup time required for the parser should be as low as possible
 To achieve this we will build a general purpose parser that can be used in a plug play manner by any application
 
-
 INTRO:
-
 1
-
 HCI is the study of how people interact with computers and to what extent computers are or are not developed for successful interaction with human beings.
-
 HCI researches the design and use of computer technology, focusing on the interfaces between people (users) and computers.
 
 Types of Interfaces :-
 Command Line Interface - A CLI displays a prompt, the user types a command on the keyboard, the computer executes the command and provides textual output.
-
 Menu Driven Interface - The user has a list of items to choose from, and can make selections by highlighting one.
-
 Graphical User Interface - Uses windows, icons, menus and pointers (WIMP) which can be manipulated by a mouse (and often to an extent by a keyboard as well).
-
 Voice-user interface (VUI) makes human interaction with computers possible through a voice/speech platform in order to initiate an automated service or process.
 
 2
-
 Rule based parsing --  Rule-based system is a set of "if-then" statements that uses a set of assertions, to which rules on how to act upon those assertions are created.
 Rule-based system has four basic components :
 * A list of rules or rule base, which is a specific type of knowledge base.
@@ -60,7 +50,6 @@ For example, the sentence "tomorrow 6 o'clock you me meet playground" is grammat
 These parsers give inaccurate results if the training data set used is small or if the sentence being parsed is grammatically incorrect.
 
 3
-
 It is difficult to write rule based parsers that can handle any sentence because the set of rules required to do this grows exponentially with the number of words in the language.
 When the number of rules to be checked against increases we experience delays which spoil the user experience of the application.
 Commercially available software is often subject to the limitations that have been discussed so far.
@@ -103,7 +92,6 @@ To improve usage of the parser we should write it in such a way that it does not
 To ease the process of testing we have constrained ourselves to write a parser that is made up of only pure functions. A pure function is one that returns the same output every time it is called with a given input. This helps us automate the process of testing without worrying about state changes.
 
 Functional Requirements:
-// Update this
 The application should display relevant information to the user so that they know what is happening.
 
 
@@ -151,13 +139,11 @@ Anything that is spoken while a session is active is sent to the server for furt
 The controller on the server performs the requested operation and returns the results to the client. This result is then rendered on to the screen along with a suitable message.
 In addition to this, the client side controller is also responsible for keeping track of the state of the application. This helps us when we have to ask the user for additional information or request confirmation.
 
-
 Server Side:
 The server is active throughout the lifetime of the application and is responsible for serving HTML and other static content such as JS to the client when it receives requests.
 It is designed to be stateless and all responsibility of tracking session information is left to the browser.
 The server side controller acts as the communication pathway between the other components and none of the other components communicate with each other directly.
 Communication between the server and other components take place using JSON objects as it is natively supported in JS and has a closely matching data type in Python called dictionary that is well supported.
-
 
 Applications:
 Each application has it's own application handler as they have their own interface through which we can communicate.
@@ -165,7 +151,6 @@ Some applications provide API's with which can control the widget while some app
 For this reason we have separate handlers for each application and they are all independent of one another.
 We have also ensured that they don't interact directly with other components but only act on data that they receive directly.
 Currently we support 5 applications that perform tasks such as fetching weather reports, showing the contents of your file system, playing music.
-
 
 Parser:
 It takes a collection of regular expressions that describe an application, it's operations and any arguments that may be required to perform an operation.
@@ -176,26 +161,18 @@ The number of searches performed by the parser grows at the rate of n only. This
 By explicitly declaring the operations that an application is capable of performing we can avoid going through a database to find out which part of the sentence could be an action request and which part of it is an argument.
 As the rules are required for parsing are all known in advance, using a database is optional. We can use it to log commands and results to identify issues if required. However, some advanced features such as conflict resolution will require the use of databases.
 
-
 Registering and Parsing:
 We make use of a template to register applications with the parser. An example to register a music player has been shown here.
 When a sentence is sent to the parser it first tries to identify the application whose services are being invoked.
 Once the application is identified we try to find the operation that is required and finally any arguments that may be required.
 This information is then packed into a JSON object and returned so that the application can easily act on it.
 
-
 Testing:
 We have performed a number of tests to ensure that the application works as expected. Most of the tests have been successful.
 Test cases in which the input sentences have phrases that point to different devices or intents fail. There is a need for the parser to be improved in such a way that it is aware of the context and predicts more accurate results.
 
-
 Comparison:
 Results have been compared after registering a media player with a commercial software and with the parser that we have built. The commercial tool which works well for many input cases gives completely incorrect result because it was confused by the proper nouns in the sentence while our parser was able to match the regular expressions correctly.
-
-
-Implementation:
-
-
 
 Future work:
 Handle complex commands that invoke functionality of multiple applications or require multiple actions to be taken.
@@ -205,122 +182,3 @@ Needs better conflict resolution. (play forecast)
 The parser should be able to identify multiple arguments of the same type and assign roles to them.
 
 Conclusion:
-
-
-
-Non-functional Requirements:
-The application has to be reliable and perform the expected action on each trial.
-The system should have a high availability so that people can trust use it in safety critical systems.
-The application should be robust. Any issues in the execution handler of one application should not affect other applications.
-The system should be easily scalable without sacrificing performance. We should be able to add more modules and features as and when they are required without taking a performance hit.
-We can improve the usability of the system by having a simple interface that doesn't confuse users.
-To improve usage of the parser we should write it in such a way that it does not have any prior knowledge of the application but only works with the input given to it at run time. By doing this we can ensure that the parser can be used in other applications.
-To ease the process of testing we have constrained ourselves to write a parser that is made up of only pure functions. A pure function is one that returns the same output every time it is called with a given input. This helps us automate the process of testing without worrying about state changes.
-
-Functional Requirements:
-// Update this
-The application should display relevant information to the user so that they know what is happening.
-
-
-Software Requirements:
-The application has been developed for Debian 8 and it's derivatives such as Ubuntu 14.
-For speech recognition we are making use of Google Speech Recognition API that is built into Google Chrome hence that is the only browser that is supported.
-For the application's front end we use HTML, JavaScript and jQuery.
-The back end and the core parser is built using Python. Python is a dynamically typed, interpreted language. It comes with a rich standard library that simplifies many routine tasks.
-The server used to run the Flask application is Werkzeug.
-
-
-Hardware Requirements:
-The application itself has a very light footprint, but to support the OS and the server a minimum of 2GB memory and 10GB of storage is recommended. A microphone is required to give voice input to the system.
-
-
-Vocabulary:
-The system is initially expected to handle commands that may include different combinations of  90 phrases.
-These can broadly be categorized as reserved keywords which the application uses for handling sessions; applications which help identify the application that has to perform an action; intents that tell what the application has to do. Modifiers are special words that can alter the meaning of an argument in a given context. Eg: tweets by vs tweets about.
-
-System Architecture:
-
-Sequence Diagram:
-The rectangle indicates various actors. The user is the person who is issuing the voice commands.
-The vertical lines represent the lifelines of each component. The server is active at all times as it has to listen to requests from clients.
-The sequence diagram shows the interaction between the different components of the system.
-In the sequence diagram normal line represents request and a dashed line represents reply.
-Open headed arrow represents asynchronous events. Since the user input may arrive at any time they are represented in this way.
-The client controller can be activated by the user by speaking the words "start session".
-Once the client controller is activated it will send all commands to the server for parsing and execution.
-We'll be discussing each modules tasks in detail later.
-The client can be deactivated by the user by speaking the words "stop session".
-
-
-System design:
-The application is built in a modular manner where each module is designed to be plug and play with minimal interaction between each other. We can replace any module with improved versions without affecting other parts of the system as long as old method signatures are still respected.
-These are some of the major components of the system:
-The client side controller is responsible for speech recognition and session handling. Text is sent to the server side controller for further processing.
-The server side controller validates input and forwards the input text to the parser.
-The parser is in charge of converting unstructured text to a structured format that is easy to act on. This is a general purpose module that can be used in other applications too.
-The JSON output from the parser is then forwarded to execution handlers. Execution handlers are tied to individual applications. They contain some application specific code that perform the tasks that are requested from them.
-
-
-Client side:
-The main task of the client side controller is to call the speech recognition API and convert a user's voice input to text. This process is done asynchronously by using JavaScript.
-We record the user's speech continuously and look out for reserved keywords that indicate that a user wishes to interact with the application. This way, we can avoid wasting resources on parsing sentences that have no meaning to the application.
-The user has to say the words "start session" to start communicating with the application. Once these words are said a session is started.
-Anything that is spoken while a session is active is sent to the server for further processing.
-The controller on the server performs the requested operation and returns the results to the client. This result is then rendered on to the screen along with a suitable message.
-In addition to this, the client side controller is also responsible for keeping track of the state of the application. This helps us when we have to ask the user for additional information or request confirmation.
-
-
-Server Side:
-The server is active throughout the lifetime of the application and is responsible for serving HTML and other static content such as JS to the client when it receives requests.
-It is designed to be stateless and all responsibility of tracking session information is left to the browser.
-The server side controller acts as the communication pathway between the other components and none of the other components communicate with each other directly.
-Communication between the server and other components take place using JSON objects as it is natively supported in JS and has a closely matching data type in Python called dictionary that is well supported.
-
-
-Applications:
-Each application has it's own application handler as they have their own interface through which we can communicate.
-Some applications provide API's with which can control the widget while some applications take input in the form of shell commands.
-For this reason we have separate handlers for each application and they are all independent of one another.
-We have also ensured that they don't interact directly with other components but only act on data that they receive directly.
-Currently we support 5 applications that perform tasks such as fetching weather reports, showing the contents of your file system, playing music.
-
-
-Parser:
-It takes a collection of regular expressions that describe an application, it's operations and any arguments that may be required to perform an operation.
-The total number of rules required to specify all of this increases at the rate of n^3 as new applications are added.
-If we treat all these rules equally the parser will become slow as the number of applications registered with it increases. Therefore we classify these rules into three categories: application, intent and arguments.
-By organizing the set of rules in a hierarchical manner we reduce the search space.
-The number of searches performed by the parser grows at the rate of n only. This leads to improved performance.
-By explicitly declaring the operations that an application is capable of performing we can avoid going through a database to find out which part of the sentence could be an action request and which part of it is an argument.
-As the rules are required for parsing are all known in advance, using a database is optional. We can use it to log commands and results to identify issues if required. However, some advanced features such as conflict resolution will require the use of databases.
-
-
-Registering and Parsing:
-We make use of a template to register applications with the parser. An example to register a music player has been shown here.
-When a sentence is sent to the parser it first tries to identify the application whose services are being invoked.
-Once the application is identified we try to find the operation that is required and finally any arguments that may be required.
-This information is then packed into a JSON object and returned so that the application can easily act on it.
-
-
-Testing:
-We have performed a number of tests to ensure that the application works as expected. Most of the tests have been successful.
-Test cases in which the input sentences have phrases that point to different devices or intents fail. There is a need for the parser to be improved in such a way that it is aware of the context and predicts more accurate results.
-
-
-Comparison:
-Results have been compared after registering a media player with a commercial software and with the parser that we have built. The commercial tool which works well for many input cases gives completely incorrect result because it was confused by the proper nouns in the sentence while our parser was able to match the regular expressions correctly.
-
-
-Implementation:
-
-
-
-Future work:
-Handle complex commands that invoke functionality of multiple applications or require multiple actions to be taken.
-Help generate new rules or discard irrelevant rules by recording all inputs and outputs.
-Currently a sentence like "don't fetch weather details" will ignore the "don't". Improvements are needed to detect negations.
-Needs better conflict resolution. (play forecast)
-The parser should be able to identify multiple arguments of the same type and assign roles to them.
-
-Conclusion:
-
