@@ -23,7 +23,8 @@ Ending it with possible enhancements and conclusion.
 
 Abstract:
 To enable Voice based Human Computer Interaction we will be designing a rule based parser that converts unstructured text to actionable data
-Our objective is to ensure high accuracy and the setup time required for the parser should be as low as possible
+Our objective is to ensure high accuracy so that it can be used in 
+Another important aim is to keep the time required for setup of parser as low as possible
 To achieve this we will build a general purpose parser that can be used in a plug play manner by any application
 
 INTRO:
