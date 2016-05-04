@@ -87,6 +87,7 @@ def parse(sentence, newCommand, oldResult, currentSession, output):
             try:
                 optionSelected = utils.text2int(sentence) - 1
                 oldResult['parsed']['arguments'][oldResult['option-name']] = oldResult['options'][optionSelected]
+                output['matched'] = True
                 return oldResult['parsed'] , device, output
             except:
                 if oldResult['parsed']['device'] == 'soundcloud':
@@ -122,7 +123,6 @@ def parse(sentence, newCommand, oldResult, currentSession, output):
         else:
             target_device = devices[0][0]
             if currentSession != '' and target_device != currentSession:
-                print('currentSession', currentSession)
                 response = {
                     'device': currentSession,
                     'intent': 'Unknown'

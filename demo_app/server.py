@@ -51,6 +51,7 @@ def command():
         'message': '', # The message to be shown for interactive mode
         'type': None, # Type of the next command is. Used if final is False.
                       # Can be one of confirm, option, intent, argument,
+        'matched':False, # After selection of an option from a list matched is set to True
     }
 
     command = request.form['input'] # The input command
@@ -73,7 +74,6 @@ def command():
             output['message'] = device['operations']['examples_intent']['arguments']['message'] # example in devices.py
             return jsonify(output)
 
-        print(device['operations'][result['intent']])
         if device['operations'][result['intent']]['confirm'] == True:
             if 'cancel' in output.keys():
                 return jsonify(output)
