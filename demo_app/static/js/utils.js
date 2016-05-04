@@ -32,7 +32,6 @@ var utils = {
   },
 
   clearSession: function() {
-    console.log(1)
     clearTimeout(timeout)
     if (currentSession === 'soundcloud') {
       $('.soundcloud').remove()

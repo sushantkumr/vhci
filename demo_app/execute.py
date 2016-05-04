@@ -56,10 +56,14 @@ def totem(command, device, output):
             matched_files = [] # Keep track of all the files that match
 
             # Walk in the required directories to find music
-            for dirName, subdirList, fileList in os.walk(config.music_directory):
-                for filename in fileList:
-                        if name_matcher(command['arguments']['name'], filename):
-                            matched_files.append(filename)
+            if output['matched'] == False:
+                for dirName, subdirList, fileList in os.walk(config.music_directory):
+                    for filename in fileList:
+                            if name_matcher(command['arguments']['name'], filename):
+                                matched_files.append(filename)
+            else:
+                matched_files.append(command['arguments']['name'])
+
             if len(matched_files) == 0:
                 output['message'] = 'No files were found'
                 return output
@@ -299,7 +303,7 @@ def file_explorer(command, device, output):
         return output
 
     if command['intent'] == '--goto':
-        home_folders = ['desktop', 'documents', 'music', 'pictures', 'videos', 'public', 'templates']
+        home_folders = ['desktop', 'documents', 'music', 'pictures', 'videos', 'public', 'templates', 'downloads']
         if command['arguments']['name']:
             command['arguments']['name'] = command['arguments']['name'].strip(' ')
         if command['arguments']['name'] == 'home':
@@ -464,33 +468,50 @@ def file_explorer(command, device, output):
         return output
 
     if command['intent'] == '--step-into':
+        matched_dirs = []
         if command['arguments']['name']:
             command['arguments']['name'] = command['arguments']['name'].strip()
-        for dir_name, subdir_list, file_list in os.walk(path):
-            for sub_dir in subdir_list:
-                if name_matcher(command['arguments']['name'], sub_dir):
-                    path = path + '/' + sub_dir
-                    output = {
-                        'commands': [],
-                        'error': False,
-                        'final': True,
-                        'parsed': command,
-                        'message': 'Path changed',
-                        'type': None,
-                        'path': path
-                    }
-                    return output
-            break
-        output = {
-            'commands': [],
-            'error': False,
-            'final': True,
-            'parsed': command,
-            'message': 'Specified sub-directory does not exist. Path unchanged',
-            'type': None,
-            'path': path
-        }
-        return output
+
+        if output['matched'] == False:
+            for dir_name, subdir_list, file_list in os.walk(path):
+                for sub_dir in subdir_list:
+                    if name_matcher(command['arguments']['name'], sub_dir):
+                        matched_dirs.append(sub_dir)
+                break
+        else:
+            matched_dirs.append(command['arguments']['name'])
+
+        if len(matched_dirs) == 0:
+            output = {
+                'commands': [],
+                'error': False,
+                'final': True,
+                'parsed': command,
+                'message': 'Specified sub-directory does not exist. Path unchanged',
+                'type': None,
+                'path': path
+            }
+            return output
+        elif len(matched_dirs) > 1:
+            output['final'] = False
+            output['message'] = 'Which directory do want to step into?'
+            output['options'] = matched_dirs
+            output['type'] = 'option'
+            output['option-type'] = 'arguments' # Refer JSON to know what this refers to
+            output['option-name'] = 'name'
+            return output
+        else:            
+            path = path + '/' + matched_dirs[0]
+            output = {
+                'commands': [],
+                'error': False,
+                'final': True,
+                'parsed': command,
+                'message': 'Path changed',
+                'type': None,
+                'path': path
+            }
+            return output
 
 def tetris(command, device, output):
     return output

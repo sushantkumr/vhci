@@ -1,6 +1,5 @@
 var fileExplorerHandler = function(result) {
   if (result.parsed.intent === '--current-path' || result.parsed.intent === '--goto' || result.parsed.intent === '--move-up' || result.parsed.intent === '--step-into' || result.parsed.intent === '--reset-path' ) {
-    console.log(result)
     var path = result.path
     var panel = utils.generateDiv()
     var message = $('<pre>').html('Path has been set to:')
