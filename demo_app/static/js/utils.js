@@ -25,7 +25,7 @@ var utils = {
     if (inputContent.search('session') === -1 && inputContent.search('fashion') === -1) {
       return false
     }
-    if (inputContent.search('stop') === -1 && inputContent.search('quit') === -1) {
+    if (inputContent.search('stop') === -1 && inputContent.search('quit') === -1 && inputContent.search('terminate') === -1) {
       return false
     }
     return true

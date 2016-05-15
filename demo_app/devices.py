@@ -14,7 +14,7 @@ totem = {
             'confirm': False
         },
         '--pause': {
-            'triggers': [r'pause'],
+            'triggers': [r'pause', r'p\*\*\*'],
             'arguments': {
             },
             'confirm': False
