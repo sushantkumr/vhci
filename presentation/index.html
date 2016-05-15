@@ -263,8 +263,8 @@
 					<h3>Implementation - Client Side</h3>
 					<span style= "font-size: 30px;">
 						<ol>
-							<li>Set accent to Indian English</li>
-						  	<li>Enable continuous recording and disable interim results</li>
+							<li>Set language to English and accent to Indian</li>
+						  <li>Enable continuous recording and disable interim results</li>
 							<li>Start listening</li>
 							<li>if (isStartSession(command))<br />
 						       	&nbsp;&nbsp;&nbsp;&nbsp;set session flag to true<br />
@@ -295,10 +295,11 @@
 					<h3>Implementation - Server Side</h3>
 					<span style= "font-size: 30px;">
 						<ol>
-						  	<li>Render homepage</li>
+						  <li>Send HTML, CSS and JavaScript</li>
 							<li>Default template of 'output', to be sent to client</li>
 							<li>try block</li>
 								&nbsp;&nbsp;&nbsp;&nbsp;Retrieve parsed details from parser<br />
+								&nbsp;&nbsp;&nbsp;&nbsp;Send command for parsing<br />
 								&nbsp;&nbsp;&nbsp;&nbsp;if target application is not current application<br />
 						       	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return<br />
 						    	&nbsp;&nbsp;&nbsp;&nbsp;if intent is not provided<br />
