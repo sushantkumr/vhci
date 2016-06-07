@@ -65,7 +65,6 @@ var soundCloudHandler = function(result) {
           'optionName': track.title
         }
       })
-      console.log('options: ', options)
       result = {
         'message': 'Which song do you want to play?',
         'options': options,

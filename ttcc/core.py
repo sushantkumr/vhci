@@ -64,7 +64,7 @@ def file_explorer_parser(operations, sentence):
         ['--hidden', ['hidden', 'hidden contents']],
         ['--display-files', ['files']],
         ['--display-dir', ['directories', 'folders']],
-        ['--display', ['display contents', 'show contents', 'list contents']],
+        ['--display', ['display content', 'display contents', 'show contents', 'list contents']],
     ]
     for i in list_of_operations:
         for j in i[1]:

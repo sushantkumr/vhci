@@ -23,7 +23,8 @@ Ending it with possible enhancements and conclusion.
 
 Abstract:
 To enable Voice based Human Computer Interaction we will be designing a rule based parser that converts unstructured text to actionable data
-Our objective is to ensure high accuracy and the setup time required for the parser should be as low as possible
+Our objective is to ensure high accuracy so that it can be used in critical systems. 
+Another important aim is to keep the time required for setup of parser as low as possible.
 To achieve this we will build a general purpose parser that can be used in a plug play manner by any application
 
 INTRO:
@@ -46,6 +47,10 @@ When we train the parser using data from newspapers and books sentences are goin
 For example, the sentence "tomorrow 6 o'clock you me meet playground" is grammatically incorrect but has all the information that is required for a human being to understand. Our goal is to build a parser that works in a similar manner.
 
 Rule based parsing --  Rule-based system is a set of "if-then" statements that uses a set of assertions, to which rules on how to act upon those assertions are created.
+
+Majority of NL parsers have been "rule-based.”  In such parsers, knowledge about the syntactic structure of a language is written in the form of linguistic rules, and these rules are applied by the parser to input text segments in order to produce the resulting parse trees.
+
+Information about individual words, such as what parts-of-speech they may be, is usually stored in an online dictionary, or "lexicon,” which is accessed by the parser for each word in the input text prior to applying the linguistic rules.
 
 // These points and those on the slide don't match!
 Rule-based system has four basic components :
