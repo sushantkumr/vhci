@@ -48,6 +48,10 @@ For example, the sentence "tomorrow 6 o'clock you me meet playground" is grammat
 
 Rule based parsing --  Rule-based system is a set of "if-then" statements that uses a set of assertions, to which rules on how to act upon those assertions are created.
 
+Majority of NL parsers have been "rule-based.”  In such parsers, knowledge about the syntactic structure of a language is written in the form of linguistic rules, and these rules are applied by the parser to input text segments in order to produce the resulting parse trees.
+
+Information about individual words, such as what parts-of-speech they may be, is usually stored in an online dictionary, or "lexicon,” which is accessed by the parser for each word in the input text prior to applying the linguistic rules.
+
 // These points and those on the slide don't match!
 Rule-based system has four basic components :
 * A list of rules or rule base, which is a specific type of knowledge base.
