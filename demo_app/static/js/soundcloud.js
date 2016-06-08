@@ -3,8 +3,11 @@
 var soundCloudHandler = function(result) {
   // Creates an iframe in order to load the widget
   var iframeGenerator = function() {
+    // Remove any existing widget
     $('.soundcloud').remove()
     player = null
+
+    // Generate iframe for new widget
     var container = utils.generateDiv()
     var iframe = $('<iframe>')
                   .attr('src','https://w.soundcloud.com/player/?url=http%3A%2F%2Fapi.soundlcoud.com%2Ftracks%2F1848538&show_artwork=true') // Source of iframe has a link to a default song as an empty widget cannot be loaded

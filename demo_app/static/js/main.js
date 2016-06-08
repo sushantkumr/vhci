@@ -99,19 +99,6 @@ $(document).ready(function() {
               $('.holder').prepend(panel)
             }
 
-            // If tetris
-            if (result.parsed && result.parsed.device === 'tetris') {
-              var container = utils.generateDiv()
-              var iframe = $('<iframe>')
-                            .attr('src', 'tetris')
-                            .attr('width', '100%')
-                            .attr('height', '270px')
-                            .addClass('tetris')
-              container.find('.box').append(iframe).removeClass('box')
-              $('.holder').prepend(container)
-              currentSession = 'tetris'
-            }
-
             // If soundcloud
             if (result.parsed && result.parsed.device === 'soundcloud') {
               currentSession = 'soundcloud'

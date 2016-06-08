@@ -5,7 +5,7 @@ var recognizer
 var setupRecognizer = function () {
   // Required class is defined only in Google chrome
   if (typeof webkitSpeechRecognition !== 'function') {
-     return
+    return
   }
   recognizer = new webkitSpeechRecognition() // Create an instance of class
   recognizer.lang = 'en-IN' // Set language to English India
@@ -19,7 +19,7 @@ var setupRecognizer = function () {
   // confidence has the probability that the transcript is exactly what the user spoke
   // transcript is what the user has spoken
   recognizer.onresult = function(event) {
-    // Convert transcript to lower case and remove spaces from wither end
+    // Convert transcript to lower case and remove spaces from either end
     var inputContent = event.results[0][0].transcript.toLowerCase().trim()
     console.log('inputContent: ', inputContent)
 
@@ -50,9 +50,11 @@ var setupRecognizer = function () {
     }
   }
 
+  // We have to start the recognizer if it stops. Google won't let us run it continuously for a long time.
   recognizer.onend = function(event) {
     recognizer.start()
   }
 
+  // Starting it for the first time
   recognizer.start()
 }
