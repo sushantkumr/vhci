@@ -43,13 +43,6 @@ $(document).ready(function() {
       return
     }
 
-    // All front end apps should have their code before submit
-    // If low latency is a requirement then parsing can be done in the client itself
-    if (currentSession === 'tetris') {
-      tetrisHandler(inputContent)
-      return
-    }
-
     var submit = function() {
       var data = {} // The object that will be sent to the server
       data.input = inputContent // The latest command that has been issued

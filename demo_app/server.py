@@ -17,7 +17,7 @@ def setup():
     '''
     core.register('totem', devices.totem)
     core.register('tweet', devices.tweet)
-    core.register('tetris', devices.tetris)
+    # core.register('tetris', devices.tetris)
     core.register('soundcloud',devices.soundcloud)
     core.register('file_explorer',devices.file_explorer)
     core.register('forecast', devices.weather)

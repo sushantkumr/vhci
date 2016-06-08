@@ -146,10 +146,6 @@ def parse(sentence, newCommand, oldResult, currentSession, output):
 
         arguments = intent['operation']['arguments']
         argument_values = parse_args(sentence, intent)
-        # if 'name' in arguments.keys():
-        #     if re.match('^[ ]*$',argument_values['name']): # Removes redundant spaces
-        #         argument_values['name'] = ''
-        #         return get_arguments(target_device, intent, argument_values, output)
 
         response = {
             'device': target_device,

@@ -12,17 +12,17 @@ var utils = {
   },
 
   isStartSession: function(inputContent) {
-    if (inputContent.search('session') === -1 && inputContent.search('fashion') === -1) {
+    if (inputContent.search('session') === -1 && inputContent.search('interaction') === -1) {
       return false
     }
-    if (inputContent.search('start') === -1 && inputContent.search('star') === -1) {
+    if (inputContent.search('start') === -1 && inputContent.search('begin') === -1) {
       return false
     }
     return true
   },
 
   isStopSession: function(inputContent) {
-    if (inputContent.search('session') === -1 && inputContent.search('fashion') === -1) {
+    if (inputContent.search('session') === -1 && inputContent.search('interaction') === -1) {
       return false
     }
     if (inputContent.search('stop') === -1 && inputContent.search('quit') === -1 && inputContent.search('terminate') === -1) {
