@@ -19,12 +19,11 @@ catch (e) {
 }
 
 $(document).ready(function() {
-  // Immediately Invoked Function Expression
-  // This will be executed when the page is loaded
-  (function() {
+  var setup = function() {
     utils.clearSession() // Ensure that all variables are set to correct values
     setupRecognizer() // Setup the speech recognizer
-  })()
+  }
+  setup()
 
   // Submits form using AJAX
   $('#command_form').submit(function(e) {
