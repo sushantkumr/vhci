@@ -1,4 +1,5 @@
 from ttcc import utils
+import copy
 import execute
 import re
 
@@ -102,7 +103,10 @@ def parse(sentence, newCommand, oldResult, currentSession, output):
             output['final'] = True
             output['parsed'] = oldResult['parsed']
             output['message'] = 'Executed command'
-            temp = device
+
+            # We make a deepcopy to avoid changing confirm to False in the DEVICES object
+            # Fixes totem quit bug
+            temp = copy.deepcopy(device)
             temp['operations'][oldResult['parsed']['intent']]['confirm'] = False
             return oldResult['parsed'], temp, output
 
@@ -156,7 +160,6 @@ def parse(sentence, newCommand, oldResult, currentSession, output):
         return response, device, output
 
 def replace_macro(regex, intent):
-    # return regex.replace('{{trigger}}', intent)
     while True:
         try:
             start = regex.index('{{')
