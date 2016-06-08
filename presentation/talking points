@@ -52,12 +52,6 @@ Majority of NL parsers have been "rule-based.”  In such parsers, knowledge abo
 
 Information about individual words, such as what parts-of-speech they may be, is usually stored in an online dictionary, or "lexicon,” which is accessed by the parser for each word in the input text prior to applying the linguistic rules.
 
-// These points and those on the slide don't match!
-Rule-based system has four basic components :
-* A list of rules or rule base, which is a specific type of knowledge base.
-* An inference engine or semantic reasoner, which infers information or takes action based on the interaction of input and the rule base.
-* Temporary working memory.
-* A user interface or other connection to the outside world through which input and output signals are received and sent.
 
 3
 It is difficult to write rule based parsers that can handle any sentence because the set of rules required to do this grows exponentially with the number of words in the language.
@@ -71,8 +65,6 @@ For Human-Computer Interaction (HCI) we need a high degree of accuracy for a lim
 To suit these needs and overcome the drawbacks of predictive parsers we recommend a hierarchical rule based parser.
 This parser treats each input sentence as a collection of independent and meaningful phrases and parses them separately rather than trying to comprehend the entire sentence at once.
 By doing this we can even parse commands that have been issued by someone who is weak in the language.
-Weak AI is defined as non-sentient computer intelligence or AI that is focused on one narrow task and operates within it's boundaries.
-The system is designed by us acts as a Weak AI performing various functions.
 
 Literature Survey:
 We have referred to the following papers to learn more about HCI and speech recognition and processing.
@@ -164,7 +156,7 @@ It takes a collection of regular expressions that describe an application, it's 
 The total number of rules required to specify all of this increases at the rate of n^3 as new applications are added.
 If we treat all these rules equally the parser will become slow as the number of applications registered with it increases. Therefore we classify these rules into three categories: application, intent and arguments.
 By organizing the set of rules in a hierarchical manner we reduce the search space.
-The number of searches performed by the parser grows at the rate of n only. This leads to improved performance.
+The number of searches performed by the parser grows at the rate of n only.
 By explicitly declaring the operations that an application is capable of performing we can avoid going through a database to find out which part of the sentence could be an action request and which part of it is an argument.
 As the rules are required for parsing are all known in advance, using a database is optional. We can use it to log commands and results to identify issues if required. However, some advanced features such as conflict resolution will require the use of databases.
 
