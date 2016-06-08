@@ -17,7 +17,6 @@ def setup():
     '''
     core.register('totem', devices.totem)
     core.register('tweet', devices.tweet)
-    # core.register('tetris', devices.tetris)
     core.register('soundcloud',devices.soundcloud)
     core.register('file_explorer',devices.file_explorer)
     core.register('forecast', devices.weather)
@@ -47,6 +46,7 @@ def command():
         'matched':False, # After selection of an option from a list matched is set to True
     }
 
+    # "data" from $.ajax will be in request.form
     command = request.form['input'] # The input command
     newCommand = request.form['newCommand'] # Flag indicating whether the command is new or a continuation
     currentSession = request.form['currentSession'] # The device that is currently running
@@ -67,7 +67,9 @@ def command():
             output['message'] = device['operations']['examples_intent']['arguments']['message'] # example in devices.py
             return jsonify(output)
 
+        # If the operation requires user confirmation
         if device['operations'][result['intent']]['confirm'] == True:
+            # If the user has told "no"
             if 'cancel' in output.keys():
                 return jsonify(output)
 

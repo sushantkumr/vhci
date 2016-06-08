@@ -169,7 +169,7 @@ def replace_macro(regex, intent):
 
 
 def select_device(devices):
-    # Need an algorithm to pick one of many devices
+    # Provision to extend functionality by identifying multiple devices etc.
     return devices[0][0]
 
 def get_intent(target_device, output): # called when no intent is mathced, ask user to provide one
