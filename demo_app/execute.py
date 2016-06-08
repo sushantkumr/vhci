@@ -49,18 +49,26 @@ def totem(command, device, output):
             if temp[len(temp)-1] in ['in','with','using']:
                 del temp[len(temp)-1]
             command['arguments']['name'] = ' '.join(temp)
-        # Only `totem --play` will unpause the device
+
+        # Only `totem --play` will unpause the application
         # If the name of a song is mentioned `totem --play songname` will be executed
         if command['arguments']['name']:
             command['arguments']['name'] = command['arguments']['name'].strip()
             matched_files = [] # Keep track of all the files that match
 
-            # Walk in the required directories to find music
+            # If it's the first time that we're here
+            # will be True if the user has already selected an option
             if output['matched'] == False:
-                for dirName, subdirList, fileList in os.walk(config.music_directory):
-                    for filename in fileList:
-                            if name_matcher(command['arguments']['name'], filename):
-                                matched_files.append(filename)
+                # Walk in the required directories to find music
+                # for dirName, subdirList, fileList in os.walk(config.music_directory):
+                #     for filename in fileList:
+                #             if name_matcher(command['arguments']['name'], filename):
+                #                 matched_files.append(filename)
+
+                # Iterate over the contents of the music directory
+                for filename in os.listdir(config.music_directory):
+                    if name_matcher(command['arguments']['name'], filename):
+                        matched_files.append(filename)
             else:
                 matched_files.append(command['arguments']['name'])
 
@@ -76,7 +84,9 @@ def totem(command, device, output):
                 output['option-name'] = 'name' # Refer JSON to know what this refers to
                 return output
             else:
+                # Get song details
                 song_details = MP3(config.music_directory + '/' + matched_files[0])
+                # Round it to three decimal places and convert it to millseconds by multiplying
                 duration = round(song_details.info.length + 3, 3) * 1000
                 output = {
                     'commands': [],
@@ -513,9 +523,6 @@ def file_explorer(command, device, output):
             }
             return output
 
-def tetris(command, device, output):
-    return output
-
 def soundcloud(command, device, output):
     return output
 
@@ -530,5 +537,3 @@ def process(command, device, output):
         return file_explorer(command, device, output)
     if command['device'] == 'forecast':
         return weather(command, device, output)
-    elif command['device'] == 'tetris':
-        return tetris(command, device, output)
