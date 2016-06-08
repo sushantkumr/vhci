@@ -60,15 +60,10 @@ def totem(command, device, output):
             # will be True if the user has already selected an option
             if output['matched'] == False:
                 # Walk in the required directories to find music
-                # for dirName, subdirList, fileList in os.walk(config.music_directory):
-                #     for filename in fileList:
-                #             if name_matcher(command['arguments']['name'], filename):
-                #                 matched_files.append(filename)
-
-                # Iterate over the contents of the music directory
-                for filename in os.listdir(config.music_directory):
-                    if name_matcher(command['arguments']['name'], filename):
-                        matched_files.append(filename)
+                for dirName, subdirList, fileList in os.walk(config.music_directory):
+                    for filename in fileList:
+                            if name_matcher(command['arguments']['name'], filename):
+                                matched_files.append(filename)
             else:
                 matched_files.append(command['arguments']['name'])
 
