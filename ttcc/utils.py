@@ -4,8 +4,6 @@ def text2int(textnum, numwords={}):
     ('first option') -> 1
     ('random text') -> None
     '''
-    # Original code from http://stackoverflow.com/a/598322/3664835
-
     # If the input is already a number we don't have to go through this process
     try:
         return int(textnum)

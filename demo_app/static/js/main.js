@@ -5,7 +5,7 @@ var newCommand // Indicates whether a command is a continuation of the previous 
 var oldResult // If the current command is a continuation, history will also be sent
 var currentSession // The device that owns the current session
 var isSessionActive // Whether or not a session is currently active
-var timeout
+var timeout // Used to stop totem after the songs duration has passed
 var player // SoundCloud widget reference.
 
 try {
@@ -19,6 +19,7 @@ catch (e) {
 }
 
 $(document).ready(function() {
+  // Immediately Invoked Function Expression
   // This will be executed when the page is loaded
   (function() {
     utils.clearSession() // Ensure that all variables are set to correct values

@@ -29,13 +29,6 @@ def home():
     '''
     return render_template('home.html')
 
-@app.route('/tetris')
-def tetris():
-    '''
-    Tetris window
-    '''
-    return render_template('tetris.html')
-
 @app.route('/command', methods=['POST'])
 def command():
     '''
