@@ -1,6 +1,6 @@
 var utils = {
 
-   generateDiv: function() {
+  generateDiv: function() {
     var container = $('<div>').addClass('container').css('margin-top', '20px')
     var row = $('<div>').addClass('row')
     var col = $('<div>').addClass('col-xs-12')
@@ -12,6 +12,7 @@ var utils = {
   },
 
   isStartSession: function(inputContent) {
+    // If session is not found AND interaction is not found
     if (inputContent.search('session') === -1 && inputContent.search('interaction') === -1) {
       return false
     }
@@ -32,14 +33,13 @@ var utils = {
   },
 
   clearSession: function() {
+    // Remove timeout, we're stopping totem now; don't have to do it in the future
     clearTimeout(timeout)
     if (currentSession === 'soundcloud') {
       $('.soundcloud').remove()
     }
-    else if (currentSession === 'tetris') {
-      $('.tetris').remove()
-    }
     else if (currentSession === 'totem') {
+      // Spoof a request pretending like quit has been confirmed
       newCommand = false
       oldResult = {
         'type': 'confirm',

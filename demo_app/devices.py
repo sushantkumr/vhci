@@ -1,8 +1,3 @@
-# This is because we have haven't pip installed ttcc and it's in the parent directory
-import sys
-sys.path.insert(0, '../')
-######
-
 totem = {
     'alias': ['totem', 'video player', 'media player', 'total'],
     'operations': {
@@ -10,12 +5,6 @@ totem = {
             'triggers': [r'play music', r'play video', r'play playlist', r'play songs?', r'play'],
             'arguments':{
                 'name': ['{{trigger}}(?P<name>( .*)?)'],
-            },
-            'confirm': False
-        },
-        '--pause': {
-            'triggers': [r'pause', r'p\*\*\*'],
-            'arguments': {
             },
             'confirm': False
         },
@@ -57,6 +46,12 @@ totem = {
         },
         '--mute': {
             'triggers': [r'mute'],
+            'arguments': {
+            },
+            'confirm': False
+        },
+        '--pause': {
+            'triggers': [r'pause', r'p\*\*\*'],
             'arguments': {
             },
             'confirm': False
@@ -135,20 +130,6 @@ tweet = {
         }
     }
 } #8
-
-# Core game code for tetris from https://github.com/jakesgordon/javascript-tetris
-tetris = {
-    'alias': ['tetris'],
-    'operations': {
-        '--play': {
-            'triggers': [r'tetris'],
-            'arguments': {
-                'name': ['{{trigger}}(?P<name>( .*)?)'],
-            },
-            'confirm': False,
-        }
-    }
-} # 6+1(tetris)
 
 #Soundcloud Docs can be found at https://developers.soundcloud.com/
 soundcloud = {
@@ -280,7 +261,6 @@ weather = {
     }
 }
 
-
 #Explore and traverse the various directories in a UNIX system
 file_explorer = {
     'alias': ['file explorer'],
@@ -371,4 +351,3 @@ file_explorer = {
         }
     }
 }
-
