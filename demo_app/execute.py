@@ -23,7 +23,7 @@ def name_matcher(text, filename):
     filename = filename.lower()
     if text == filename:
         return True
-    if filename.endswith(('.mp3','.MP3','.mp4','.m3u','.m4a','.wav','.flv')):
+    if filename.endswith(('.mp3','.mp4','.m3u','.m4a','.wav','.flv')):
         filename = filename[:-4]
     fn_list_words = re.split(' |-|_|\.', filename)
     for word in text.split():
@@ -105,7 +105,7 @@ def tweet(command, device, output):
     is_trending = False # used to differentiate trending tweets from others
 
     try:
-        # consumer_key & consumer_secret are device specific and other two
+        # consumer_key & consumer_secret are application specific and other two
         # account specific
         api = TwitterAPI(consumer_key, consumer_secret, access_token_key, access_token_secret)
         search_term = command['arguments']['name'] # this is argument name
@@ -150,9 +150,12 @@ def tweet(command, device, output):
                     break
 
                 last_pos_link = tweet.find(' ', index) - 1
+
+                # If the link continues till the end of the tweet
                 if last_pos_link == -2:
                     last_pos_link = tweet_length - 1
 
+                # If link ends before end of tweet
                 if last_pos_link < tweet_length:
                     text = tweet[index:last_pos_link+1]
                     blank = '_blank'
