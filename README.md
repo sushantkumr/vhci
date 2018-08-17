@@ -1,4 +1,4 @@
-# vhci
+# Voice based Assistant
 
 * This application lets you issue voice commands to an Ubuntu computer
 * Download the source and install dependencies using `pip3 install -r demo_app/requirements.txt`
